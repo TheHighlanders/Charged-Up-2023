@@ -1,0 +1,10 @@
+{
+  "NetworkTables": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)"
+  }
+}
