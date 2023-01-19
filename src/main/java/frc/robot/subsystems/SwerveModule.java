@@ -15,9 +15,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -56,8 +58,8 @@ public class SwerveModule {
     angleEncoder.setPositionConversionFactor(ModuleConstants.kAngleMotorEncoderRot2Rad);
     angleEncoder.setVelocityConversionFactor(ModuleConstants.kAngleMotorEncoderRPM2RadPerSec);
 
-    anglePIDController = new PIDController(ModuleConstants.kPAngle, 0, 0);
-    anglePIDController.enableContinuousInput(0, 2 * Math.PI);
+    anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
+    anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
     //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
     angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
     angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
@@ -102,7 +104,8 @@ public class SwerveModule {
   }
 
   public SwerveModulePosition getState() {
-    return new SwerveModulePosition(getDriveVelocity(), new Rotation2d(getAnglePosition()));
+    //TODO change to pass the distance instead of velocity
+    return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAnglePosition()));
   }
 
   public static SwerveModuleState optimize(
@@ -120,6 +123,7 @@ public class SwerveModule {
   }
 
   public void setDesiredState(SwerveModuleState state) {
+
     // boolean useDashboard = SmartDashboard.getBoolean("Setpoint Control Enabled", false);
     //angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
     // SmartDashboard.putNumber("State Get DEG" + absoluteEncoder.getChannel() + ":", state.angle.getDegrees());
@@ -127,11 +131,12 @@ public class SwerveModule {
     //   stop();
     //   return;
     // }
-
+    //DriverStation.reportWarning("Module.setDesiredState()", false);
     state = optimize(state, getState().angle);
+    //SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
     driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
-    // SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+    SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
   }
 
   public void stop() {

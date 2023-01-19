@@ -5,6 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
     private double previousAngle = 0;
@@ -67,8 +69,10 @@ public class SwerveSubsystem extends SubsystemBase {
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), new SwerveModulePosition[] {
                     frontLeft.getState(), frontRight.getState(),
-                    backLeft.getState(), backRight.getState()
-            }); // Could Add OPTIONAL ROBOT Starting pose for field posing
+                    backLeft.getState(), backRight.getState() },
+            new Pose2d(
+                    new Translation2d(2.0, 2.0),
+                    new Rotation2d(0))); // Could Add OPTIONAL ROBOT Starting pose for field posing
 
     public SwerveSubsystem() {
         new Thread(() -> {
@@ -82,6 +86,7 @@ public class SwerveSubsystem extends SubsystemBase {
             speedLimiter[i] = new SlewRateLimiter(5);//TODO put in constants
             turnLimiter[i] = new SlewRateLimiter(30);
         }
+
     }
 
     public void zeroHeading() {
@@ -144,10 +149,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void encoderPrintoutDeg() {
-        SmartDashboard.putNumber("Front Left Encoder !DEG", (frontLeft.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Front Right Encoder !DEG", (frontRight.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Back Left Encoder !DEG", (backLeft.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Back Right Encoder !DEG", (backRight.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -156,6 +161,16 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+
+        SmartDashboard.putNumber("Front Left: ", frontLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Front Right: ", frontRight.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Left: ", backLeft.getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Back Right: ", backRight.getAbsoluteEncoderRad());
+
+        SmartDashboard.putString("Front Left State: ", "" + desiredStates[0]);
+        SmartDashboard.putString("Front Right State: ", "" + desiredStates[1]);
+        SmartDashboard.putString("Back Left State: ", "" + desiredStates[2]);
+        SmartDashboard.putString("Back Right State: ", "" + desiredStates[3]);
     }
 
     /**

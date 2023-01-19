@@ -68,6 +68,7 @@ public class RobotContainer {
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
 
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
+      new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
       new InstantCommand(
           () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
