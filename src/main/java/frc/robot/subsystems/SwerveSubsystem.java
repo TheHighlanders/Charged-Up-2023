@@ -64,7 +64,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
+    public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), new SwerveModulePosition[] {
                     frontLeft.getState(), frontRight.getState(),
                     backLeft.getState(), backRight.getState()
@@ -168,7 +168,11 @@ public class SwerveSubsystem extends SubsystemBase {
         double y = chassisSpeeds.vyMetersPerSecond;
         double theta = chassisSpeeds.omegaRadiansPerSecond;
 
-        double[][] moduleCoord_in = new double[][] { { -DriveConstants.kTrackWidth/2, DriveConstants.kTrackWidth/2, -DriveConstants.kTrackWidth/2, DriveConstants.kTrackWidth/2 }, { DriveConstants.kWheelBase/2, DriveConstants.kTrackWidth/2, -DriveConstants.kTrackWidth/2, -DriveConstants.kTrackWidth/2 } }; //TODO: move to constants: enumeration type ex: FrontLeft, FrontRight, BackLeft,BackRight
+        double[][] moduleCoord_in = new double[][] {
+                { -DriveConstants.kTrackWidth / 2, DriveConstants.kTrackWidth / 2, -DriveConstants.kTrackWidth / 2,
+                        DriveConstants.kTrackWidth / 2 },
+                { DriveConstants.kWheelBase / 2, DriveConstants.kTrackWidth / 2, -DriveConstants.kTrackWidth / 2,
+                        -DriveConstants.kTrackWidth / 2 } }; //TODO: move to constants: enumeration type ex: FrontLeft, FrontRight, BackLeft,BackRight
         SwerveModuleState[] outLinear = new SwerveModuleState[4]; //linearSpeeds
         SwerveModuleState[] outRotation = new SwerveModuleState[4]; //rotationSpeeds
         SwerveModuleState[] outSum = new SwerveModuleState[4]; //finalSpeeds
@@ -188,7 +192,7 @@ public class SwerveSubsystem extends SubsystemBase {
             linear_angle_component = previousAngle; // Defaulted to 0
 
         } else {
-            linear_angle_component = Math.atan2(y, x); 
+            linear_angle_component = Math.atan2(y, x);
             /*
              * returns the angle of the point (y, x) from the origin, with respect to the positive x-axis
              * (calculates the angle between the x-axis going up and the specified x,y cordinates)
@@ -262,18 +266,15 @@ public class SwerveSubsystem extends SubsystemBase {
             double vector1Y = outLinear[i].speedMetersPerSecond * Math.sin(outLinear[i].angle.getRadians());
             double vector2X = outRotation[i].speedMetersPerSecond * Math.cos(outRotation[i].angle.getRadians());
             double vector2Y = outRotation[i].speedMetersPerSecond * Math.sin(outRotation[i].angle.getRadians());
-            
 
             double sumX = vector1X + vector2X;
             double sumY = vector1Y + vector2Y;
-           
-            
-             outSum[i] = new SwerveModuleState(
+
+            outSum[i] = new SwerveModuleState(
                     Math.sqrt(Math.pow(sumX, 2) + Math.pow(sumY, 2)),
                     new Rotation2d(Math.atan2(sumY, sumX)));
             lastOutputAngle[i] = outSum[i].angle.getRadians();
 
-            
         }
 
         return outSum;

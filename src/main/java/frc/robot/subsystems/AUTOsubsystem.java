@@ -41,7 +41,7 @@ public class AUTOsubsystem extends SubsystemBase {
     // This will load the file "FullAuto.path" and generate it with a max velocity
     // of 4 m/s and a max acceleration of 3 m/s^2
     // for every path in the group
-    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("New Path", new PathConstraints(2, 3));
+    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("New New Path", new PathConstraints(2, 1.5));
 
     // This is just an example event map. It would be better to have a constant,
     // global event map
@@ -57,9 +57,9 @@ public class AUTOsubsystem extends SubsystemBase {
         swerveSubsystem::getPose2d, // Pose2d supplier
         swerveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
         DriveConstants.kDriveKinematics, // SwerveDriveKinematics
-        new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y
+        new PIDConstants(2, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y
         // PID controllers)
-        new PIDConstants(0.75, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation
+        new PIDConstants(6, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation
         // controller)
         swerveSubsystem::setModuleStates, // Module states consumer used to output to the drive subsystem
         eventMap,

@@ -28,10 +28,12 @@ import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -61,10 +63,18 @@ public class RobotContainer {
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
-
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final Command driveTrajectory = auto.getAuto();
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
+
+  private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
+      new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
+      new InstantCommand(
+          () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
+      driveTrajectory,
+      new InstantCommand(() -> swerveSubsystem.stopModules()),
+      new InstantCommand(
+          () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")));
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
 
@@ -102,11 +112,7 @@ public class RobotContainer {
 
     // Construct Auto Swerve Command Using Points and Objects from AUTOsubsystem
     // (auto)
-    DriverStation.reportWarning("AUTOGROUP" + driveTrajectory, false);
-    return new SequentialCommandGroup(
-        new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
-        driveTrajectory,
-        new InstantCommand(() -> swerveSubsystem.stopModules()));
+    return autoGroup;
     // new AUTOhomeModulesCMD(swerveSubsystem),
     // new InstantCommand(()->
     // swerveSubsystem.resetOdometry(trajectory.getInitialPose())), // SOME
