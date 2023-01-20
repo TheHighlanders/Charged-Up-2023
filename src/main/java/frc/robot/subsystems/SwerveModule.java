@@ -60,6 +60,8 @@ public class SwerveModule {
 
     anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
     anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
+    //DriverStation.reportWarning("MODULE TOLERANCE " + anglePIDController.getPositionTolerance(), false);
+    anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
     //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
     angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
     angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);

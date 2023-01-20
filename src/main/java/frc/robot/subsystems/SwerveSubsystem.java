@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,8 +23,11 @@ import frc.robot.Constants.ModuleConstants;
 public class SwerveSubsystem extends SubsystemBase {
     private double previousAngle = 0;
     private double[] lastOutputAngle = new double[4];
+    public Rotation2d desiredHeading = new Rotation2d(0);
 
     private boolean fieldOrient = true;
+
+    PIDController headingPID = new PIDController(3, 4, 2);
 
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
@@ -86,11 +90,12 @@ public class SwerveSubsystem extends SubsystemBase {
             speedLimiter[i] = new SlewRateLimiter(5);//TODO put in constants
             turnLimiter[i] = new SlewRateLimiter(30);
         }
-
+        headingPID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     public void zeroHeading() {
         gyro.reset();
+        desiredHeading = new Rotation2d(0);
     }
 
     public double getHeading() {
@@ -244,37 +249,37 @@ public class SwerveSubsystem extends SubsystemBase {
         }
 
         /*
-            * the for loop is iterating through each wheel and adding the linear and rotation components of the wheel
-            * the linear and rotation components are represented as polar vectors
-            * polar vector: represented by an angle and a magnitude
-            * normal vector: represented by an x and y component
-            
-            * vector1X, vector1Y etc. are converting the polar vectors to normal vectors by multiplying the magnitude of the linear and rotation components by the cosine and sine of their respective angles
-            * you use the sine function to find the y component and the cosine function to find the x component
-            * sine: ratio of the side opposite of the angle to the hypotenuse of the triangle
-            * cosine: ratio of the adjacent side to the hypotenuse
-            * both of these give the x and y components with that angle and a magnitude of 1
-            * so by multiplying the speed, you're effectively scaling the x and y components of a vector with that angle and a magnitude of 1
-            * 
-            * after converting the polar vectors to normal vectors, it then adds the x and y components of the linear and rotation vectors separately to get the x and y components of the sum vector
-            * 
-            * finally, it converts the sum vector back to a polar vector representation
-            * it uses the atan2 function to find the angle of the sum vector using the x and y components, and uses the Pythagorean theorem to find the magnitude of the sum vector 
-            * atan2 explained further below linear_angle_component = Math.atan2(y, x)
-            *
-            * then it creates a new SwerveModuleState object for the current wheel with the speed and angle of the sum vector
-            *
-            * lastOutputAngle[i] = outSum[i].angle.getRadians();
-            * this is to store the angle of the sum vector for each wheel in the lastOutputAngle array, in case this function is called again with zero speed.
-            *
-            * https://en.wikipedia.org/wiki/Polar_coordinate_system
-            * https://en.wikipedia.org/wiki/Cartesian_coordinate_system
-            * https://en.wikipedia.org/wiki/Trigonometry
-            * https://en.wikipedia.org/wiki/Sine
-            * https://en.wikipedia.org/wiki/Cosine
-            * https://en.wikipedia.org/wiki/Atan2
-            * (research sources)
-            */
+        * the for loop is iterating through each wheel and adding the linear and rotation components of the wheel
+        * the linear and rotation components are represented as polar vectors
+        * polar vector: represented by an angle and a magnitude
+        * normal vector: represented by an x and y component
+        
+        * vector1X, vector1Y etc. are converting the polar vectors to normal vectors by multiplying the magnitude of the linear and rotation components by the cosine and sine of their respective angles
+        * you use the sine function to find the y component and the cosine function to find the x component
+        * sine: ratio of the side opposite of the angle to the hypotenuse of the triangle
+        * cosine: ratio of the adjacent side to the hypotenuse
+        * both of these give the x and y components with that angle and a magnitude of 1
+        * so by multiplying the speed, you're effectively scaling the x and y components of a vector with that angle and a magnitude of 1
+        * 
+        * after converting the polar vectors to normal vectors, it then adds the x and y components of the linear and rotation vectors separately to get the x and y components of the sum vector
+        * 
+        * finally, it converts the sum vector back to a polar vector representation
+        * it uses the atan2 function to find the angle of the sum vector using the x and y components, and uses the Pythagorean theorem to find the magnitude of the sum vector 
+        * atan2 explained further below linear_angle_component = Math.atan2(y, x)
+        *
+        * then it creates a new SwerveModuleState object for the current wheel with the speed and angle of the sum vector
+        *
+        * lastOutputAngle[i] = outSum[i].angle.getRadians();
+        * this is to store the angle of the sum vector for each wheel in the lastOutputAngle array, in case this function is called again with zero speed.
+        *
+        * https://en.wikipedia.org/wiki/Polar_coordinate_system
+        * https://en.wikipedia.org/wiki/Cartesian_coordinate_system
+        * https://en.wikipedia.org/wiki/Trigonometry
+        * https://en.wikipedia.org/wiki/Sine
+        * https://en.wikipedia.org/wiki/Cosine
+        * https://en.wikipedia.org/wiki/Atan2
+        * (research sources)
+        */
 
         for (int i = 0; i < 4; i++) {
             double vector1X = outLinear[i].speedMetersPerSecond * Math.cos(outLinear[i].angle.getRadians());
@@ -318,4 +323,24 @@ public class SwerveSubsystem extends SubsystemBase {
 
     //     return out;
     // }
+    public void setLastValidHeading(Rotation2d heading) {
+        desiredHeading = heading;
+    }
+
+    public ChassisSpeeds fieldOrientedThetaHold(ChassisSpeeds chassisSpeeds) {
+        Rotation2d robotHeading = getRotation2D();
+
+        double outX = chassisSpeeds.vxMetersPerSecond;
+        double outY = chassisSpeeds.vyMetersPerSecond;
+        double outTheta = chassisSpeeds.omegaRadiansPerSecond;
+
+        headingPID.setSetpoint(desiredHeading.getRadians());
+
+        SmartDashboard.putNumber("HEADING PID ", headingPID.calculate(robotHeading.getRadians()));
+
+        outTheta += headingPID.calculate(robotHeading.getRadians());
+
+        return new ChassisSpeeds(outX, outY, outTheta);
+
+    }
 }
