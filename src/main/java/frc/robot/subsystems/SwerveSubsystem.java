@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private boolean fieldOrient = true;
 
-    PIDController headingPID = new PIDController(3, 4, 3);
+    PIDController headingPID = new PIDController(2, 2, 4);
 
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
@@ -348,7 +348,7 @@ public class SwerveSubsystem extends SubsystemBase {
             return chassisSpeeds;
         }
 
-        if (deltaTheta < 0.05) {
+        if (deltaTheta < 0.005) { //maybe increase to 0.05 for carpet 
             return chassisSpeeds;
         }
 

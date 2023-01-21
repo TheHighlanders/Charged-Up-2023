@@ -23,7 +23,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class AUTOtrajectory extends CommandBase {
   /** Creates a new AUTOtrajectory. */
-  public Command fullAuto;
 
   private SwerveSubsystem swerveSubsystem;
 
@@ -36,39 +35,6 @@ public class AUTOtrajectory extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // This will load the file "FullAuto.path" and generate it with a max velocity
-    // of 4 m/s and a max acceleration of 3 m/s^2
-    // for every path in the group
-    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("New Path", new PathConstraints(4, 3));
-    DriverStation.reportWarning("autoTrajectory", false);
-    // This is just an example event map. It would be better to have a constant,
-    // global event map
-    // in your code that will be used by all path following commands.
-    HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("marker1", new PrintCommand("Passed marker 1"));
-    // eventMap.put("intakeDown", new IntakeDown());
-
-    // Create the AutoBuilder. This only needs to be created once when robot code
-    // starts, not every time you want to create an auto command. A good place to
-    // put this is in RobotContainer along with your subsystems.
-    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-        swerveSubsystem::getPose2d, // Pose2d supplier
-        swerveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
-        DriveConstants.kDriveKinematics, // SwerveDriveKinematics
-        new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y
-        // PID controllers)
-        new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation
-        // controller)
-        swerveSubsystem::setModuleStates, // Module states consumer used to output to the drive subsystem
-        eventMap,
-        true,
-        swerveSubsystem // Should the path be automatically mirrored depending on alliance color.
-                                        // Optional, defaults to true
-                                        // The drive subsystem. Used to properly set the requirements of path following
-                                        // commands
-    );
-
-    fullAuto = autoBuilder.fullAuto(pathGroup);
 
   }
 

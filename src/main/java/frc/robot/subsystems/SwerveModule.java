@@ -131,19 +131,24 @@ public class SwerveModule {
 
   public void setDesiredState(SwerveModuleState state) {
 
-    // boolean useDashboard = SmartDashboard.getBoolean("Setpoint Control Enabled", false);
-    //angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
-    // SmartDashboard.putNumber("State Get DEG" + absoluteEncoder.getChannel() + ":", state.angle.getDegrees());
-    // if(Math.abs(state.speedMetersPerSecond) < 0.001){
-    //   stop();
-    //   return;
-    // }
+    boolean useDashboard = SmartDashboard.getBoolean("Setpoint Control Enabled", false);
+    if (useDashboard) {
+      angleMotor.set(anglePIDController.calculate(
+          getAnglePosition(),
+          SmartDashboard.getNumber("Funny Setpoint Control", 0)));
+      return;
+    }
     //DriverStation.reportWarning("Module.setDesiredState()", false);
     state = optimize(state, getState().angle);
-    //SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+    SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
+
     driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
+    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians()));
+    SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " PID error: ",
+        anglePIDController.getPositionError());
     SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
+
+    SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " Motor Encoder", getAnglePosition());
   }
 
   public void stop() {
