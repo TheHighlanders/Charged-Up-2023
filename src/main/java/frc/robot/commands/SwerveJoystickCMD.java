@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+
 //import java.util.function.Supplier;
 
 //import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -8,7 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -52,6 +54,19 @@ public class SwerveJoystickCMD extends CommandBase {
         xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
         ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
         turnSpeed = Math.abs(turnSpeed) > OIConstants.kDeadband ? turnSpeed : 0.0;
+
+        double headingRadians = swerveSubsystem.getRotation2D().getRadians();
+        if (turnSpeed != 0) {
+            if (headingRadians > Math.PI) {
+                headingRadians -= 2 * Math.PI;
+            }
+            if (headingRadians < -Math.PI) {
+                headingRadians += 2 * Math.PI;
+            }
+
+            swerveSubsystem.setLastValidHeading(new Rotation2d(headingRadians));
+            SmartDashboard.putNumber("Desired Heading ", swerveSubsystem.desiredHeading.getRadians());
+        }
         //DriverStation.reportWarning("Spood: " + turnSpeed, false);
         //Ratelimiting
         //Moved to function in the Subsystem and done after IK
@@ -65,6 +80,8 @@ public class SwerveJoystickCMD extends CommandBase {
             //DriverStation.reportWarning("getHeading ", false);
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turnSpeed,
                     swerveSubsystem.getRotation2D());
+
+            chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
         } else {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turnSpeed);
         }
