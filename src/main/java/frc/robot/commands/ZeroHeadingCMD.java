@@ -21,6 +21,7 @@ public class ZeroHeadingCMD extends CommandBase {
   @Override
   public void initialize() {
     swerveSubsystem.zeroHeading();
+    //Possible need to set desired heading 0
   }
 
   // Called every time the scheduler runs while the command is scheduled.

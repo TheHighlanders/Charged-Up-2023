@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -27,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private boolean fieldOrient = true;
 
-    PIDController headingPID = new PIDController(3, 4, 2);
+    PIDController headingPID = new PIDController(3, 4, 3);
 
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
@@ -334,9 +335,22 @@ public class SwerveSubsystem extends SubsystemBase {
         double outY = chassisSpeeds.vyMetersPerSecond;
         double outTheta = chassisSpeeds.omegaRadiansPerSecond;
 
+        double deltaTheta = Math.abs(desiredHeading.getRadians() - robotHeading.getRadians());
+
         headingPID.setSetpoint(desiredHeading.getRadians());
 
-        SmartDashboard.putNumber("HEADING PID ", headingPID.calculate(robotHeading.getRadians()));
+        double thetaPIDCorrect = headingPID.calculate(robotHeading.getRadians());
+
+        SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
+
+        if (deltaTheta > 0.2) {
+            setLastValidHeading(robotHeading);
+            return chassisSpeeds;
+        }
+
+        if (deltaTheta < 0.05) {
+            return chassisSpeeds;
+        }
 
         outTheta += headingPID.calculate(robotHeading.getRadians());
 

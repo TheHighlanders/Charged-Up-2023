@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 //import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
@@ -28,6 +29,8 @@ public class SwerveModule {
 
   private final RelativeEncoder driveEncoder;
   private final RelativeEncoder angleEncoder;
+
+  private final CANSparkMax.IdleMode holdMode = IdleMode.kBrake;
 
   private final PIDController anglePIDController;
 
@@ -57,6 +60,8 @@ public class SwerveModule {
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
     angleEncoder.setPositionConversionFactor(ModuleConstants.kAngleMotorEncoderRot2Rad);
     angleEncoder.setVelocityConversionFactor(ModuleConstants.kAngleMotorEncoderRPM2RadPerSec);
+
+    driveMotor.setIdleMode(holdMode);
 
     anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
     anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
