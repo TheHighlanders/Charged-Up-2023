@@ -28,7 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private boolean fieldOrient = true;
 
-    PIDController headingPID = new PIDController(2, 2, 4);
+    PIDController headingPID = new PIDController(4, 1, 3);
 
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
@@ -343,14 +343,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
 
-        if (deltaTheta > 0.2) {
-            setLastValidHeading(robotHeading);
-            return chassisSpeeds;
-        }
+        // if (deltaTheta > 0.2) {
+        //     setLastValidHeading(robotHeading);
+        //     return chassisSpeeds;
+        // }
 
-        if (deltaTheta < 0.005) { //maybe increase to 0.05 for carpet 
-            return chassisSpeeds;
-        }
+        // if (deltaTheta < 0.005) { //maybe increase to 0.05 for carpet 
+        //     return chassisSpeeds;
+        // }
 
         outTheta += headingPID.calculate(robotHeading.getRadians());
 
