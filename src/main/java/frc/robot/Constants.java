@@ -22,6 +22,19 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class IntakeConstants {
+        public static final int INTAKE_MOTOR_ID = 0;
+        public static final int INTAKE_DEPLOY_ID = 0;
+
+        public static final int DEPLOY_PID_ID = 0;
+
+        public static final double kPIntakeDeploy = 0;
+        public static final double kIIntakeDeploy = 0;
+        public static final double kDIntakeDeploy = 0;
+
+        public static final double kIntakeDeployRatio = 0;
+    }
+
     public static final class ArmConstants {
         static final double gearboxRatio = 45.0 / 1.0;
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
