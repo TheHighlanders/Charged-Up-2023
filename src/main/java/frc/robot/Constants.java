@@ -22,6 +22,19 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class ArmConstants {
+        static final double gearboxRatio = 45.0 / 1.0;        
+        static final double beltRatio = 2.0/1.0; //GUESTIMATED find actual belt ratio from mechanical
+        
+        public static final int ARM_MOTOR_ID = 0 ;
+
+        public static final double kStowed =  0.0 * gearboxRatio * beltRatio;
+        public static final double kMiddle =  0.0  * gearboxRatio * beltRatio;
+        public static final double kTop    =  0.0  * gearboxRatio * beltRatio;
+
+        public static final int COUNTS_PER_REV = 0;
+    }
+
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1.0f / 5.8462;
@@ -31,8 +44,8 @@ public final class Constants {
         public static final double kDriveMotorEncoderRPM2MeterPerSec = kDriveMotorEncoderRot2Meter / 60.0f;
         public static final double kAngleMotorEncoderRPM2RadPerSec = kAngleMotorEncoderRot2Rad / 60.0f;
         public static final double kPAngle = 0.5;
-        public static final double kIAngle = 1;
-        public static final double kDAngle = 0;
+        public static final double kIAngle = 1.0;
+        public static final double kDAngle = 0.0;
         public static final double kAngleTolerance = 0.002;
 
         public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
