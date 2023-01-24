@@ -8,7 +8,8 @@
   },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/PIDController[3]": "PIDController"
     }
   }
 }

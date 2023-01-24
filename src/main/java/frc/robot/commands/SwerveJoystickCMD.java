@@ -20,6 +20,7 @@ public class SwerveJoystickCMD extends CommandBase {
     XboxController xbox = new XboxController(1);
     private final SwerveSubsystem swerveSubsystem; //MAYBE THESE NEED FINAL
     private boolean fieldOriented;
+    private ChassisSpeeds storeChassisSpeeds = new ChassisSpeeds(0, 0, 0);
     //private final SlewRateLimiter xLimiter, yLimiter, turnLimiter;
 
     public SwerveJoystickCMD(SwerveSubsystem swerveSubsystem) {
@@ -81,12 +82,13 @@ public class SwerveJoystickCMD extends CommandBase {
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turnSpeed,
                     swerveSubsystem.getRotation2D());
 
-            if (chassisSpeeds.vxMetersPerSecond != 0 && chassisSpeeds.vyMetersPerSecond != 0) {
+            if (chassisSpeeds.vxMetersPerSecond != 0 || chassisSpeeds.vyMetersPerSecond != 0) {
                 chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
             }
         } else {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turnSpeed);
         }
+
         //Making Module States
         //SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);

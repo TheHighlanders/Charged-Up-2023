@@ -28,7 +28,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private boolean fieldOrient = true;
 
-    PIDController headingPID = new PIDController(4, 1, 3);
+    PIDController headingPID = new PIDController(DriveConstants.kPTheta, DriveConstants.kITheta,
+            DriveConstants.kDTheta);
 
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
@@ -131,6 +132,10 @@ public class SwerveSubsystem extends SubsystemBase {
                 });
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose2d().getTranslation().toString());
+        // SmartDashboard.putP
+
+        SmartDashboard.putData(frontLeft.drivePIDController);
+        SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
     }
 
     public void stopModules() {
@@ -331,15 +336,15 @@ public class SwerveSubsystem extends SubsystemBase {
     public ChassisSpeeds fieldOrientedThetaHold(ChassisSpeeds chassisSpeeds) {
         Rotation2d robotHeading = getRotation2D();
 
-        double outX = chassisSpeeds.vxMetersPerSecond;
-        double outY = chassisSpeeds.vyMetersPerSecond;
-        double outTheta = chassisSpeeds.omegaRadiansPerSecond;
+        double inX = chassisSpeeds.vxMetersPerSecond;
+        double inY = chassisSpeeds.vyMetersPerSecond;
+        double inTheta = chassisSpeeds.omegaRadiansPerSecond;
 
         double deltaTheta = Math.abs(desiredHeading.getRadians() - robotHeading.getRadians());
 
         headingPID.setSetpoint(desiredHeading.getRadians());
 
-        double thetaPIDCorrect = headingPID.calculate(robotHeading.getRadians());
+        double thetaPIDCorrect = DriveConstants.kHeadingPIDMax * headingPID.calculate(robotHeading.getRadians());
 
         SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
 
@@ -352,9 +357,9 @@ public class SwerveSubsystem extends SubsystemBase {
         //     return chassisSpeeds;
         // }
 
-        outTheta += headingPID.calculate(robotHeading.getRadians());
+        inTheta += thetaPIDCorrect;
 
-        return new ChassisSpeeds(outX, outY, outTheta);
+        return new ChassisSpeeds(inX, inY, inTheta);
 
     }
 }

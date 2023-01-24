@@ -32,7 +32,8 @@ public class SwerveModule {
 
   private final CANSparkMax.IdleMode holdMode = IdleMode.kBrake;
 
-  private final PIDController anglePIDController;
+  public final PIDController drivePIDController;
+  public final PIDController anglePIDController;
 
   private final edu.wpi.first.wpilibj.AnalogInput absoluteEncoder;
   private final boolean absoluteEncoderReversed;
@@ -65,6 +66,9 @@ public class SwerveModule {
 
     anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
     anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
+
+    drivePIDController = new PIDController(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive);
+    //drivePIDController.calculate(absoluteEncoderID, absoluteEncoderOffset);
     //DriverStation.reportWarning("MODULE TOLERANCE " + anglePIDController.getPositionTolerance(), false);
     anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
     //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
@@ -142,8 +146,10 @@ public class SwerveModule {
     state = optimize(state, getState().angle);
     SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
 
-    driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), state.angle.getRadians()));
+    //driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+    driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
+
+    angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
     SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " PID error: ",
         anglePIDController.getPositionError());
     SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
