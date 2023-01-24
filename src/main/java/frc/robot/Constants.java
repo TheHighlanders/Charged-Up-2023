@@ -24,7 +24,7 @@ public final class Constants {
 
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-        public static final double kDriveMotorGearRatio = 1.0f / 5.8462;
+        public static final double kDriveMotorGearRatio = 1.0f / 8.14; // was 5.8462, not sure why, changed to SDS L1 ratio
         public static final double kAngleMotorGearRatio = 1.0f / 12.8f; // Reciprocalized 1/12
         public static final double kDriveMotorEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kAngleMotorEncoderRot2Rad = kAngleMotorGearRatio * 2.0f * Math.PI;
@@ -35,9 +35,9 @@ public final class Constants {
         public static final double kDAngle = 0;
         public static final double kAngleTolerance = 0.002;
 
-        //Sketchy Velocity PID loop no use D pls
+        //Sketchy Velocity PID loop no use D pls TODO: Recalibrate for new correct GearRatio
         public static final double kPDrive = 0.1; //D? Dont do a Negative
-        public static final double kIDrive = 0.75; //P?
+        public static final double kIDrive = 0.5; //P? //Was 0.75 before gear ratio change, lowering
         public static final double kDDrive = 0; //??
 
         public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
@@ -57,7 +57,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 8;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 
