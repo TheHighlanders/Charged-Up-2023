@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 
@@ -24,12 +25,24 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    intakeSpin.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
-    intakeSpin.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
-    intakeSpin.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
+    intakeDeploy.selectProfileSlot(0, 0);
+
+    intakeDeploy.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
+    intakeDeploy.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
+    intakeDeploy.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
   }
 
   public void deployIntake() {
+    deployed = !deployed;
+    intakeDeploy.set(ControlMode.Position, (deployed ? IntakeConstants.kIntakeOutPos : IntakeConstants.kIntakeOutPos));
+  }
+
+  public void spinIntakeIn() {
+    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeed);
+  }
+
+  public void spinIntakeOut() {
+    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeed * -1);
   }
 
   @Override

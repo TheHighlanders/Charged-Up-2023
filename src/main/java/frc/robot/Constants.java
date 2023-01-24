@@ -33,6 +33,12 @@ public final class Constants {
         public static final double kDIntakeDeploy = 0;
 
         public static final double kIntakeDeployRatio = 0;
+
+        public static final double kIntakeOutPos = 0;
+        public static final double kIntakeInPos = 0;
+
+        public static final double kIntakeSpeed = 1;
+
     }
 
     public static final class ArmConstants {
