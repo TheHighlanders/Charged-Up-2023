@@ -2,37 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.SwerveCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class AUTOhomeModulesCMD extends CommandBase {
-  boolean CMDcomplete = false;
-
+public class encoderPrintout extends CommandBase {
+  /** Creates a new encoderPrintout. */
   private final SwerveSubsystem swerveSubsystem;
 
-  /** Creates a new AUTOhomeModulesCMD. */
-  public AUTOhomeModulesCMD(SwerveSubsystem swerve_subsystem) {
+  public encoderPrintout(SwerveSubsystem swerve_subsystem) {
     swerveSubsystem = swerve_subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerveSubsystem);
+    addRequirements(swerve_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerveSubsystem.homeAllModules(); //usless function call
-
-    swerveSubsystem.zeroAllModules();
-
-    CMDcomplete = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    swerveSubsystem.encoderPrintoutDeg();
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +36,6 @@ public class AUTOhomeModulesCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return CMDcomplete;
+    return false;
   }
 }

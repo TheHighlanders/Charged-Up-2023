@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.ArmConstants;
@@ -16,36 +18,48 @@ public class Arm extends SubsystemBase {
   public CANSparkMax ArmMotor;
   public RelativeEncoder ArmEncoder;
 
+  public ControlType PIDposition = ControlType.kPosition;
+
+  public SparkMaxPIDController armPID;
+
   /** Creates a new Arm. */
   public Arm() {
-    ArmMotor = new CANSparkMax ( ArmConstants.ARM_MOTOR_ID, MotorType.kBrushless );
-    ArmEncoder = ArmMotor.getAlternateEncoder ( ArmConstants.COUNTS_PER_REV );
+    ArmMotor = new CANSparkMax(ArmConstants.ARM_MOTOR_ID, MotorType.kBrushless);
+    ArmEncoder = ArmMotor.getEncoder();
+
+    armPID = ArmMotor.getPIDController();
+    armPID.setP(ArmConstants.kPArm);
+    armPID.setI(ArmConstants.kIArm);
+    armPID.setD(ArmConstants.kDArm);
+
   }
 
   public void top() {
-    ArmEncoder.setPosition(ArmConstants.kTop); //units unknown
+    //ArmEncoder.setPosition(ArmConstants.kTopPos); //units unknown
+    armPID.setReference(ArmConstants.kTopPos, PIDposition);
   }
 
-  public void middle() { 
-    ArmEncoder.setPosition(ArmConstants.kMiddle); //units unknown
+  public void middle() {
+    //ArmEncoder.setPosition(ArmConstants.kMiddlePos); //units unknown
+    armPID.setReference(ArmConstants.kMiddlePos, PIDposition);
   }
 
   public void stowed() {
-    ArmEncoder.setPosition(ArmConstants.kStowed); //units unknown
+    //ArmEncoder.setPosition(ArmConstants.kStowedPos); //units unknown
+    armPID.setReference(ArmConstants.kStowedPos, PIDposition);
   }
 
   public void up() {
     ArmMotor.set(1.0); //units unknown
   }
 
-  public void down() { 
+  public void down() {
     ArmMotor.set(-1.0); //units unknown
   }
 
   public void stop() {
     ArmMotor.set(0.0);
   }
-
 
   @Override
   public void periodic() {

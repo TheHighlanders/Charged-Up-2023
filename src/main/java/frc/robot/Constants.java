@@ -23,14 +23,18 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
     public static final class ArmConstants {
-        static final double gearboxRatio = 45.0 / 1.0;        
-        static final double beltRatio = 2.0/1.0; //GUESTIMATED find actual belt ratio from mechanical
-        
-        public static final int ARM_MOTOR_ID = 0 ;
+        static final double gearboxRatio = 45.0 / 1.0;
+        static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
 
-        public static final double kStowed =  0.0 * gearboxRatio * beltRatio;
-        public static final double kMiddle =  0.0  * gearboxRatio * beltRatio;
-        public static final double kTop    =  0.0  * gearboxRatio * beltRatio;
+        public static final int ARM_MOTOR_ID = 0;
+
+        public static final double kStowedPos = 0.0 * gearboxRatio * beltRatio;
+        public static final double kMiddlePos = 0.0 * gearboxRatio * beltRatio;
+        public static final double kTopPos = 0.0 * gearboxRatio * beltRatio;
+
+        public static final double kPArm = 0;
+        public static final double kIArm = 0;
+        public static final double kDArm = 0;
 
         public static final int COUNTS_PER_REV = 0;
     }

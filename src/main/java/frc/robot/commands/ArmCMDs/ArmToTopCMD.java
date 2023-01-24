@@ -2,19 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Arm;
 
-public class encoderPrintout extends CommandBase {
-  /** Creates a new encoderPrintout. */
-  private final SwerveSubsystem swerveSubsystem;
+public class ArmToTopCMD extends CommandBase {
+  /** Creates a new ArmToTopCMD. */
 
-  public encoderPrintout(SwerveSubsystem swerve_subsystem) {
-    swerveSubsystem = swerve_subsystem;
+  public final Arm Arm_sub;
+
+  public ArmToTopCMD(Arm arm_subArm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(swerve_subsystem);
+    Arm_sub = arm_subArm;
+    addRequirements(Arm_sub);
   }
 
   // Called when the command is initially scheduled.
@@ -25,12 +26,13 @@ public class encoderPrintout extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    swerveSubsystem.encoderPrintoutDeg();
+    Arm_sub.top();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Arm_sub.stop();
   }
 
   // Returns true when the command should end.

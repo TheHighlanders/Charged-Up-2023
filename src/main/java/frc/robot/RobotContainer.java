@@ -4,15 +4,11 @@
 
 package frc.robot;
 
-//import java.time.Instant;
-//import java.util.List;
-//import java.util.function.Supplier;
-
-import frc.robot.commands.AUTOhomeModulesCMD;
-import frc.robot.commands.AUTOtrajectory;
-import frc.robot.commands.SwerveJoystickCMD;
-import frc.robot.commands.ZeroHeadingCMD;
-import frc.robot.commands.ToggleFieldOrientedCMD;
+import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
+import frc.robot.commands.AutonCMDs.AUTOtrajectory;
+import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
+import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
+import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.subsystems.AUTOsubsystem;
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
