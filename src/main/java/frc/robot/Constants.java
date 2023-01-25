@@ -37,7 +37,7 @@ public final class Constants {
 
         //Sketchy Velocity PID loop no use D pls TODO: Recalibrate for new correct GearRatio
         public static final double kPDrive = 0.1; //D? Dont do a Negative
-        public static final double kIDrive = 0.5; //P? //Was 0.75 before gear ratio change, lowering
+        public static final double kIDrive = 0.75; //P? //Was 0.75 before gear ratio change, lowering
         public static final double kDDrive = 0; //??
 
         public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
@@ -57,7 +57,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 8;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 6;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 

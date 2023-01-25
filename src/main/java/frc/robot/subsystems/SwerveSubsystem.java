@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
@@ -27,6 +28,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public Rotation2d desiredHeading = new Rotation2d(0);
 
     private boolean fieldOrient = true;
+    public Pose2d odoPose = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
 
     PIDController headingPID = new PIDController(DriveConstants.kPTheta, DriveConstants.kITheta,
             DriveConstants.kDTheta);
@@ -77,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
                     frontLeft.getState(), frontRight.getState(),
                     backLeft.getState(), backRight.getState() },
             new Pose2d(
-                    new Translation2d(2.0, 2.0),
+                    new Translation2d(0, 0),
                     new Rotation2d(0))); // Could Add OPTIONAL ROBOT Starting pose for field posing
 
     public SwerveSubsystem() {
@@ -132,10 +134,22 @@ public class SwerveSubsystem extends SubsystemBase {
                 });
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose2d().getTranslation().toString());
+        // Odometer will drift after dis and renenabling TODO: fix robot odometer randomness after reenabling
         // SmartDashboard.putP
+        odoPose = getPose2d();
+        DriverStation.reportWarning("Stored Odometry " + odoPose.getTranslation().toString(), false);
 
         SmartDashboard.putData(frontLeft.drivePIDController);
         SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
+    }
+
+    public void resetOdometry() {
+        odometer.resetPosition(getRotation2D(), new SwerveModulePosition[] {
+                frontLeft.getState(), frontRight.getState(),
+                backLeft.getState(), backRight.getState()
+        }, odoPose);
+        DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
+
     }
 
     public void stopModules() {

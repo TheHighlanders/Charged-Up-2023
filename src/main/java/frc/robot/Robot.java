@@ -62,6 +62,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    SmartDashboard.putString("Stored Odometry Pose",
+        m_robotContainer.swerveSubsystem.odoPose.getTranslation().toString());
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -81,6 +83,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -92,6 +95,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Funny Setpoint Control", 0);
     SmartDashboard.putBoolean("Setpoint Control Enabled", false);
     m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
+
+    m_robotContainer.swerveSubsystem.resetOdometry();
+
   }
 
   /** This function is called periodically during operator control. */
