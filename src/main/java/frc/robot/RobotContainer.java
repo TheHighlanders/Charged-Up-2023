@@ -4,12 +4,22 @@
 
 package frc.robot;
 
+import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
+import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
+import frc.robot.commands.ArmCMDs.ArmToTopCMD;
 import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AutonCMDs.AUTOtrajectory;
+import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
+import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
+import frc.robot.commands.IntakeCMDs.spinIntakeInCMD;
+import frc.robot.commands.IntakeCMDs.spinIntakeOutCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
 import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
 import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.subsystems.AUTOsubsystem;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.Intake;
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
 import pabeles.concurrency.ConcurrencyOps.NewInstance;
@@ -56,6 +66,22 @@ public class RobotContainer {
   private final AUTOsubsystem auto = new AUTOsubsystem();
   private final AUTOtrajectory trajectory = new AUTOtrajectory(swerveSubsystem);
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
+  private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
+ 
+  private final GrabberSubsystem grabberSub = new GrabberSubsystem();
+  private final GrabberOpenCMD grabberOpen = new GrabberOpenCMD(grabberSub);
+  private final GrabberCloseCMD grabberClose = new GrabberCloseCMD(grabberSub);
+
+  private final Intake intakeSub = new Intake();
+  private final spinIntakeInCMD spinIntakein = new spinIntakeInCMD(intakeSub);
+  private final spinIntakeOutCMD spinIntakeOut = new spinIntakeOutCMD(intakeSub);
+
+  private final Arm intakeArm = new Arm();
+  private final ArmToMiddleCMD armMiddle = new ArmToMiddleCMD(intakeArm);
+  private final ArmToStowedCMD armStowed = new ArmToStowedCMD(intakeArm);
+  private final ArmToTopCMD armTop = new ArmToTopCMD(intakeArm);
+
+
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
@@ -97,6 +123,18 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
+
+    new JoystickButton(driverJoystick, 3).onTrue(new spinIntakeInCMD(intakeSub));//x
+    new JoystickButton(driverJoystick, 4).onTrue(new spinIntakeOutCMD(intakeSub));//y
+
+    new JoystickButton(operatorJoystick, 6).onTrue(new GrabberCloseCMD(grabberSub)); //RB
+    new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub)); //LB
+  
+
+
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
 
   }
 
