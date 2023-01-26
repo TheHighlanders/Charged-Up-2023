@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
-import frc.robot.commands.ArmCMDs.ArmToShelfCMD;
+import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
 import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AutonCMDs.AUTOtrajectory;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -70,18 +70,12 @@ public class RobotContainer {
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
 
   private final GrabberSubsystem grabberSub = new GrabberSubsystem();
-  private final GrabberOpenCMD grabberOpen = new GrabberOpenCMD(grabberSub);
-  private final GrabberCloseCMD grabberClose = new GrabberCloseCMD(grabberSub);
 
   private final Intake intakeSub = new Intake();
-  private final spinIntakeInCMD spinIntakein = new spinIntakeInCMD(intakeSub);
-  private final spinIntakeOutCMD spinIntakeOut = new spinIntakeOutCMD(intakeSub);
+
 
   private final Arm intakeArm = new Arm();
-  private final ArmToMiddleCMD armMiddle = new ArmToMiddleCMD(intakeArm);
-  private final ArmToStowedCMD armStowed = new ArmToStowedCMD(intakeArm);
-  private final ArmToTopCMD armTop = new ArmToTopCMD(intakeArm);
-  private final ArmToShelfCMD armShelf = new ArmToShelfCMD(intakeArm);
+
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
@@ -133,7 +127,7 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToShelfCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
 
   }
 
