@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Setpoint Control Enabled", false);
     m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
 
-    m_robotContainer.swerveSubsystem.resetOdometry();
+    m_robotContainer.swerveSubsystem.resetOdometryCache();
 
   }
 

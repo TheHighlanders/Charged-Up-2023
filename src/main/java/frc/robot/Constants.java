@@ -136,5 +136,11 @@ public final class Constants {
         public static final TrapezoidProfile.Constraints kPThetaControllerConstraints = new TrapezoidProfile.Constraints(
                 kMaxAngularSpeedRadiansPerSecond,
                 kMaxAngularAccelerationRadiansPerSecondSquared);
+
+        public static final double kTranslatePointError = 0.25;
+        public static final double kTranslateSpeed = 0.5;
+
+        public static final double kRotationError = 0.1;
+        public static final double kRotationSpeed = 2;
     }
 }

@@ -119,7 +119,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(getRotation2D(), new SwerveModulePosition[] {
+        odometer.resetPosition(new Rotation2d(getRotation2D().getRadians() - Math.PI / 2), new SwerveModulePosition[] {
                 frontLeft.getState(), frontRight.getState(),
                 backLeft.getState(), backRight.getState()
         }, pose);
@@ -143,11 +143,8 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
     }
 
-    public void resetOdometry() {
-        odometer.resetPosition(getRotation2D(), new SwerveModulePosition[] {
-                frontLeft.getState(), frontRight.getState(),
-                backLeft.getState(), backRight.getState()
-        }, odoPose);
+    public void resetOdometryCache() {
+        resetOdometry(odoPose);
         DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
 
     }

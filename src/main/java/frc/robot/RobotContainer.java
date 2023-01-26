@@ -9,11 +9,11 @@ package frc.robot;
 //import java.util.function.Supplier;
 
 import frc.robot.commands.AUTOhomeModulesCMD;
-import frc.robot.commands.AUTOtrajectory;
+import frc.robot.commands.AUTOswerveMoveCommand;
 import frc.robot.commands.SwerveJoystickCMD;
 import frc.robot.commands.ZeroHeadingCMD;
 import frc.robot.commands.ToggleFieldOrientedCMD;
-import frc.robot.subsystems.AUTOsubsystem;
+
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
 import pabeles.concurrency.ConcurrencyOps.NewInstance;
@@ -21,13 +21,8 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -57,22 +52,21 @@ import frc.robot.Constants.OIConstants;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  private final AUTOsubsystem auto = new AUTOsubsystem();
-  private final AUTOtrajectory trajectory = new AUTOtrajectory(swerveSubsystem);
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
-  private final Command driveTrajectory = auto.getAuto();
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
+  private final AUTOswerveMoveCommand swerveDriveCMD = new AUTOswerveMoveCommand(swerveSubsystem, 2, 0,
+      new Rotation2d(0));
 
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
       new InstantCommand(
           () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
-      driveTrajectory,
+      swerveDriveCMD,
       new InstantCommand(() -> swerveSubsystem.stopModules()),
       new InstantCommand(
           () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")));
