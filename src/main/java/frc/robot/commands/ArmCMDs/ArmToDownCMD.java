@@ -7,12 +7,12 @@ package frc.robot.commands.ArmCMDs;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class ArmToShelfCMD extends CommandBase {
+public class ArmToDownCMD extends CommandBase {
   /** Creates a new ArmToTopCMD. */
 
   public final Arm Arm_sub;
 
-  public ArmToShelfCMD(Arm arm_subArm) {
+  public ArmToDownCMD(Arm arm_subArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     Arm_sub = arm_subArm;
     addRequirements(Arm_sub);
@@ -26,7 +26,7 @@ public class ArmToShelfCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Arm_sub.shelf();
+    Arm_sub.down();
   }
 
   // Called once the command ends or is interrupted.

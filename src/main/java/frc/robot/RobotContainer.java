@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
-import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
+import frc.robot.commands.ArmCMDs.ArmToShelfCMD;
 import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AutonCMDs.AUTOtrajectory;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -68,7 +68,7 @@ public class RobotContainer {
   private final AUTOtrajectory trajectory = new AUTOtrajectory(swerveSubsystem);
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
- 
+
   private final GrabberSubsystem grabberSub = new GrabberSubsystem();
   private final GrabberOpenCMD grabberOpen = new GrabberOpenCMD(grabberSub);
   private final GrabberCloseCMD grabberClose = new GrabberCloseCMD(grabberSub);
@@ -81,8 +81,7 @@ public class RobotContainer {
   private final ArmToMiddleCMD armMiddle = new ArmToMiddleCMD(intakeArm);
   private final ArmToStowedCMD armStowed = new ArmToStowedCMD(intakeArm);
   private final ArmToTopCMD armTop = new ArmToTopCMD(intakeArm);
-  private final ArmtoShelfCMD armShelf = new ArmtoShelfCMD(intakeArm);
-
+  private final ArmToShelfCMD armShelf = new ArmToShelfCMD(intakeArm);
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
@@ -129,14 +128,12 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 4).onTrue(new spinIntakeOutCMD(intakeSub));//y
 
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberCloseCMD(grabberSub)); //RB
-    new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub)); //LB
-  
-
+    new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub));
 
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToShelfCMD(intakeArm));
 
   }
 

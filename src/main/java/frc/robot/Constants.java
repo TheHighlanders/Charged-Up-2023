@@ -52,10 +52,11 @@ public final class Constants {
 
         public static final int ARM_MOTOR_ID = 0;
 
-        public static final double kStowedPos = 0.0;
-        public static final double kMiddlePos = 0.0;
-        public static final double kTopPos = 0.0;
-        public static final double kShelfPos = 0.0;
+        public static final double kStowedPos = 0.0 * Math.PI * -2;
+        public static final double kDownPos = 2 * Math.PI * -2;
+        public static final double kMiddlePos = 8.0 * Math.PI * -2;
+        public static final double kShelfPos = 12.0 * Math.PI * -2;
+        public static final double kTopPos = 15 * Math.PI * -2;
 
         public static final double kPArm = 0;
         public static final double kIArm = 0;

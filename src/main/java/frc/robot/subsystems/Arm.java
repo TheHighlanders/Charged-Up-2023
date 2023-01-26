@@ -51,15 +51,19 @@ public class Arm extends SubsystemBase {
     armPID.setReference(ArmConstants.kStowedPos, PIDposition);
   }
 
+  public void down() {
+    armPID.setReference(ArmConstants.kDownPos, PIDposition);
+  }
+
   public void shelf() {
     armPID.setReference(ArmConstants.kShelfPos, PIDposition);
   }
 
-  public void up() {
+  public void moveUp() {
     ArmMotor.set(1.0); //units unknown
   }
 
-  public void down() {
+  public void moveDown() {
     ArmMotor.set(-1.0); //units unknown
   }
 

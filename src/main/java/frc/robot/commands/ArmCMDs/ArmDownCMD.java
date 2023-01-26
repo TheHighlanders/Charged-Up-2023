@@ -26,7 +26,7 @@ public class ArmDownCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Arm_sub.down();
+    Arm_sub.moveDown();
   }
 
   // Called once the command ends or is interrupted.
