@@ -29,6 +29,7 @@ public void Open(){
 public void Off(){
   squishgrabber.set(Value.kOff);
 }
+//compressor stuff below
 
 public void Start(){
   airtank.enableDigital();

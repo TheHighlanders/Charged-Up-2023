@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
+import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
 import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AutonCMDs.AUTOtrajectory;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -80,7 +81,7 @@ public class RobotContainer {
   private final ArmToMiddleCMD armMiddle = new ArmToMiddleCMD(intakeArm);
   private final ArmToStowedCMD armStowed = new ArmToStowedCMD(intakeArm);
   private final ArmToTopCMD armTop = new ArmToTopCMD(intakeArm);
-
+  private final ArmtoShelfCMD armShelf = new ArmtoShelfCMD(intakeArm);
 
 
   // private final encoderPrintout encoderPrintoutCMD = new
@@ -135,6 +136,7 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
 
   }
 
