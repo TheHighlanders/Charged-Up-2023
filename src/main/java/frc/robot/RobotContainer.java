@@ -130,10 +130,10 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberCloseCMD(grabberSub)); //RB
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub));
 
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToShelfCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 4).onTrue(new ArmToStowedCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 5).onTrue(new ArmToTopCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 6).onTrue(new ArmToShelfCMD(intakeArm));
 
   }
 
