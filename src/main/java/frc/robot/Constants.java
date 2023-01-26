@@ -40,19 +40,22 @@ public final class Constants {
         public static final double kIntakeSpeed = 1;
 
     }
-    public static final class GrabberConstants{
+
+    public static final class GrabberConstants {
         public static final double DoubleSolenoid = 1;
     }
 
     public static final class ArmConstants {
         static final double gearboxRatio = 45.0 / 1.0;
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
+        public static final double kArmRation = gearboxRatio * beltRatio;
 
         public static final int ARM_MOTOR_ID = 0;
 
-        public static final double kStowedPos = 0.0 * gearboxRatio * beltRatio;
-        public static final double kMiddlePos = 0.0 * gearboxRatio * beltRatio;
-        public static final double kTopPos = 0.0 * gearboxRatio * beltRatio;
+        public static final double kStowedPos = 0.0;
+        public static final double kMiddlePos = 0.0;
+        public static final double kTopPos = 0.0;
+        public static final double kShelfPos = 0.0;
 
         public static final double kPArm = 0;
         public static final double kIArm = 0;
@@ -165,5 +168,5 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond,
                 kMaxAngularAccelerationRadiansPerSecondSquared);
     }
-    
+
 }

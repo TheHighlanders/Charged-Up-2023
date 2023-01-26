@@ -26,6 +26,8 @@ public class Arm extends SubsystemBase {
   public Arm() {
     ArmMotor = new CANSparkMax(ArmConstants.ARM_MOTOR_ID, MotorType.kBrushless);
     ArmEncoder = ArmMotor.getEncoder();
+    ArmEncoder.setPositionConversionFactor(ArmConstants.kArmRation);
+    ArmEncoder.setPosition(0.0);
 
     armPID = ArmMotor.getPIDController();
     armPID.setP(ArmConstants.kPArm);
@@ -47,6 +49,10 @@ public class Arm extends SubsystemBase {
   public void stowed() {
     //ArmEncoder.setPosition(ArmConstants.kStowedPos); //units unknown
     armPID.setReference(ArmConstants.kStowedPos, PIDposition);
+  }
+
+  public void shelf() {
+    armPID.setReference(ArmConstants.kShelfPos, PIDposition);
   }
 
   public void up() {
