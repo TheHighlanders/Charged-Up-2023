@@ -23,8 +23,8 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 0;
-        public static final int INTAKE_DEPLOY_ID = 0;
+        public static final int INTAKE_MOTOR_ID = 19;
+        public static final int INTAKE_DEPLOY_ID = 20;
 
         public static final int DEPLOY_PID_ID = 0;
 
@@ -50,15 +50,15 @@ public final class Constants {
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRation = gearboxRatio * beltRatio;
 
-        public static final int ARM_MOTOR_ID = 0;
+        public static final int ARM_MOTOR_ID = 15;
 
         public static final double kStowedPos = 0.0 * Math.PI * -2;
         public static final double kDownPos = 2 * Math.PI * -2;
-        public static final double kMiddlePos = 8.0 * Math.PI * -2;
+        public static final double kMiddlePos = 18.0 * Math.PI * -2;//0.8
         public static final double kShelfPos = 12.0 * Math.PI * -2;
         public static final double kTopPos = 15 * Math.PI * -2;
 
-        public static final double kPArm = 0;
+        public static final double kPArm = 0.3;
         public static final double kIArm = 0;
         public static final double kDArm = 0;
 

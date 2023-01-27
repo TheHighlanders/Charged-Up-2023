@@ -115,18 +115,18 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
-    new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
+    new JoystickButton(driverJoystick, 0).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
 
-    new JoystickButton(driverJoystick, 3).onTrue(new spinIntakeInCMD(intakeSub));//x
-    new JoystickButton(driverJoystick, 4).onTrue(new spinIntakeOutCMD(intakeSub));//y
+    new JoystickButton(driverJoystick, 0).onTrue(new spinIntakeInCMD(intakeSub));//x
+    new JoystickButton(driverJoystick, 0).onTrue(new spinIntakeOutCMD(intakeSub));//y
 
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberCloseCMD(grabberSub)); //RB
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub));
 
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToTopCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
 
   }

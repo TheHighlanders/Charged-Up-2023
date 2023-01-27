@@ -60,11 +60,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveUp() {
-    ArmMotor.set(1.0); //units unknown
+    ArmMotor.set(0.3); //units unknown
   }
 
   public void moveDown() {
-    ArmMotor.set(-1.0); //units unknown
+    ArmMotor.set(-0.3); //units unknown
   }
 
   public void stop() {
