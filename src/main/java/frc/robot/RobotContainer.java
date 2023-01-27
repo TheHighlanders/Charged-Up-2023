@@ -73,9 +73,7 @@ public class RobotContainer {
 
   private final Intake intakeSub = new Intake();
 
-
   private final Arm intakeArm = new Arm();
-
 
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
