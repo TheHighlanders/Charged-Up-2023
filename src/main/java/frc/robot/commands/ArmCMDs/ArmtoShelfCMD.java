@@ -7,12 +7,12 @@ package frc.robot.commands.ArmCMDs;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
-public class ArmToShelfCMD extends CommandBase {
+public class ArmtoShelfCMD extends CommandBase {
   /** Creates a new ArmToTopCMD. */
 
   public final Arm Arm_sub;
 
-  public ArmToShelfCMD(Arm arm_subArm) {
+  public ArmtoShelfCMD(Arm arm_subArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     Arm_sub = arm_subArm;
     addRequirements(Arm_sub);
