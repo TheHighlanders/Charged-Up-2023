@@ -110,7 +110,7 @@ public class SwerveModule {
   }
 
   public void resetEncoders() {
-    driveEncoder.setPosition(0);
+    // driveEncoder.setPosition(0);
     angleEncoder.setPosition(getAbsoluteEncoderRad());
   }
 

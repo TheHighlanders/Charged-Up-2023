@@ -137,10 +137,15 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond,
                 kMaxAngularAccelerationRadiansPerSecondSquared);
 
-        public static final double kTranslatePointError = 0.25;
+        public static final double kTranslatePointError = 0.10;
         public static final double kTranslateSpeed = 0.5;
 
         public static final double kRotationError = 0.1;
-        public static final double kRotationSpeed = 2;
+        public static final double kRotationSpeed = 0.4;
+
+        public static final double kXPIDp = 1.4;
+        public static final double kXPIDi = 0.1;
+        public static final double kXPIDd = 0.1;
+
     }
 }

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.KalmanFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -119,6 +120,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
+        SmartDashboard.putString("Front Left Reset Odometery DEBUG", frontLeft.getState().toString());
+        SmartDashboard.putString("Front Left Reset Odometery DEBUG2", pose.toString());
         odometer.resetPosition(new Rotation2d(getRotation2D().getRadians() - Math.PI / 2), new SwerveModulePosition[] {
                 frontLeft.getState(), frontRight.getState(),
                 backLeft.getState(), backRight.getState()

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -62,8 +63,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putString("Stored Odometry Pose",
-        m_robotContainer.swerveSubsystem.odoPose.getTranslation().toString());
+    // SmartDashboard.putString("Stored Odometry Pose",
+    //     m_robotContainer.swerveSubsystem.odoPose.getTranslation().toString());
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -96,7 +97,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Setpoint Control Enabled", false);
     m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
 
-    m_robotContainer.swerveSubsystem.resetOdometryCache();
+    m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
 
   }
 
