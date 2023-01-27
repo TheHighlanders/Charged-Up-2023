@@ -1,3 +1,13 @@
+package frc.robot;
+
+import frc.robot.RobotContainer;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /*
  * PID loops work by continuously measuring the error between the desired angle and the current angle of each wheel
  * they adjust the output of the angle motor to reduce that error
@@ -49,3 +59,71 @@
  * 
  * Sources: https://en.wikipedia.org/wiki/PID_controller, https://www.controleng.com/articles/understanding-derivative-in-pid-control/, https://www.controleng.com/articles/why-are-pid-loops-so-difficult-to-master/, https://en.wikipedia.org/wiki/Fast_Fourier_transform
  */
+
+import frc.robot.PID;
+
+public class PID {
+    //Ziegler-Nichols
+    public void calculateOptimalPIDValuesZN(PIDController pidController) {
+        // Obtain the process variable (PV) and control variable (CV) values 
+        // CV value will depend in the pid you are testing, in this case I made it for the heading pid
+        double pv = pidController.getSetpoint();
+        double cv = RobotContainer.swerveSubsystem.getHeading();
+
+        // Calculate the ultimate gain (Ku) and period (Tu)
+        double ku = (4 * (cv - pv)) / pv;
+        double tu = pidController.getPeriod();
+
+        // Calculate the optimal PID values
+        double kp = 0.6 * ku;
+        double ki = 2 * kp / tu;
+        double kd = kp * tu / 8;
+
+        // Set the PID values on the controller
+        pidController.setPID(kp, ki, kd);
+    }
+
+    //Tyreus-Luyben
+    public void calculateOptimalPIDValuesTL(PIDController pidController) {
+        // setPoint is the setpoint to test 
+        // ts is the time step of the step input signal (amount of time that elapses between each step change in the input signal)
+        StepResponse stepBro = new StepResponse(pidController, 1, 0.5, false); 
+        stepBro.run();
+        
+        // Obtain the process variable (PV), control variable (CV), time constant (Tc), and dead time (Td) values
+        double td = stepBro.td;
+        double tc = stepBro.tc;
+        double pv = pidController.getSetpoint();
+        double cv = RobotContainer.swerveSubsystem.getHeading();
+
+        // Calculate the ultimate gain (Ku) and period (Tu)
+        double ku = (4 * (cv - pv)) / pv;
+        double tu = pidController.getPeriod();
+
+        // Calculate the optimal PID values
+        double kp = (ku * td) / (tc * 3 * (tu + td));
+        double ki = kp / (tu + 2 * td);
+        double kd = kp * (tu + 2 * td) / 8;
+
+        // Set the PID values on the controller
+        pidController.setPID(kp, ki, kd);
+    }
+
+
+    public double testNoiseLevel(int samples) {
+        AnalogInput input = new AnalogInput(0); // Change to encoder and read in the voltage
+        double total = 0;
+        for (int i = 0; i < samples; i++) {
+            total += input.getVoltage();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        double average = total / samples;
+        return average;
+    }
+
+}
+
