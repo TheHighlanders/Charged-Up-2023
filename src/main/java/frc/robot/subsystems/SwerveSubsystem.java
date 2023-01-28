@@ -121,8 +121,8 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        SmartDashboard.putString("Front Left Reset Odometery DEBUG", frontLeft.getState().toString());
-        SmartDashboard.putString("Front Left Reset Odometery DEBUG2", pose.toString());
+        // SmartDashboard.putString("Front Left Reset Odometery DEBUG", frontLeft.getState().toString());
+        // SmartDashboard.putString("Front Left Reset Odometery DEBUG2", pose.toString());
         odometer.resetPosition(new Rotation2d(getRotation2D().getRadians() - Math.PI / 2), new SwerveModulePosition[] {
                 frontLeft.getState(), frontRight.getState(),
                 backLeft.getState(), backRight.getState()
@@ -141,15 +141,15 @@ public class SwerveSubsystem extends SubsystemBase {
         // Odometer will drift after dis and renenabling TODO: fix robot odometer randomness after reenabling
         // SmartDashboard.putP
         odoPose = getPose2d();
-        DriverStation.reportWarning("Stored Odometry " + odoPose.getTranslation().toString(), false);
+        //DriverStation.reportWarning("Stored Odometry " + odoPose.getTranslation().toString(), false);
 
-        SmartDashboard.putData(frontLeft.drivePIDController);
-        SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
+        // SmartDashboard.putData(frontLeft.drivePIDController);
+        // SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
     }
 
     public void resetOdometryCache() {
         resetOdometry(odoPose);
-        DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
+        //DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
 
     }
 
@@ -175,10 +175,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void encoderPrintoutDeg() {
-        SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
-        SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
+        // SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
+        // SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
+        // SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
+        // SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -188,15 +188,15 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
 
-        SmartDashboard.putNumber("Front Left: ", frontLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Front Right: ", frontRight.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Left: ", backLeft.getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Back Right: ", backRight.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Front Left: ", frontLeft.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Front Right: ", frontRight.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Back Left: ", backLeft.getAbsoluteEncoderRad());
+        // SmartDashboard.putNumber("Back Right: ", backRight.getAbsoluteEncoderRad());
 
-        SmartDashboard.putString("Front Left State: ", "" + desiredStates[0]);
-        SmartDashboard.putString("Front Right State: ", "" + desiredStates[1]);
-        SmartDashboard.putString("Back Left State: ", "" + desiredStates[2]);
-        SmartDashboard.putString("Back Right State: ", "" + desiredStates[3]);
+        // SmartDashboard.putString("Front Left State: ", "" + desiredStates[0]);
+        // SmartDashboard.putString("Front Right State: ", "" + desiredStates[1]);
+        // SmartDashboard.putString("Back Left State: ", "" + desiredStates[2]);
+        // SmartDashboard.putString("Back Right State: ", "" + desiredStates[3]);
     }
 
     /**

@@ -124,11 +124,13 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 6;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 12;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+
+        public static final double kTrajectoryPointSeperation = 0.2;
 
         public static final double kVelocityTolerance = 0.1;
 
@@ -139,14 +141,14 @@ public final class Constants {
                 kMaxAngularSpeedRadiansPerSecond,
                 kMaxAngularAccelerationRadiansPerSecondSquared);
 
-        public static final double kTranslatePointError = 0.10;
+        public static final double kTranslatePointError = 0.01;
         public static final double kTranslateSpeed = 0.5;
 
         public static final double kRotationError = 0.1;
         public static final double kRotationSpeed = 0.4;
 
-        public static final double kXPIDp = 1.4;
-        public static final double kXPIDi = 0.1;
+        public static final double kXPIDp = 2.8;
+        public static final double kXPIDi = 0;
         public static final double kXPIDd = 0.1;
 
     }

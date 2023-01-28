@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.AUTOcsvPathFollowCMD;
+
 //import java.time.Instant;
 //import java.util.List;
 //import java.util.function.Supplier;
@@ -26,6 +28,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -55,6 +58,7 @@ public class RobotContainer {
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
 
+  String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
@@ -69,7 +73,8 @@ public class RobotContainer {
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
       new InstantCommand(
           () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
-      trajectory.generateTrajectory(),
+      //trajectory.generateTrajectory(),
+      new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem),
       new InstantCommand(() -> swerveSubsystem.stopModules()),
       new InstantCommand(
           () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),

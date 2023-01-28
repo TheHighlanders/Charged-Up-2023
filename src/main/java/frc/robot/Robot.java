@@ -93,8 +93,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    SmartDashboard.putNumber("Funny Setpoint Control", 0);
-    SmartDashboard.putBoolean("Setpoint Control Enabled", false);
     m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
 
     m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());

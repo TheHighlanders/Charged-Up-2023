@@ -82,7 +82,7 @@ public class AUTOswerveMoveCommand extends CommandBase {
         && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
 
     boolean stopped = swerveSubsystem.isStopped();
-    SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
+    //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
@@ -93,7 +93,6 @@ public class AUTOswerveMoveCommand extends CommandBase {
     //Putting Code to Drive
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
-    SmartDashboard.putNumber("AUTO X chassisSpeeds", chassisSpeeds.vxMetersPerSecond);
     SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
