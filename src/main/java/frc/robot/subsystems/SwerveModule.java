@@ -11,6 +11,7 @@ import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.PID.PID;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -56,6 +57,7 @@ public class SwerveModule {
 
     driveEncoder = driveMotor.getEncoder();
     angleEncoder = angleMotor.getEncoder();
+    PID.setEncoder(angleEncoder);
 
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);

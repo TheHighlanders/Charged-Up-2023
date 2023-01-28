@@ -5,11 +5,15 @@ import frc.robot.Constants;
 import frc.robot.PID.PID;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -65,7 +69,6 @@ import edu.wpi.first.wpilibj.Relay;
  * Sources: https://en.wikipedia.org/wiki/PID_controller, https://www.controleng.com/articles/understanding-derivative-in-pid-control/, https://www.controleng.com/articles/why-are-pid-loops-so-difficult-to-master/, https://en.wikipedia.org/wiki/Fast_Fourier_transform
  */
 
-
 /*copy and past for implementation 
    import frc.robot.PID.PID;
 
@@ -75,41 +78,50 @@ import edu.wpi.first.wpilibj.Relay;
 */
 public class PID {
     private static double total;
-    private static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
-    private static boolean filled = false;
+    public static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
     private static Timer timer = new Timer();
-    
+    private static PIDController pidController;
+    private static RelativeEncoder encoder;
+
+    public static void setPID(PIDController Controller) {
+        pidController = Controller;
+    }
+
+    public static void setEncoder(RelativeEncoder encoderIn) {
+        encoder = encoderIn;
+    }
+
     //Ziegler-Nichols
-    public static String calculateOptimalPIDValuesZN(PIDController pidController) {
+    public static String calculateOptimalPIDValuesZN() {
+        double amplitude = calculateAmplitude();
+
         // Obtain the process variable (PV) and control variable (CV) values 
         // CV value will depend in the pid you are testing, in this case I made it for the heading pid
 
         double pv = pidController.getSetpoint();
-        double cv = RobotContainer.swerveSubsystem.getHeading();
-        getPeriods(1000, list, pidController);
+        DriverStation.reportWarning(list.toString(), false);
 
         // Calculate the ultimate gain (Ku) and period (Tu)
-        double ku = (4 * (cv - pv)) / pv;
-        double tu = calculatePeriod(list);
+        double ku = (4 * amplitude) / pv;
+        double tu = calculatePeriod();
 
         // Calculate the optimal PID values
         double kp = 0.6 * ku;
         double ki = 2 * kp / tu;
         double kd = kp * tu / 8;
 
-        return kp + " " + ki + " " + kd;
+        return kp + " " + ki + " " + kd + " " + tu + " " + ku + " " + amplitude + " " + list.get(0);
     }
 
     //Tyreus-Luyben
-    public static String calculateOptimalPIDValuesTL(PIDController pidController) {
-        getPeriods(1000, list, pidController);
-        double amplitude = calculateAmplitude(list);
+    public static String calculateOptimalPIDValuesTL() {
+        double amplitude = calculateAmplitude();
         StepResponse stepBro = new StepResponse(pidController, amplitude, 0.5, list);
-        
+
         // setPoint is the setpoint to test 
         // ts is the time step of the step input signal (amount of time that elapses between each step change in the input signal)
         stepBro.run();
-        
+
         // Obtain the process variable (PV), control variable (CV), time constant (Tc), and dead time (Td) values
         double td = stepBro.td;
         double tc = stepBro.tc;
@@ -127,14 +139,14 @@ public class PID {
         return kp + " " + ki + " " + kd;
     }
 
-    public static String calculateOscillatingPIDValuesZN(PIDController pidController) {
+    public static String calculateOscillatingPIDValuesZN() {
         // Obtain the process variable (PV) and control variable (CV) values
         double pv = pidController.getSetpoint();
 
         // Calculate the ultimate gain (Ku) and period (Tu)
-        double amplitude = calculateAmplitude(list);
+        double amplitude = calculateAmplitude();
         double ku = amplitude / pv;
-        double tu = calculatePeriod(list);
+        double tu = calculatePeriod();
 
         // Calculate the PID values
         double kp = 0.5 * ku;
@@ -144,7 +156,6 @@ public class PID {
         return kp + " " + ki + " " + kd;
     }
 
-
     public static double testNoiseLevel(int samples) {
         // accuracy of tests
         AnalogInput input = new AnalogInput(0);
@@ -152,6 +163,7 @@ public class PID {
         total = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
             int i = 0;
+
             public void run() {
                 total += input.getVoltage();
                 i++;
@@ -169,49 +181,37 @@ public class PID {
      * because the maximum value in the array is 3.0 and the minimum value is -3.0 
      * and the amplitude is calculated as the difference between the maximum and minimum values divided by 2, which is (3.0 - (-3.0)) / 2 = 3.0
     */
-    public static double calculateAmplitude(ArrayList<Double> data) {
+    public static double calculateAmplitude() {
         // large amplitude means higher instability
         double max = Double.MIN_VALUE;
         double min = Double.MAX_VALUE;
-        for (double d : data) {
+        for (double d : list) {
             max = Math.max(max, d);
             min = Math.min(min, d);
         }
         return (max - min) / 2;
     }
 
-    public static void getPeriods(int periods, List<Double> fill, PIDController pidController){
-        if (filled) return;
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int i = 0;
-            @Override
-            public void run() {
-                list.add(pidController.getPeriod());
-                i++;
-                if (i >= periods){
-                    timer.cancel();
-                }
-            }
-        }, 10, 20);
-        filled = true;
+    public static void updatePeriods() {
+        list.add(encoder.getPosition());
     }
 
-    public static double calculatePeriod(ArrayList<Double> data) {
+    public static double calculatePeriod() {
         // long periods mean slow responce
-        double[] diffs = new double[data.size() - 1];
-        for (int i = 0; i < data.size() - 1; i++) {
+        double[] diffs = new double[list.size() - 1];
+        for (int i = 0; i < list.size() - 1; i++) {
             diffs[i] = list.get(i + 1) - list.get(i);
         }
         int start = 0;
         for (int i = 1; i < diffs.length; i++) {
-            if (diffs[i] < 0 && diffs[i - 1] > 0) {
+            if (diffs[i] <= 0 && diffs[i - 1] > 0) {
                 start = i;
                 break;
             }
         }
         int end = start;
         for (int i = start + 1; i < diffs.length; i++) {
-            if (diffs[i] > 0 && diffs[i - 1] < 0) {
+            if (diffs[i] >= 0 && diffs[i - 1] < 0) {
                 end = i;
                 break;
             }
@@ -219,7 +219,7 @@ public class PID {
         return end - start;
     }
 
-    public static void relayFeedbackTunePID(PIDController pidController, Encoder encoder, Relay relay,
+    public static void relayFeedbackTunePID(Encoder encoder, Relay relay,
             double setpoint) {
         pidController.setSetpoint(setpoint); // set the desired setpoint for the PID controller
         double error;
@@ -257,4 +257,3 @@ public class PID {
     }
 
 }
-

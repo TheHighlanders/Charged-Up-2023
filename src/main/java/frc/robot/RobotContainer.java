@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.PID.PID;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -64,10 +65,10 @@ public class RobotContainer {
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
-      new double[] { 2, 2, 0, 0 },
-      new double[] { 2, 0, 2, 0 },
-      new double[] { 90, 180, 270, 0 },
-      new boolean[] { true, true, true, true });
+      new double[] { 2 },
+      new double[] { 0 },
+      new double[] { 0 },
+      new boolean[] { true });
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
@@ -104,6 +105,11 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
+    new JoystickButton(driverJoystick, 4).onTrue(
+        new InstantCommand(() -> {
+          SmartDashboard.putString("Optimal pid values", PID.calculateOptimalPIDValuesZN());
+          DriverStation.reportWarning("Udated pid values ", false);
+        }));
 
   }
 
