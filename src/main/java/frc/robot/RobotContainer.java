@@ -59,7 +59,7 @@ public class RobotContainer {
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
   private final AUTOswerveMoveCommand swerveDriveCMD = new AUTOswerveMoveCommand(swerveSubsystem, 1, 1,
-      new Rotation2d(Math.toRadians(0)));
+      new Rotation2d(Math.toRadians(0)), true);
 
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
@@ -67,8 +67,8 @@ public class RobotContainer {
       new InstantCommand(
           () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
       swerveDriveCMD,
-      new AUTOswerveMoveCommand(swerveSubsystem, 3, 1, new Rotation2d(Math.toRadians(-90))),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 0, new Rotation2d(Math.toRadians(90))),
+      new AUTOswerveMoveCommand(swerveSubsystem, 3, 1, new Rotation2d(Math.toRadians(-90)), true),
+      new AUTOswerveMoveCommand(swerveSubsystem, 0, 0, new Rotation2d(Math.toRadians(90)), true),
       new InstantCommand(() -> swerveSubsystem.stopModules()),
       new InstantCommand(
           () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),

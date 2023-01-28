@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -374,6 +375,21 @@ public class SwerveSubsystem extends SubsystemBase {
         inTheta += thetaPIDCorrect;
 
         return new ChassisSpeeds(inX, inY, inTheta);
+
+    }
+
+    public boolean isStopped() {
+        double flSpeed = frontLeft.getDriveVelocity();
+        double frSpeed = frontRight.getDriveVelocity();
+        double blSpeed = backLeft.getDriveVelocity();
+        double brSpeed = backRight.getDriveVelocity();
+
+        boolean out = ((Math.abs(flSpeed) < AutoConstants.kVelocityTolerance) &&
+                (Math.abs(frSpeed) < AutoConstants.kVelocityTolerance) &&
+                (Math.abs(blSpeed) < AutoConstants.kVelocityTolerance) &&
+                (Math.abs(brSpeed) < AutoConstants.kVelocityTolerance));
+
+        return out;
 
     }
 }

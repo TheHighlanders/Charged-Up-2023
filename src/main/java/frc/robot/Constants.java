@@ -46,9 +46,9 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 10;
-        public static final double kITheta = 0;
-        public static final double kDTheta = 0;
+        public static final double kPTheta = 2.5; //10 with Ballast
+        public static final double kITheta = 0; //0 with Ballast
+        public static final double kDTheta = 0; //0 With Ballast
 
         public static final double kHeadingPIDMax = 0.2;
 
@@ -129,6 +129,8 @@ public final class Constants {
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+
+        public static final double kVelocityTolerance = 0.1;
 
         public static final double kPXController = 1;
         public static final double kPYController = 1;

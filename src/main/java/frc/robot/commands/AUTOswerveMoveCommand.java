@@ -17,6 +17,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class AUTOswerveMoveCommand extends CommandBase {
   /** Creates a new AUTOswerveMoveCommad. */
   private SwerveSubsystem swerveSubsystem;
+  private boolean stopping;
   private boolean cmdDone = false;
   private double xEndPoint;
   private double yEndPoint;
@@ -39,11 +40,11 @@ public class AUTOswerveMoveCommand extends CommandBase {
 
   private ChassisSpeeds chassisSpeeds;
 
-  public AUTOswerveMoveCommand(SwerveSubsystem swerve_subsystem, double x, double y, Rotation2d heading) {
+  public AUTOswerveMoveCommand(SwerveSubsystem swerve_subsystem, double x, double y, Rotation2d heading, boolean stop) {
     // Use addRequirements() here to declare subsystem dependencies.
     swerveSubsystem = swerve_subsystem;
     addRequirements(swerveSubsystem);
-
+    stopping = stop;
     xEndPoint = x;
     yEndPoint = y;
     headingEndPoint = heading;
@@ -74,25 +75,32 @@ public class AUTOswerveMoveCommand extends CommandBase {
     speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
 
-    cmdDone = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
+    boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
         && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
         && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
+
+    boolean stopped = swerveSubsystem.isStopped();
 
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
-        (Math.abs(deltaHeading) > AutoConstants.kRotationError
-            ? AutoConstants.kRotationSpeed * Math.signum(deltaHeading)
-            : 0.0),
+        0.0,
         swerveSubsystem.getRotation2D());
 
+    swerveSubsystem.setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
     //Putting Code to Drive
-
+    chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     SmartDashboard.putNumber("AUTO X chassisSpeeds", chassisSpeeds.vxMetersPerSecond);
     SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
+
+    if (stopping) {
+      cmdDone = (stopped && atPoint);
+    } else {
+      cmdDone = atPoint;
+    }
   }
 
   // Called once the command ends or is interrupted.
