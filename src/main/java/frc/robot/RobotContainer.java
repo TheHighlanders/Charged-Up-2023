@@ -10,6 +10,7 @@ package frc.robot;
 
 import frc.robot.commands.AUTOhomeModulesCMD;
 import frc.robot.commands.AUTOswerveMoveCommand;
+import frc.robot.commands.AUTOtrajectoryGenerate;
 import frc.robot.commands.SwerveJoystickCMD;
 import frc.robot.commands.ZeroHeadingCMD;
 import frc.robot.commands.ToggleFieldOrientedCMD;
@@ -58,17 +59,17 @@ public class RobotContainer {
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
-  private final AUTOswerveMoveCommand swerveDriveCMD = new AUTOswerveMoveCommand(swerveSubsystem, 1, 1,
-      new Rotation2d(Math.toRadians(0)), true);
-
+  private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
+      new double[] { 1, 0 },
+      new double[] { 1, 0 },
+      new double[] { 0, 90 },
+      new boolean[] { true, true });
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
       new InstantCommand(
           () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
-      swerveDriveCMD,
-      new AUTOswerveMoveCommand(swerveSubsystem, 3, 1, new Rotation2d(Math.toRadians(-90)), true),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 0, new Rotation2d(Math.toRadians(90)), true),
+      trajectory.generateTrajectory(),
       new InstantCommand(() -> swerveSubsystem.stopModules()),
       new InstantCommand(
           () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),
