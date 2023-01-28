@@ -30,7 +30,7 @@ public class AUTOtrajectoryGenerate extends CommandBase {
     stopAtPoints = stop;
     headingPoints = new Rotation2d[headings.length];
     for (int i = 0; i < headings.length; i++) {
-      headingPoints[i] = new Rotation2d(Math.toRadians(headings[i]));
+      headingPoints[i] = new Rotation2d(Math.toRadians(headings[i] + 90));
     }
     stopAtPoints[stopAtPoints.length - 1] = true;
     // Use addRequirements() here to declare subsystem dependencies.

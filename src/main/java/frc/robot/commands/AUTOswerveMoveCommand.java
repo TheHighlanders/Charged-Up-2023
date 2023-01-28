@@ -69,6 +69,8 @@ public class AUTOswerveMoveCommand extends CommandBase {
 
     deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
 
+    deltaHeading %= Math.PI * 2;
+
     double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
 
@@ -80,7 +82,7 @@ public class AUTOswerveMoveCommand extends CommandBase {
         && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
 
     boolean stopped = swerveSubsystem.isStopped();
-
+    SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),

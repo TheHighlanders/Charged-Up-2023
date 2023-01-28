@@ -60,10 +60,10 @@ public class RobotContainer {
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
-      new double[] { 1, 0 },
-      new double[] { 1, 0 },
-      new double[] { 0, 90 },
-      new boolean[] { true, true });
+      new double[] { 2, 2, 0, 0 },
+      new double[] { 2, 0, 2, 0 },
+      new double[] { 90, 180, 270, 0 },
+      new boolean[] { true, true, true, true });
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
