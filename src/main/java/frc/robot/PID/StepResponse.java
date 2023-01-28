@@ -1,5 +1,6 @@
-package frc.robot;
+package frc.robot.PID;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,15 +14,14 @@ public class StepResponse {
     public double td;
     private Timer timer;
     private boolean isFinished;
-    private boolean isStepInput; // differentiate between a step input and a ramp input
 
-    private double[] processData;
+    private ArrayList<Double> processData;
 
-    public StepResponse(PIDController pidController, double setPoint, double ts, boolean isStepInput) {
+    public StepResponse(PIDController pidController, double amplitude, double ts, ArrayList<Double> processData) {
         this.pidController = pidController;
-        this.setPoint = setPoint;
+        this.setPoint = amplitude;
         this.ts = ts;
-        this.isStepInput = isStepInput;
+        this.processData = processData;
         timer = new Timer();
     }
 
@@ -39,9 +39,8 @@ public class StepResponse {
                     pidController.setSetpoint(setPoint);
                     if (time >= ts) {
                         timer.cancel();
-                        pidController.setSetpoint(0);
+                        pidController.setPID(0, 0, 0);
                         isFinished = true;
-                        processData = getProcessData();
                         tc = findTimeConstant(processData);
                         td = findDeadTime(processData);
                     }
@@ -50,20 +49,16 @@ public class StepResponse {
         }, 0, 10);
     }
 
-    private double[] getProcessData() {
-        // code to get process data
-        return processData;
-    }
     // Inflection point
-    private double findTimeConstant(double[] processData) {
+    private double findTimeConstant(ArrayList<Double> processData) {
         // Initialize variables to store the time and PV value at the inflection point
         double timeConstant = 0;
-        double finalValue = processData[processData.length - 1];
+        double finalValue = processData.get(processData.size() - 1);
         double PV_63 = finalValue * 0.632;
 
         // Search for the inflection point
-        for (int i = 0; i < processData.length; i++) {
-            if (processData[i] >= PV_63) {
+        for (int i = 0; i < processData.size(); i++) {
+            if (processData.get(i) >= PV_63) {
                 timeConstant = i * ts;
                 break;
             }
@@ -71,10 +66,9 @@ public class StepResponse {
         return timeConstant;
     }
     // FOPDT model
-    private double findDeadTime(double[] processData) {
+    private double findDeadTime(ArrayList<Double> processData) {
         // Initialize variables to store the time and PV value at the inflection point
         double deadTime = 0;
-        double finalValue = processData[processData.length - 1];
         double timeConstant = findTimeConstant(processData);
 
         if (timeConstant > 0) {
