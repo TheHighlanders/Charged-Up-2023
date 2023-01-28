@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.PID.PID;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -131,6 +132,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        PID.updatePeriods();
         odometer.update(getRotation2D(),
                 new SwerveModulePosition[] {
                         frontLeft.getState(), frontRight.getState(),
@@ -149,7 +151,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void resetOdometryCache() {
         resetOdometry(odoPose);
-        DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
+        //DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
 
     }
 
@@ -315,7 +317,6 @@ public class SwerveSubsystem extends SubsystemBase {
                     Math.sqrt(Math.pow(sumX, 2) + Math.pow(sumY, 2)),
                     new Rotation2d(Math.atan2(sumY, sumX)));
             lastOutputAngle[i] = outSum[i].angle.getRadians();
-
         }
 
         return outSum;
@@ -383,6 +384,8 @@ public class SwerveSubsystem extends SubsystemBase {
         double frSpeed = frontRight.getDriveVelocity();
         double blSpeed = backLeft.getDriveVelocity();
         double brSpeed = backRight.getDriveVelocity();
+
+        PID.setPID(frontLeft.anglePIDController);
 
         boolean out = ((Math.abs(flSpeed) < AutoConstants.kVelocityTolerance) &&
                 (Math.abs(frSpeed) < AutoConstants.kVelocityTolerance) &&
