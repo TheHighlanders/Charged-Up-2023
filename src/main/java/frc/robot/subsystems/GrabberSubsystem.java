@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.GrabberConstants;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Compressor;
@@ -21,9 +22,11 @@ public class GrabberSubsystem extends SubsystemBase {
 
   }
 public void Closed(){
+  DriverStation.reportWarning("Closed", false);
   squishgrabber.set(Value.kReverse);
 }
 public void Open(){
+  DriverStation.reportWarning("Open", false);
   squishgrabber.set(Value.kForward);
 }
 public void Off(){

@@ -116,18 +116,33 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 0).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
 
-    new JoystickButton(driverJoystick, 0).onTrue(new spinIntakeInCMD(intakeSub));//x
-    new JoystickButton(driverJoystick, 0).onTrue(new spinIntakeOutCMD(intakeSub));//y
+    new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeInCMD(intakeSub));//L
+    new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeOutCMD(intakeSub));//L
 
-    new JoystickButton(operatorJoystick, 6).onTrue(new GrabberCloseCMD(grabberSub)); //RB
-    new JoystickButton(operatorJoystick, 5).onTrue(new GrabberOpenCMD(grabberSub));
 
-    new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));
+
+    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); //L
+   new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub));
+
+    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
 
+    // GrabberCloseCMD grabber_closed = new GrabberCloseCMD(grabberSub);
+
+    // GrabberOpenCMD grabber_open = new GrabberOpenCMD(grabberSub);
+
+    // //grabberSub.setDefaultCommand(grabber_closed);
+    // JoystickButton changeBtn = new JoystickButton(operatorJoystick, 3);
+
+    // //changeBtn.toggleOnTrue(grabber_open);
+
+    // grabber_closed.isScheduled(false);
+    // changeBtn.toggleOnFalse(grabber_closed).toggleOnTrue(grabber_open);
+
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

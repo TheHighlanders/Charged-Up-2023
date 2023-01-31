@@ -33,7 +33,7 @@ public class GrabberOpenCMD extends CommandBase {
   public void end(boolean interrupted) {
     grabber_sub.Off();
   }
-
+  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
