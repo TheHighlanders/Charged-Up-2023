@@ -32,13 +32,21 @@ public class VISIONalignAprilTag extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (vision.tvVal == 1 && Math.abs(vision.txVal) >= 1.0) {
+    if(vision.tvVal == 1){
+      if(vision.tidVal == 6 || vision.tidVal == 7 || vision.tidVal == 8){
+        double parkHeading = VisionConstants.kBlueParkAngle;
+      }
+      if(vision.tidVal == 6 || vision.tidVal == 7 || vision.tidVal == 8){
+        double parkHeading = VisionConstants.kRedParkAngle;
+      }
 
-      ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, vision.txVal * VisionConstants.kVisionHorizontalScalar);
-      SwerveModuleState[] desiredStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
-      swerveSubsystem.setModuleStates(desiredStates);
+      double robotXinTSpace = vision.targetSpaceRobotX;
+      double robotYinTSpace = vision.targetSpaceRobotY;
+
+      double robotOdoCoordsTargetX;
     }
-  }
+    }
+  
 
   // Called once the command ends or is interrupted.
   @Override

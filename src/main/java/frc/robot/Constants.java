@@ -24,6 +24,9 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final double kVisionHorizontalScalar = 1.0;
+
+        public static final double kRedParkAngle = Math.PI / 2.0;
+        public static final double kBlueParkAngle = Math.PI / -2.0;
     }
 
     public static final class ModuleConstants {

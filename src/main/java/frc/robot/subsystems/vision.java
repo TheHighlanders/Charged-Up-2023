@@ -17,6 +17,7 @@ public class vision extends SubsystemBase {
   private NetworkTableEntry tv = visionNT.getEntry("tv");
   private NetworkTableEntry tx = visionNT.getEntry("tx");
   private NetworkTableEntry ty = visionNT.getEntry("ty");
+  private NetworkTableEntry targetSpaceRobotPose = visionNT.getEntry("botpose_targetspace");
   private NetworkTableEntry pipe = visionNT.getEntry("pipeline");
   private NetworkTableEntry tid = visionNT.getEntry("tid");
 
@@ -25,6 +26,9 @@ public class vision extends SubsystemBase {
   public double tyVal;
   public double pipeVal;
   public double tidVal;
+
+  public double targetSpaceRobotX;
+  public double targetSpaceRobotY;
 
   public vision() {
 
@@ -49,6 +53,9 @@ public class vision extends SubsystemBase {
     tyVal = ty.getDouble(0.0);
     tidVal = tid.getDouble(0.0);
     pipeVal = pipe.getDouble(0.0);
+
+    targetSpaceRobotX = targetSpaceRobotPose.getDoubleArray(new double[6])[0];
+    targetSpaceRobotX = targetSpaceRobotPose.getDoubleArray(new double[6])[1]; //0 & 1 are guesses, should be the index of the transform in X and Y
 
   }
 }
