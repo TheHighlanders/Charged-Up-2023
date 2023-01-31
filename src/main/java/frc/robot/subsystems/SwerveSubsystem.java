@@ -39,6 +39,9 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
 
+    private PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi,
+            AutoConstants.kXPIDd);
+
     private final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDrivePort,
             DriveConstants.kFrontLeftAnglePort,
@@ -395,4 +398,63 @@ public class SwerveSubsystem extends SubsystemBase {
         return out;
 
     }
+
+    public void driveAUTOnonFieldOrient(double x, double y, Rotation2d heading) {
+        Pose2d currentPose;
+        double currentX;
+        double currentY;
+        Rotation2d currentHeading;
+        double deltaX;
+        double deltaY;
+        double deltaHeading;
+
+        double xEndPoint = x;
+        double yEndPoint = y;
+        Rotation2d headingEndPoint = heading;
+
+        double speedX;
+        double speedY;
+
+        ChassisSpeeds chassisSpeeds;
+
+        currentPose = getPose2d();
+
+        currentX = currentPose.getX();
+        currentY = currentPose.getY();
+        currentHeading = currentPose.getRotation();
+
+        deltaX = xEndPoint - currentX;
+        deltaY = yEndPoint - currentY;
+
+        deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
+
+        deltaHeading %= Math.PI * 2;
+
+        double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
+                * AutoConstants.kMaxSpeedMetersPerSecond;
+
+        speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
+        speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
+
+        boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
+                && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
+                && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
+
+        boolean stopped = isStopped();
+        //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
+        chassisSpeeds = new ChassisSpeeds(
+                (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
+                (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
+                0.0);
+
+        setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
+        //Putting Code to Drive
+        chassisSpeeds = fieldOrientedThetaHold(chassisSpeeds);
+        //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
+        SwerveModuleState[] moduleStates = getIKMathSwerveModuleStates(chassisSpeeds);
+
+        setModuleStates(moduleStates);
+
+    }
+
 }

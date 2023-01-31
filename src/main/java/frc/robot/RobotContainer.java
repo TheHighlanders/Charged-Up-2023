@@ -16,9 +16,10 @@ import frc.robot.commands.AUTOtrajectoryGenerate;
 import frc.robot.commands.SwerveJoystickCMD;
 import frc.robot.commands.ZeroHeadingCMD;
 import frc.robot.commands.ToggleFieldOrientedCMD;
-
+import frc.robot.commands.VISIONalignAprilTag;
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.vision;
 import pabeles.concurrency.ConcurrencyOps.NewInstance;
 
 import java.util.HashMap;
@@ -57,12 +58,14 @@ import frc.robot.PID.PID;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public final static vision vision = new vision();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
 
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
+  private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
       new double[] { 2 },
@@ -105,6 +108,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
+    new JoystickButton(driverJoystick, 6).whileTrue(visionAlignCMD);
     new JoystickButton(driverJoystick, 4).onTrue(
         new InstantCommand(() -> {
           SmartDashboard.putString("Optimal pid values", PID.calculateOptimalPIDValuesZN());

@@ -1,5 +1,10 @@
 {
   "NetworkTables": {
+    "retained": {
+      "limelight": {
+        "open": true
+      }
+    },
     "types": {
       "/FMSInfo": "FMSInfo"
     }

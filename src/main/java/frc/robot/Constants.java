@@ -22,6 +22,10 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+    public static final class VisionConstants {
+        public static final double kVisionHorizontalScalar = 1.0;
+    }
+
     public static final class ModuleConstants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1.0f / 8.14; // was 5.8462, not sure why, changed to SDS L1 ratio
