@@ -121,28 +121,29 @@ public class RobotContainer {
 
 
 
-    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); //L
-   new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub));
 
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
 
-    // GrabberCloseCMD grabber_closed = new GrabberCloseCMD(grabberSub);
+    
+  // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
+  //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+  
+  GrabberCloseCMD grabber_closed = new GrabberCloseCMD(grabberSub);
+  GrabberOpenCMD grabber_open = new GrabberOpenCMD(grabberSub);
 
-    // GrabberOpenCMD grabber_open = new GrabberOpenCMD(grabberSub);
+    grabberSub.setDefaultCommand(grabber_closed);
+    JoystickButton changeBtn = new JoystickButton(operatorJoystick, 3);
 
-    // //grabberSub.setDefaultCommand(grabber_closed);
-    // JoystickButton changeBtn = new JoystickButton(operatorJoystick, 3);
-
-    // //changeBtn.toggleOnTrue(grabber_open);
-
-    // grabber_closed.isScheduled(false);
-    // changeBtn.toggleOnFalse(grabber_closed).toggleOnTrue(grabber_open);
-
+    changeBtn.toggleOnTrue(grabber_open);
   }
   
+
+
+
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
