@@ -17,7 +17,7 @@ public class vision extends SubsystemBase {
   private NetworkTableEntry tv = visionNT.getEntry("tv");
   private NetworkTableEntry tx = visionNT.getEntry("tx");
   private NetworkTableEntry ty = visionNT.getEntry("ty");
-  private NetworkTableEntry targetSpaceRobotPose = visionNT.getEntry("botpose_targetspace");
+  private NetworkTableEntry tPoseRobotSpace = visionNT.getEntry("targetpose_robotspace");
   private NetworkTableEntry pipe = visionNT.getEntry("pipeline");
   private NetworkTableEntry tid = visionNT.getEntry("tid");
 
@@ -27,8 +27,14 @@ public class vision extends SubsystemBase {
   public double pipeVal;
   public double tidVal;
 
-  public double targetSpaceRobotX;
-  public double targetSpaceRobotY;
+  private double[] poseArray = new double[6];
+
+  public double Xr;
+  public double Yr; //Robot Space position of tag
+
+  public double Z; //Hypotenuse of All triangle
+
+  public double alpha; //Angle of corner of Robot Space triangle at robot
 
   public vision() {
 
@@ -46,7 +52,7 @@ public class vision extends SubsystemBase {
   }
 
   public void updateNetworkTables() {
-
+    updateZalpha();
     DriverStation.reportWarning("Entry " + tx, false);
     tvVal = tv.getDouble(0.0);
     txVal = tx.getDouble(0.0);
@@ -54,8 +60,24 @@ public class vision extends SubsystemBase {
     tidVal = tid.getDouble(0.0);
     pipeVal = pipe.getDouble(0.0);
 
-    targetSpaceRobotX = targetSpaceRobotPose.getDoubleArray(new double[6])[0];
-    targetSpaceRobotX = targetSpaceRobotPose.getDoubleArray(new double[6])[1]; //0 & 1 are guesses, should be the index of the transform in X and Y
+    poseArray = NetworkTableInstance.getDefault().getTable("limelight").getEntry("targetpose_robotspace")
+        .getDoubleArray(new double[6]);
+    Xr = poseArray[2];
+    Yr = poseArray[0]; //0 & 1 are guesses, should be the index of the transform in X and Y
+
+    SmartDashboard.putNumber("TargetPoseX in Robot Space", Xr);
+    SmartDashboard.putNumber("TargetPoseY in Robot Space", Yr);
+
+  }
+
+  public void updateZalpha() {
+    if (tvVal == 1) {
+      Z = Math.sqrt(Math.pow(Xr, 2) + Math.pow(Yr, 2));
+      SmartDashboard.putNumber("Z", Z);
+      if (Xr != 0 && Yr != 0) {
+        alpha = Math.atan2(Xr, Yr);
+      }
+    }
 
   }
 }
