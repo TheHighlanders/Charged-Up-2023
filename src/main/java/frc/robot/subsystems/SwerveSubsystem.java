@@ -442,10 +442,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
         boolean stopped = isStopped();
         //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
-        chassisSpeeds = new ChassisSpeeds(
+        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
                 (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
-                0.0);
+                0.0,
+                getRotation2D());
 
         setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
         //Putting Code to Drive

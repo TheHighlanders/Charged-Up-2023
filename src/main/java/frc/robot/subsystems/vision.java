@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 public class vision extends SubsystemBase {
   /** Creates a new vision. */
@@ -26,6 +27,21 @@ public class vision extends SubsystemBase {
   public double tyVal;
   public double pipeVal;
   public double tidVal;
+
+  private double robotX;
+  private double robotY;
+  private double theta;
+  private double phi;
+
+  private double distanceToTarget;
+
+  private double odometerOffsetX;
+  private double odometerOffsetY;
+
+  public double tagOdoX;
+  public double tagOdoY;
+  private double tagOffsetX;
+  private double tagOffsetY;
 
   private double[] poseArray = new double[6];
 
@@ -53,6 +69,7 @@ public class vision extends SubsystemBase {
 
   public void updateNetworkTables() {
     updateZalpha();
+    calulateTag();
     DriverStation.reportWarning("Entry " + tx, false);
     tvVal = tv.getDouble(0.0);
     txVal = tx.getDouble(0.0);
@@ -62,8 +79,8 @@ public class vision extends SubsystemBase {
 
     poseArray = NetworkTableInstance.getDefault().getTable("limelight").getEntry("targetpose_robotspace")
         .getDoubleArray(new double[6]);
-    Xr = poseArray[2];
-    Yr = poseArray[0]; //0 & 1 are guesses, should be the index of the transform in X and Y
+    Xr = poseArray[0];
+    Yr = poseArray[2]; //0 & 1 are guesses, should be the index of the transform in X and Y
 
     SmartDashboard.putNumber("TargetPoseX in Robot Space", Xr);
     SmartDashboard.putNumber("TargetPoseY in Robot Space", Yr);
@@ -72,12 +89,34 @@ public class vision extends SubsystemBase {
 
   public void updateZalpha() {
     if (tvVal == 1) {
-      Z = Math.sqrt(Math.pow(Xr, 2) + Math.pow(Yr, 2));
+      Z = Math.hypot(Xr, Yr);
       SmartDashboard.putNumber("Z", Z);
-      if (Xr != 0 && Yr != 0) {
-        alpha = Math.atan2(Xr, Yr);
-      }
+        alpha = Math.atan2(Yr, Xr);
+      
     }
 
+  }
+
+  public void calulateTag(){
+    distanceToTarget = Math.hypot(Xr, Yr);
+      theta = RobotContainer.swerveSubsystem.getPose2d().getRotation().getRadians();
+      phi = Math.atan2(Xr, Yr);
+
+      robotX = RobotContainer.swerveSubsystem.getPose2d().getX();
+      robotY = RobotContainer.swerveSubsystem.getPose2d().getY();
+      
+      SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
+      SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
+
+
+      tagOffsetX = (distanceToTarget * Math.sin(theta - phi));
+      tagOffsetY = (distanceToTarget * Math.cos(theta - phi));
+      tagOdoX = robotX - tagOffsetX;
+      tagOdoY = robotY - tagOffsetY;
+
+      SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
+      SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
+      SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
+      SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
   }
 }

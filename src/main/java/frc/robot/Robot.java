@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.OIConstants;
 //import frc.robot.commands.encoderPrintout;
 //import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.commands.VISIONalignAprilTag;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,8 +27,8 @@ public class Robot extends TimedRobot {
   //private final encoderPrintout encoderPrintoutCMD = new encoderPrintout(swerveSubsystem);
 
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
-
   private RobotContainer m_robotContainer;
+  private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision, m_robotContainer.swerveSubsystem);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -97,17 +98,20 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
 
+
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
+  public void teleopPeriodic() { 
+    visionAlign.execute();
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    
 
   }
 

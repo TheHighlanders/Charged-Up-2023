@@ -20,16 +20,20 @@ public class VISIONalignAprilTag extends CommandBase {
   private SwerveSubsystem swerveSubsystem;
   private boolean cmdDone = false;
 
-  private double Xo;
-  private double Yo;
-  private double beta;
-  private double gamma;
+  private double robotX;
+  private double robotY;
+  private double theta;
+  private double phi;
+
+  private double distanceToTarget;
 
   private double odometerOffsetX;
   private double odometerOffsetY;
 
   private double tagOdoX;
   private double tagOdoY;
+  private double tagOffsetX;
+  private double tagOffsetY;
 
   public VISIONalignAprilTag(vision vision_subsystem, SwerveSubsystem swerve_subsystem) {
     vision = vision_subsystem;
@@ -47,32 +51,8 @@ public class VISIONalignAprilTag extends CommandBase {
   @Override
   public void execute() {
     if (vision.tvVal == 1) {
-      // if(vision.tidVal == 6 || vision.tidVal == 7 || vision.tidVal == 8){
-      //   double parkHeading = VisionConstants.kBlueParkAngle;
-      // }
-      // if(vision.tidVal == 6 || vision.tidVal == 7 || vision.tidVal == 8){
-      //   double parkHeading = VisionConstants.kRedParkAngle;
-      // }
-      beta = swerveSubsystem.getPose2d().getRotation().getRadians();
-      beta = MathUtil.angleModulus(beta);
-      SmartDashboard.putNumber("beta ", beta);
-      gamma = vision.alpha - beta;
-      gamma %= Math.PI / 2;
-      SmartDashboard.putNumber("Gamma", gamma);
-
-      Yo = vision.Z * cos(gamma);
-      Xo = vision.Z * Math.sin(gamma);
-
-      odometerOffsetX = Yo;
-      odometerOffsetY = -Xo;
-      tagOdoX = swerveSubsystem.getPose2d().getTranslation().getX() + odometerOffsetX;
-      tagOdoY = swerveSubsystem.getPose2d().getTranslation().getY() - odometerOffsetY;
-      ; //Borken
-
-      SmartDashboard.putNumber("Xo Offset to Primary Tag", Xo);
-      SmartDashboard.putNumber("Yo Offset to Primary Tag", Yo);
-      SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
-      SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
+      //swerveSubsystem.driveAUTOnonFieldOrient(vision.tagOdoX, vision.tagOdoY, swerveSubsystem.getRotation2D());
+      
     }
   }
 
