@@ -121,23 +121,19 @@ public class RobotContainer {
 
 
 
-
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToMiddleCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));//x
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmtoShelfCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));//y
+    new JoystickButton(operatorJoystick, 8).onTrue(new ArmtoShelfCMD(intakeArm));//start
 
     
+
+    grabberSub.setDefaultCommand(new GrabberCloseCMD(grabberSub));
+    JoystickButton changeBtn = new JoystickButton(operatorJoystick, 5);//L
+    changeBtn.toggleOnTrue(new GrabberOpenCMD(grabberSub));
+
   // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
   //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
-  
-  GrabberCloseCMD grabber_closed = new GrabberCloseCMD(grabberSub);
-  GrabberOpenCMD grabber_open = new GrabberOpenCMD(grabberSub);
-
-    grabberSub.setDefaultCommand(grabber_closed);
-    JoystickButton changeBtn = new JoystickButton(operatorJoystick, 3);
-
-    changeBtn.toggleOnTrue(grabber_open);
   }
   
 
