@@ -39,7 +39,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
 
-    private final SwerveModule frontLeft = new SwerveModule(
+    public final SwerveModule frontLeft = new SwerveModule(
             DriveConstants.kFrontLeftDrivePort,
             DriveConstants.kFrontLeftAnglePort,
             DriveConstants.kFrontLeftDriveReversed,
@@ -132,7 +132,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        PID.updatePeriods();
+        PID.updatePeriods(frontLeft.angleEncoder.getPosition());
         odometer.update(getRotation2D(),
                 new SwerveModulePosition[] {
                         frontLeft.getState(), frontRight.getState(),
