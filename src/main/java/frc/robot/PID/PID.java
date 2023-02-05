@@ -83,7 +83,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 public class PID {
     private static double total;
     public static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
-    private static Timer timer = new Timer();
     private static PIDController pidController;
 
     public static void setPID(PIDController Controller) {
