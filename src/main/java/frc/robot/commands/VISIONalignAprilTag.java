@@ -6,13 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
 import static java.lang.Math.*;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public class VISIONalignAprilTag extends CommandBase {
   /** Creates a new VISIONalignAprilTag. */
@@ -20,20 +23,9 @@ public class VISIONalignAprilTag extends CommandBase {
   private SwerveSubsystem swerveSubsystem;
   private boolean cmdDone = false;
 
-  private double robotX;
-  private double robotY;
-  private double theta;
-  private double phi;
-
-  private double distanceToTarget;
-
-  private double odometerOffsetX;
-  private double odometerOffsetY;
-
-  private double tagOdoX;
-  private double tagOdoY;
-  private double tagOffsetX;
-  private double tagOffsetY;
+  private double targetX;
+  private double targetY;
+  private Rotation2d targetTheta;
 
   public VISIONalignAprilTag(vision vision_subsystem, SwerveSubsystem swerve_subsystem) {
     vision = vision_subsystem;
@@ -45,15 +37,21 @@ public class VISIONalignAprilTag extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (vision.tvVal == 1) {
+      targetX = vision.tagOdoX;
+      targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance;
+
+      targetTheta = swerveSubsystem.getRotation2D();
+
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (vision.tvVal == 1) {
-      //swerveSubsystem.driveAUTOnonFieldOrient(vision.tagOdoX, vision.tagOdoY, swerveSubsystem.getRotation2D());
-      
-    }
+    DriverStation.reportWarning("April Execute", false);
+    swerveSubsystem.driveAUTOfieldOrient(targetX, targetY, new Rotation2d(Math.toRadians(90)));
+
   }
 
   // Called once the command ends or is interrupted.
@@ -64,6 +62,6 @@ public class VISIONalignAprilTag extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return cmdDone;
+    return swerveSubsystem.cmdDone;
   }
 }

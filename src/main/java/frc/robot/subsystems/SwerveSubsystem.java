@@ -79,6 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
             DriveConstants.kBackRightAbsoluteEncoderReversed);
 
     private AHRS gyro = new AHRS(SPI.Port.kMXP);
+    public boolean cmdDone = false;
 
     public final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics,
             new Rotation2d(0), new SwerveModulePosition[] {
@@ -399,7 +400,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
 
-    public void driveAUTOnonFieldOrient(double x, double y, Rotation2d heading) {
+    public void driveAUTOfieldOrient(double x, double y, Rotation2d heading) {
         Pose2d currentPose;
         double currentX;
         double currentY;
@@ -455,6 +456,8 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveModuleState[] moduleStates = getIKMathSwerveModuleStates(chassisSpeeds);
 
         setModuleStates(moduleStates);
+
+        cmdDone = stopped && atPoint;
 
     }
 

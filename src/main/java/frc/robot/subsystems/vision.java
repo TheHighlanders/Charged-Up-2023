@@ -91,32 +91,31 @@ public class vision extends SubsystemBase {
     if (tvVal == 1) {
       Z = Math.hypot(Xr, Yr);
       SmartDashboard.putNumber("Z", Z);
-        alpha = Math.atan2(Yr, Xr);
-      
+      alpha = Math.atan2(Yr, Xr);
+
     }
 
   }
 
-  public void calulateTag(){
+  public void calulateTag() {
     distanceToTarget = Math.hypot(Xr, Yr);
-      theta = RobotContainer.swerveSubsystem.getPose2d().getRotation().getRadians();
-      phi = Math.atan2(Xr, Yr);
+    theta = RobotContainer.swerveSubsystem.getPose2d().getRotation().getRadians();
+    phi = Math.atan2(Xr, Yr);
 
-      robotX = RobotContainer.swerveSubsystem.getPose2d().getX();
-      robotY = RobotContainer.swerveSubsystem.getPose2d().getY();
-      
-      SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
-      SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
+    robotX = RobotContainer.swerveSubsystem.getPose2d().getX();
+    robotY = RobotContainer.swerveSubsystem.getPose2d().getY();
 
+    SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
+    SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
 
-      tagOffsetX = (distanceToTarget * Math.sin(theta - phi));
-      tagOffsetY = (distanceToTarget * Math.cos(theta - phi));
-      tagOdoX = robotX - tagOffsetX;
-      tagOdoY = robotY - tagOffsetY;
+    tagOffsetX = (distanceToTarget * Math.cos(theta - phi));
+    tagOffsetY = (distanceToTarget * Math.sin(theta - phi));
+    tagOdoX = robotX - tagOffsetX;
+    tagOdoY = robotY - tagOffsetY;
 
-      SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
-      SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
-      SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
-      SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
+    SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
+    SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
+    SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
+    SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
   }
 }

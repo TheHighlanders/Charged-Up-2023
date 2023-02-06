@@ -28,7 +28,8 @@ public class Robot extends TimedRobot {
 
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private RobotContainer m_robotContainer;
-  private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision, m_robotContainer.swerveSubsystem);
+  private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision,
+      m_robotContainer.swerveSubsystem);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -98,20 +99,17 @@ public class Robot extends TimedRobot {
 
     m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
 
-
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() { 
-    visionAlign.execute();
+  public void teleopPeriodic() {
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    
 
   }
 

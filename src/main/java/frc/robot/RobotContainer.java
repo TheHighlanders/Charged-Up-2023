@@ -108,7 +108,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
-    new JoystickButton(driverJoystick, 6).whileTrue(visionAlignCMD);
+    new JoystickButton(driverJoystick, 6).onTrue(visionAlignCMD);
     new JoystickButton(driverJoystick, 4).onTrue(
         new InstantCommand(() -> {
           SmartDashboard.putString("Optimal pid values", PID.calculateOptimalPIDValuesZN());
