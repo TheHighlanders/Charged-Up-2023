@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.PID.PID;
+import frc.robot.commands.autoBalanceCommand;
+import frc.robot.subsystems.GyroSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,12 +59,14 @@ import frc.robot.PID.PID;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public final static GyroSubsystem gyroSubstyem = new GyroSubsystem();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
 
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
+  private final autoBalanceCommand zAutoBalanceCommand = new autoBalanceCommand(gyroSubstyem, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
       new double[] { 2 },
@@ -110,6 +114,7 @@ public class RobotContainer {
           SmartDashboard.putString("Optimal pid values", PID.calculateOptimalPIDValuesZN());
           DriverStation.reportWarning("Udated pid values ", false);
         }));
+    new JoystickButton(driverJoystick, 8).toggleOnTrue(zAutoBalanceCommand);
 
   }
 

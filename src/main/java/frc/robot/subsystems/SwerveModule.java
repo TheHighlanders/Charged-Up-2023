@@ -155,7 +155,7 @@ public class SwerveModule {
         // anglePIDController.getPositionError());
     // SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
 
-    // SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " Motor Encoder", getAnglePosition());
+     SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " Motor Encoder", getAnglePosition());
   }
 
   public void stop() {

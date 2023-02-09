@@ -147,6 +147,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
         // SmartDashboard.putData(frontLeft.drivePIDController);
         // SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
+        encoderPrintoutDeg();
     }
 
     public void resetOdometryCache() {
@@ -177,14 +178,14 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void encoderPrintoutDeg() {
-        // SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRad()));
+        SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRad()));
+        SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRad()));
+        SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRad()));
     }
-
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        SmartDashboard.putString("Array Before Putting", desiredStates[0].toString() + desiredStates[1].toString() + desiredStates[2].toString() + desiredStates[3].toString());
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);

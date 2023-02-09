@@ -46,7 +46,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 6; //10 with Ballast
+        public static final double kPTheta = 2.5; //10 with Ballast
         public static final double kITheta = 0; //0 with Ballast
         public static final double kDTheta = 0; //0 With Ballast
 
@@ -151,5 +151,14 @@ public final class Constants {
         public static final double kXPIDi = 0;
         public static final double kXPIDd = 0.1;
 
+    }
+    
+    public static final class GyroConstants{
+        // public static final double Vkp = 0.01;
+        // public static final double Vki = 0;
+        // public static final double Vkd = 0;
+        public static final double max = 0.5;
+        public static final double startInreaseTrend = 2;
+        public static final double stopInreaseTrend = 15;
     }
 }

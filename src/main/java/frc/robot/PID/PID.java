@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
@@ -84,6 +83,7 @@ public class PID {
     private static double total;
     public static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
     private static PIDController pidController;
+    public static Timer timer = new Timer();
 
     public static void setPID(PIDController Controller) {
         pidController = Controller;
@@ -191,7 +191,6 @@ public class PID {
     }
 
     public static void updatePeriods(double period) {
-        
         list.add(period);
     }
 
@@ -255,17 +254,20 @@ public class PID {
         return false;
     }
 
-    public static void sortAndRemoveDuplicates(ArrayList<Double> data) {
+    public static ArrayList<Double> sortAndRemoveDuplicates(ArrayList<Double> data) {
         for (int i = 1; i < data.size(); i++) {
-            if (data.get(i) == data.get(i - 1)) {
+            if (data.get(i).equals(data.get(i - 1))) {
                 data.remove(i-1);
             }
+            
         }
         for (int i = data.size() - 1; i > 0; i--) {
-            if (data.get(i-1) == data.get(i)) {
+            if (data.get(i-1).equals(data.get(i))) {
                 data.remove(i);
             }
+           
         }
+        return data;
     }
 
 }
