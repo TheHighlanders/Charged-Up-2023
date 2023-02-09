@@ -28,12 +28,6 @@ import pabeles.concurrency.ConcurrencyOps.NewInstance;
 import java.util.HashMap;
 import java.util.List;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -119,27 +113,18 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeInCMD(intakeSub));//L
     new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeOutCMD(intakeSub));//L
 
-
-
     new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));//x
     new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));//y
     new JoystickButton(operatorJoystick, 8).onTrue(new ArmtoShelfCMD(intakeArm));//start
 
-    
-
     grabberSub.setDefaultCommand(new GrabberCloseCMD(grabberSub));
     JoystickButton changeBtn = new JoystickButton(operatorJoystick, 5);//L
     changeBtn.toggleOnTrue(new GrabberOpenCMD(grabberSub));
 
-  // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
-  //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+    // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
+    //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
   }
-  
-
-
-
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
