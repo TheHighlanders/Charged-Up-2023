@@ -26,7 +26,7 @@ public class Arm extends SubsystemBase {
   public Arm() {
     ArmMotor = new CANSparkMax(ArmConstants.ARM_MOTOR_ID, MotorType.kBrushless);
     ArmEncoder = ArmMotor.getEncoder();
-    ArmEncoder.setPositionConversionFactor(ArmConstants.kArmRation);
+    ArmEncoder.setPositionConversionFactor(ArmConstants.kArmRatio);
     ArmEncoder.setPosition(0.0);
 
     armPID = ArmMotor.getPIDController();

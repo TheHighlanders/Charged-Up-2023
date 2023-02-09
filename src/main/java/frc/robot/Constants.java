@@ -48,7 +48,7 @@ public final class Constants {
     public static final class ArmConstants {
         static final double gearboxRatio = 45.0 / 1.0;
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
-        public static final double kArmRation = gearboxRatio * beltRatio;
+        public static final double kArmRatio = gearboxRatio * beltRatio;
 
         public static final int ARM_MOTOR_ID = 15;
 
