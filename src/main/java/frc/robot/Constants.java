@@ -46,7 +46,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 2.5; //10 with Ballast
+        public static final double kPTheta = 6; //10 with Ballast
         public static final double kITheta = 0; //0 with Ballast
         public static final double kDTheta = 0; //0 With Ballast
 

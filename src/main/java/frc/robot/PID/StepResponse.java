@@ -1,6 +1,8 @@
 package frc.robot.PID;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,11 +19,11 @@ public class StepResponse {
 
     private ArrayList<Double> processData;
 
-    public StepResponse(PIDController pidController, double amplitude, double ts, ArrayList<Double> processData) {
+    public StepResponse(PIDController pidController, double amplitude, double ts, ArrayList<Double> list) {
         this.pidController = pidController;
         this.setPoint = amplitude;
         this.ts = ts;
-        this.processData = processData;
+        this.processData = list;
         timer = new Timer();
     }
 
@@ -50,15 +52,15 @@ public class StepResponse {
     }
 
     // Inflection point
-    private double findTimeConstant(ArrayList<Double> processData) {
+    private double findTimeConstant(ArrayList<Double> processData2) {
         // Initialize variables to store the time and PV value at the inflection point
         double timeConstant = 0;
-        double finalValue = processData.get(processData.size() - 1);
+        double finalValue = geValueAt(processData2, processData2.size() - 1);
         double PV_63 = finalValue * 0.632;
 
         // Search for the inflection point
-        for (int i = 0; i < processData.size(); i++) {
-            if (processData.get(i) >= PV_63) {
+        for (int i = 0; i < processData2.size(); i++) {
+            if (geValueAt(processData2, i) >= PV_63) {
                 timeConstant = i * ts;
                 break;
             }
@@ -66,14 +68,25 @@ public class StepResponse {
         return timeConstant;
     }
     // FOPDT model
-    private double findDeadTime(ArrayList<Double> processData) {
+    private double findDeadTime(ArrayList<Double> processData2) {
         // Initialize variables to store the time and PV value at the inflection point
         double deadTime = 0;
-        double timeConstant = findTimeConstant(processData);
+        double timeConstant = findTimeConstant(processData2);
 
         if (timeConstant > 0) {
             deadTime = timeConstant / (1 - 0.632);
         }
         return deadTime;
+    }
+
+    public static double geValueAt(ArrayList<Double> set, int i) {
+        int count = 0;
+        for (Double value : set) {
+            if (count == i) {
+                return value;
+            }
+            count++;
+        }
+        throw new IndexOutOfBoundsException("Index not found in the set");
     }
 }

@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +19,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /*
  * PID loops work by continuously measuring the error between the desired angle and the current angle of each wheel
@@ -69,7 +73,7 @@ import edu.wpi.first.wpilibj.Relay;
  * Sources: https://en.wikipedia.org/wiki/PID_controller, https://www.controleng.com/articles/understanding-derivative-in-pid-control/, https://www.controleng.com/articles/why-are-pid-loops-so-difficult-to-master/, https://en.wikipedia.org/wiki/Fast_Fourier_transform
  */
 
-/*copy and past for implementation 
+/*copy and paste for implementation 
    import frc.robot.PID.PID;
 
    SmartDashboard.putString("Theorteical optimal values", PID.calculateOptimalPIDValuesZN(pidController)); //ZN
@@ -79,20 +83,15 @@ import edu.wpi.first.wpilibj.Relay;
 public class PID {
     private static double total;
     public static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
-    private static Timer timer = new Timer();
     private static PIDController pidController;
-    private static RelativeEncoder encoder;
 
     public static void setPID(PIDController Controller) {
         pidController = Controller;
     }
 
-    public static void setEncoder(RelativeEncoder encoderIn) {
-        encoder = encoderIn;
-    }
-
-    //Ziegler-Nichols
+    // Modified Ziegler-Nichols
     public static String calculateOptimalPIDValuesZN() {
+        sortAndRemoveDuplicates(list);
         double amplitude = calculateAmplitude();
 
         // Obtain the process variable (PV) and control variable (CV) values 
@@ -110,10 +109,10 @@ public class PID {
         double ki = 2 * kp / tu;
         double kd = kp * tu / 8;
 
-        return kp + " " + ki + " " + kd + " " + tu + " " + ku + " " + amplitude + " " + list.get(0);
+        return kp + " " + ki + " " + kd + " " + tu + " " + ku + " " + amplitude;
     }
 
-    //Tyreus-Luyben
+    // Tyreus-Luyben
     public static String calculateOptimalPIDValuesTL() {
         double amplitude = calculateAmplitude();
         StepResponse stepBro = new StepResponse(pidController, amplitude, 0.5, list);
@@ -159,7 +158,6 @@ public class PID {
     public static double testNoiseLevel(int samples) {
         // accuracy of tests
         AnalogInput input = new AnalogInput(0);
-        Timer timer = new Timer();
         total = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
             int i = 0;
@@ -192,15 +190,16 @@ public class PID {
         return (max - min) / 2;
     }
 
-    public static void updatePeriods() {
-        list.add(encoder.getPosition());
+    public static void updatePeriods(double period) {
+        
+        list.add(period);
     }
 
     public static double calculatePeriod() {
         // long periods mean slow responce
         double[] diffs = new double[list.size() - 1];
         for (int i = 0; i < list.size() - 1; i++) {
-            diffs[i] = list.get(i + 1) - list.get(i);
+            diffs[i] = StepResponse.geValueAt(list, i + 1) - StepResponse.geValueAt(list, i);
         }
         int start = 0;
         for (int i = 1; i < diffs.length; i++) {
@@ -254,6 +253,19 @@ public class PID {
             return true;
         }
         return false;
+    }
+
+    public static void sortAndRemoveDuplicates(ArrayList<Double> data) {
+        for (int i = 1; i < data.size(); i++) {
+            if (data.get(i) == data.get(i - 1)) {
+                data.remove(i-1);
+            }
+        }
+        for (int i = data.size() - 1; i > 0; i--) {
+            if (data.get(i-1) == data.get(i)) {
+                data.remove(i);
+            }
+        }
     }
 
 }
