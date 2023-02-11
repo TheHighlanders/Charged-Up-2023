@@ -65,13 +65,13 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         //Size Info
-        public static final double kTrackWidth = Units.inchesToMeters(23.5);
-        public static final double kWheelBase = Units.inchesToMeters(23.5);
+        public static final double kTrackWidth = Units.inchesToMeters(23.5) / 2; //Divide instead of 8 other places
+        public static final double kWheelBase = Units.inchesToMeters(23.5) / 2;
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
+                new Translation2d(kWheelBase, -kTrackWidth),
+                new Translation2d(kWheelBase, kTrackWidth),
+                new Translation2d(-kWheelBase, -kTrackWidth),
+                new Translation2d(-kWheelBase, kTrackWidth));
 
         //Module Info
         public static final double kWheelOffsetFrontToSideways = Math.toRadians(90);

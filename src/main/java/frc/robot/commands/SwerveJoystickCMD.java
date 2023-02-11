@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 //import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,7 +19,7 @@ public class SwerveJoystickCMD extends CommandBase {
     XboxController xbox = new XboxController(1);
     private final SwerveSubsystem swerveSubsystem; //MAYBE THESE NEED FINAL
     private boolean fieldOriented;
-    private ChassisSpeeds storeChassisSpeeds = new ChassisSpeeds(0, 0, 0);
+    //private ChassisSpeeds storeChassisSpeeds = new ChassisSpeeds(0, 0, 0);
     //private final SlewRateLimiter xLimiter, yLimiter, turnLimiter;
 
     public SwerveJoystickCMD(SwerveSubsystem swerveSubsystem) {

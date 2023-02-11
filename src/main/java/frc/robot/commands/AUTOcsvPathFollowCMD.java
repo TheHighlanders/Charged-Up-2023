@@ -5,23 +5,17 @@
 package frc.robot.commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.ejml.dense.row.decomposition.hessenberg.TridiagonalDecomposition_FDRB_to_FDRM;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint.MinMax;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -100,7 +94,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
@@ -119,7 +114,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
     double currentX = currentPose.getX();
     double currentY = currentPose.getY();
-    Rotation2d currentHeading = currentPose.getRotation();
+    //Rotation2d currentHeading = currentPose.getRotation();
 
     closestPointIndex = crazySearch(currentX, currentY);
     int targetPointIndex = distanceDelta(closestPointIndex, currentX, currentY);
@@ -136,24 +131,20 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     double deltaX = xEndPoint - currentX;
     double deltaY = yEndPoint - currentY;
 
-    double deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
+    // double deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
 
-    deltaHeading %= Math.PI * 2;
+    // deltaHeading %= Math.PI * 2;
 
     PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi, AutoConstants.kXPIDd);
 
     double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
 
+    pidController.close();
+
     double speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     double speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
-
-    boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
-        && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
-        && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
-
-    boolean stopped = swerveSubsystem.isStopped();
-    //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
+    // SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
         (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
@@ -165,19 +156,11 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     // chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
 
-    SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
+    swerveSubsystem.setModuleStates(swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds)); //moduleStates
 
-    swerveSubsystem.setModuleStates(moduleStates);
-
-    // if (stopping) {
-    // cmdDone = (stopped && atPoint);
-    // } else {
-    // cmdDone = atPoint;
-    // }
-
-      if(closestPointIndex == targetPointIndex){
-        cmdDone = true;
-      }
+    if (closestPointIndex == targetPointIndex) {
+      cmdDone = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -187,8 +170,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {  
-    DriverStation.reportWarning("DONE WITH TRAJECTORY", false);  
+  public boolean isFinished() {
+    //DriverStation.reportWarning("DONE WITH TRAJECTORY", false);
     return cmdDone;
   }
 
@@ -205,15 +188,13 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     double minZ = Double.POSITIVE_INFINITY;
     int out = closestPointIndex;
     for (int i = closestPointIndex; i < xArray.length; i++) {
-      double search = Math.sqrt(
-          Math.pow(currentX - xArray[i], 2) +
-              Math.pow(currentY - yArray[i], 2));
+      double search = Math.hypot(currentX - xArray[i], currentY - yArray[i]);
       if (search < minZ) {
         minZ = search;
         out = i;
       }
       if (minZ < search) {
-        DriverStation.reportWarning("Crazy Break: " + i, false);
+        //DriverStation.reportWarning("Crazy Break: " + i, false);
         break;
       }
     }
@@ -229,7 +210,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
    */
   public int distanceDelta(int currentIndex, double currentX, double currentY) {
     for (int i = currentIndex; i < xArray.length - 1; i++) {
-      double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY,2));
+      double distance = Math.hypot(xArray[i] - currentX, yArray[i] - currentY);
       if (distance > 0.2) {
         return i;
       }

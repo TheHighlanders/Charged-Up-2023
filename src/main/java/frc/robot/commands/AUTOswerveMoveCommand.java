@@ -9,11 +9,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.PID.PID;
 
 public class AUTOswerveMoveCommand extends CommandBase {
   /** Creates a new AUTOswerveMoveCommad. */
@@ -74,6 +72,8 @@ public class AUTOswerveMoveCommand extends CommandBase {
 
     double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
+
+    pidController.close();
 
     speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;

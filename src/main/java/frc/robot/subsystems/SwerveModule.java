@@ -11,17 +11,12 @@ import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.PID.PID;
-import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -40,7 +35,6 @@ public class SwerveModule {
   private final boolean absoluteEncoderReversed;
   private final double absoluteEncoderOffsetRad;
 
-  //TODO: Instead of hardcoding driveMotorReversed and angleMotorReversed, create a enumeration type to represent the different types of limit switches, such as Forward, Reverse
   public SwerveModule(int driveMotorID, int angleMotorID, boolean driveMotorReversed, boolean angleMotorReversed,
       int absoluteEncoderID, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
@@ -116,7 +110,6 @@ public class SwerveModule {
   }
 
   public SwerveModulePosition getState() {
-    //TODO change to pass the distance instead of velocity
     return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAnglePosition()));
   }
 

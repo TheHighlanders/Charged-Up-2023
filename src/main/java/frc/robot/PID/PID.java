@@ -1,25 +1,13 @@
 package frc.robot.PID;
 
-import frc.robot.RobotContainer;
 import frc.robot.Constants;
 import frc.robot.PID.PID;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.RobotBase;
 
 /*
  * PID loops work by continuously measuring the error between the desired angle and the current angle of each wheel
@@ -81,7 +69,7 @@ import edu.wpi.first.wpilibj.RobotBase;
    
 */
 public class PID {
-    private static double total;
+    //private static double total;
     public static ArrayList<Double> list = new ArrayList<>(); // dynamic data structure
     private static PIDController pidController;
 
@@ -155,7 +143,7 @@ public class PID {
         return kp + " " + ki + " " + kd;
     }
 
-    public static double testNoiseLevel(int samples) {
+    /*public static double testNoiseLevel(int samples) {
         // accuracy of tests
         AnalogInput input = new AnalogInput(0);
         total = 0;

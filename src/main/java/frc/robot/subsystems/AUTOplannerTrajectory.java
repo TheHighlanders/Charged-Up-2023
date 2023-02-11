@@ -4,9 +4,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.AUTOswerveMoveCommand;
 
 public class AUTOplannerTrajectory extends SubsystemBase {
   /** Creates a new AUTOplannerTrajectory. */
@@ -17,7 +15,7 @@ public class AUTOplannerTrajectory extends SubsystemBase {
   private boolean[] stopAtPoints;
 
   public AUTOplannerTrajectory() {
-
+    
   }
 
   @Override
