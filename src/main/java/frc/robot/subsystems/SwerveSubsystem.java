@@ -22,6 +22,15 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
+
+    double kP = 0.1;
+    double kI = 1e-4;
+    double kD = 1;
+    double kIz = 0;
+    double kFF = 0;
+    double kMaxOutput = 1;
+    double kMinOutput = -1;
+
     private double previousAngle = 0;
     private double[] lastOutputAngle = new double[4];
     public Rotation2d desiredHeading = new Rotation2d(0);
@@ -82,6 +91,14 @@ public class SwerveSubsystem extends SubsystemBase {
                     new Rotation2d(0))); // Could Add OPTIONAL ROBOT Starting pose for field posing
 
     public SwerveSubsystem() {
+        SmartDashboard.putNumber("P Gain", 0);
+        SmartDashboard.putNumber("I Gain", 0);
+        SmartDashboard.putNumber("D Gain", 0);
+        SmartDashboard.putNumber("I Zone", 0);
+        SmartDashboard.putNumber("Feed Forward", 0);
+        SmartDashboard.putNumber("Max Output", 0);
+        SmartDashboard.putNumber("Min Output", 0);
+        SmartDashboard.putNumber("Set Rotations", 0);
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -136,8 +153,6 @@ public class SwerveSubsystem extends SubsystemBase {
                         frontLeft.getState(), frontRight.getState(),
                         backLeft.getState(), backRight.getState()
                 });
-        SmartDashboard.putNumber("Robot Heading", getHeading());
-        SmartDashboard.putString("Robot Location", getPose2d().getTranslation().toString());
         // Odometer will drift after dis and renenabling TODO: fix robot odometer
         // randomness after reenabling
         // SmartDashboard.putP
@@ -148,6 +163,31 @@ public class SwerveSubsystem extends SubsystemBase {
         // SmartDashboard.putData(frontLeft.drivePIDController);
         // SmartDashboard.putNumber("Front Left Drive PID Error",
         // frontLeft.drivePIDController.getVelocityError());
+        double pS = SmartDashboard.getNumber("P Gain A", 0);
+        double iS = SmartDashboard.getNumber("I Gain A", 0);
+        double dS = SmartDashboard.getNumber("D Gain A", 0);
+        double izS = SmartDashboard.getNumber("I Zone A", 0);
+        double ffS = SmartDashboard.getNumber("Feed Forward A", 0);
+        double maxS = SmartDashboard.getNumber("Max Output A", 0);
+        double minS = SmartDashboard.getNumber("Min Output A", 0);
+
+        double pD = SmartDashboard.getNumber("P Gain D", 0);
+        double iD = SmartDashboard.getNumber("I Gain D", 0);
+        double dD = SmartDashboard.getNumber("D Gain D", 0);
+        double izD = SmartDashboard.getNumber("I Zone D", 0);
+        double ffD = SmartDashboard.getNumber("Feed Forward D", 0);
+        double maxD = SmartDashboard.getNumber("Max Output D", 0);
+        double minD = SmartDashboard.getNumber("Min Output D", 0);
+
+        if (pS != kP || pS != kP || iS != kI || iS != kI || dS != kD || dS != kD || izS != kIz || izD != kIz
+                || ffS != kFF || ffD != kFF || maxD != kMaxOutput || maxS != kMaxOutput || minS != kMinOutput
+                || minD != kMinOutput) {
+            frontLeft.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            frontRight.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            backLeft.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            backRight.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+        }
+
     }
 
     public void resetOdometryCache() {
@@ -367,13 +407,14 @@ public class SwerveSubsystem extends SubsystemBase {
         double inY = chassisSpeeds.vyMetersPerSecond;
         double inTheta = chassisSpeeds.omegaRadiansPerSecond;
 
-        //double deltaTheta = Math.abs(desiredHeading.getRadians() - robotHeading.getRadians());
+        // double deltaTheta = Math.abs(desiredHeading.getRadians() -
+        // robotHeading.getRadians());
 
         headingPID.setSetpoint(desiredHeading.getRadians());
 
         double thetaPIDCorrect = DriveConstants.kHeadingPIDMax * headingPID.calculate(robotHeading.getRadians());
 
-        //SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
+        // SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
 
         inTheta += thetaPIDCorrect;
 
@@ -387,7 +428,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double blSpeed = backLeft.getDriveVelocity();
         double brSpeed = backRight.getDriveVelocity();
 
-        PID.setPID(frontLeft.anglePIDController);
+        // PID.setPID(frontLeft.anglePIDController);
 
         return Math.abs(flSpeed) < AutoConstants.kVelocityTolerance &&
                 Math.abs(frSpeed) < AutoConstants.kVelocityTolerance &&

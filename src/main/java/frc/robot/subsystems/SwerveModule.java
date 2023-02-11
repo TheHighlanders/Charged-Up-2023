@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 //import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -11,12 +12,12 @@ import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -28,8 +29,8 @@ public class SwerveModule {
 
   private final CANSparkMax.IdleMode holdMode = IdleMode.kBrake;
 
-  public final PIDController drivePIDController;
-  public final PIDController anglePIDController;
+  public final SparkMaxPIDController drivePIDController;
+  public final SparkMaxPIDController anglePIDController;
 
   public final edu.wpi.first.wpilibj.AnalogInput absoluteEncoder;
   private final boolean absoluteEncoderReversed;
@@ -59,13 +60,24 @@ public class SwerveModule {
 
     driveMotor.setIdleMode(holdMode);
 
-    anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
-    anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
+    anglePIDController = angleMotor.getPIDController();
+    // anglePIDController.setP(ModuleConstants.kPAngle);
+    // anglePIDController.setI(ModuleConstants.kIAngle);
+    // anglePIDController.setD(ModuleConstants.kDAngle);
+    // anglePIDController.setIZone(0);
+    // anglePIDController.setFF(0);
+    // anglePIDController.setOutputRange(-Math.PI, Math.PI);
+    //anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
 
-    drivePIDController = new PIDController(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive);
+    drivePIDController = driveMotor.getPIDController();
+    // drivePIDController.setP(ModuleConstants.kPDrive);
+    // drivePIDController.setI(ModuleConstants.kIDrive);
+    // drivePIDController.setD(ModuleConstants.kDDrive);
+    // drivePIDController.setIZone(0);
+    // drivePIDController.setFF(0);
+    // drivePIDController.setOutputRange(-Math.PI, Math.PI);
     //drivePIDController.calculate(absoluteEncoderID, absoluteEncoderOffset);
     //DriverStation.reportWarning("MODULE TOLERANCE " + anglePIDController.getPositionTolerance(), false);
-    anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
     //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
     angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
     angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
@@ -74,6 +86,8 @@ public class SwerveModule {
     driveMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
 
   }
+
+  
 
   public double getDrivePosition() {
     return driveEncoder.getPosition();
@@ -141,9 +155,9 @@ public class SwerveModule {
     //SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
 
     //driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
+    drivePIDController.setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
 
-    angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
+    anglePIDController.setReference(state.angle.getRadians(), CANSparkMax.ControlType.kPosition);
     //SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " PID error: ",
         // anglePIDController.getPositionError());
     // SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
@@ -153,5 +167,21 @@ public class SwerveModule {
 
   public void stop() {
     driveMotor.set(0);
+  }
+
+  public void changePIDValued(double pS, double iS, double dS, double izS, double ffS, double maxS, double minS, double pD, double iD, double dD, double izD, double ffD, double maxD, double minD){
+    drivePIDController.setP(pS);
+    drivePIDController.setI(iS);
+    drivePIDController.setD(dS);
+    drivePIDController.setIZone(izS);
+    drivePIDController.setFF(ffS);
+    drivePIDController.setOutputRange(minS, maxS); 
+     
+    drivePIDController.setP(pD);
+    drivePIDController.setI(iD);
+    drivePIDController.setD(dD);
+    drivePIDController.setIZone(izD);
+    drivePIDController.setFF(ffD);
+    drivePIDController.setOutputRange(minD, maxD); 
   }
 }

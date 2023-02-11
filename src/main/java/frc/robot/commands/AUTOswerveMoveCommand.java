@@ -70,7 +70,7 @@ public class AUTOswerveMoveCommand extends CommandBase {
 
     deltaHeading %= Math.PI * 2;
 
-    double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
+    double pid = Math.abs(pidController.calculate(Math.hypot(deltaX, deltaY), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
 
     pidController.close();

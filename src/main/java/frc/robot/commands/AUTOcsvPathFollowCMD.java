@@ -86,9 +86,6 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
       headingArray[i] = headingList.get(i).doubleValue();
       timeArray[i] = timeList.get(i).doubleValue();
     }
-
-    SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
-    SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -123,10 +120,6 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     double xEndPoint = xArray[targetPointIndex];
     double yEndPoint = yArray[targetPointIndex];
     Rotation2d headingEndPoint = new Rotation2d(Math.toRadians(headingArray[targetPointIndex]));
-
-    SmartDashboard.putNumber("X Target", xEndPoint);
-    SmartDashboard.putNumber("Y Target", yEndPoint);
-    SmartDashboard.putNumber("theta Target", headingEndPoint.getRadians());
 
     double deltaX = xEndPoint - currentX;
     double deltaY = yEndPoint - currentY;

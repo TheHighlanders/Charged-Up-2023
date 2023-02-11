@@ -58,13 +58,13 @@ public class RobotContainer {
   private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
       new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
-      new InstantCommand(
-          () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
+      // new InstantCommand(
+      //     () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
       //trajectory.generateTrajectory(),
       new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem),
       new InstantCommand(() -> swerveSubsystem.stopModules()),
-      new InstantCommand(
-          () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),
+      // new InstantCommand(
+      //     () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),
       new PrintCommand("AUTO DONE"));
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
