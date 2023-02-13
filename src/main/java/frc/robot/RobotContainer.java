@@ -63,9 +63,9 @@ public class RobotContainer {
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
 
-  private final GrabberSubsystem grabberSub = new GrabberSubsystem();
+  //private final GrabberSubsystem grabberSub = new GrabberSubsystem(); //Commented for Arm TESTING
 
-  private final Intake intakeSub = new Intake();
+  //private final Intake intakeSub = new Intake(); COMMENTED  FOR ARM TESTING
 
   private final Arm intakeArm = new Arm();
 
@@ -106,21 +106,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
-    new JoystickButton(driverJoystick, 0).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
-    new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
+    new JoystickButton(driverJoystick, 3).onTrue(zeroHeadingCMD);
+    new JoystickButton(driverJoystick, 1).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
+    new JoystickButton(driverJoystick, 2).onTrue(toggleFieldOrientedCMD);
 
-    new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeInCMD(intakeSub));//L
-    new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeOutCMD(intakeSub));//L
+    //new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeInCMD(intakeSub));//L TODO: UNCOMMENT
+    //new JoystickButton(driverJoystick, 5).onTrue(new spinIntakeOutCMD(intakeSub));//L TODO: UNCOMMENT
 
-    new JoystickButton(operatorJoystick, 3).onTrue(new ArmToMiddleCMD(intakeArm));//x
-    new JoystickButton(operatorJoystick, 0).onTrue(new ArmToStowedCMD(intakeArm));
+    new JoystickButton(operatorJoystick, 2).onTrue(new ArmToMiddleCMD(intakeArm));//x
+    new JoystickButton(operatorJoystick, 1).onTrue(new ArmToStowedCMD(intakeArm));
     new JoystickButton(operatorJoystick, 4).onTrue(new ArmToTopCMD(intakeArm));//y
-    new JoystickButton(operatorJoystick, 8).onTrue(new ArmtoShelfCMD(intakeArm));//start
+    new JoystickButton(operatorJoystick, 3).onTrue(new ArmtoShelfCMD(intakeArm));//start
 
-    grabberSub.setDefaultCommand(new GrabberCloseCMD(grabberSub));
+    // grabberSub.setDefaultCommand(new GrabberCloseCMD(grabberSub)); TODO: UNCOMMENT
     JoystickButton changeBtn = new JoystickButton(operatorJoystick, 5);//L
-    changeBtn.toggleOnTrue(new GrabberOpenCMD(grabberSub));
+    // changeBtn.toggleOnTrue(new GrabberOpenCMD(grabberSub)); TODO: UNCOMMENT
 
     // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
     //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3

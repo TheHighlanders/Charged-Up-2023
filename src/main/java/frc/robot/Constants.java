@@ -50,15 +50,15 @@ public final class Constants {
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRatio = gearboxRatio * beltRatio;
 
-        public static final int ARM_MOTOR_ID = 15;
+        public static final int ARM_MOTOR_ID = 62;
 
-        public static final double kStowedPos = 0.0 * Math.PI * -2;
-        public static final double kDownPos = 2 * Math.PI * -2;
-        public static final double kMiddlePos = 18.0 * Math.PI * -2;//0.8
-        public static final double kShelfPos = 12.0 * Math.PI * -2;
-        public static final double kTopPos = 15 * Math.PI * -2;
+        public static final double kStowedPos = 750;
+        public static final double kDownPos = 1500;
+        public static final double kMiddlePos = 2000;//0.8
+        public static final double kShelfPos = 2500;
+        public static final double kTopPos = 2750;
 
-        public static final double kPArm = 0.3;
+        public static final double kPArm = 0.01;
         public static final double kIArm = 0;
         public static final double kDArm = 0;
 
