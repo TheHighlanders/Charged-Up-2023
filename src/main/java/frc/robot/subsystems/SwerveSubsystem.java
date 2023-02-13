@@ -117,7 +117,6 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Rotation2d getRotation2D() {
-
         return Rotation2d.fromDegrees(getHeading());
     }
 

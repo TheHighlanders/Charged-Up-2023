@@ -2,42 +2,42 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCMDs;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.Arm;
 
-public class ToggleFieldOrientedCMD extends CommandBase {
-  /** Creates a new ToggleFieldOrientedCMD. */
-  private final SwerveSubsystem swerveSubsystem;
+public class ArmToStowedCMD extends CommandBase {
+  /** Creates a new ArmToStowedCMD. */
 
-  public ToggleFieldOrientedCMD(SwerveSubsystem swerve_subsystem) {
+  public final Arm Arm_sub;
+
+  public ArmToStowedCMD(Arm arm_subArm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    swerveSubsystem = swerve_subsystem;
-    addRequirements(swerveSubsystem);
+    Arm_sub = arm_subArm;
+    addRequirements(Arm_sub);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerveSubsystem.toggleFieldOrient();
-    DriverStation.reportWarning("Toggled Swerve FoR " + swerveSubsystem.getFieldOrient(), false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Arm_sub.stowed();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Arm_sub.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

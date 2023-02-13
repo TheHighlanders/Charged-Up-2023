@@ -6,17 +6,24 @@ package frc.robot;
 
 import frc.robot.commands.AUTOcsvPathFollowCMD;
 
-//import java.time.Instant;
-//import java.util.List;
-//import java.util.function.Supplier;
-
-import frc.robot.commands.AUTOhomeModulesCMD;
+import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
+import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
+import frc.robot.commands.ArmCMDs.ArmToTopCMD;
+import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
+import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AUTOswerveMoveCommand;
 import frc.robot.commands.AUTOtrajectoryGenerate;
-import frc.robot.commands.SwerveJoystickCMD;
-import frc.robot.commands.ZeroHeadingCMD;
-import frc.robot.commands.ToggleFieldOrientedCMD;
+import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
+import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
+import frc.robot.commands.IntakeCMDs.spinIntakeInCMD;
+import frc.robot.commands.IntakeCMDs.spinIntakeOutCMD;
+import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
+import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
+import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.commands.VISIONalignAprilTag;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.Intake;
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
@@ -60,6 +67,13 @@ public class RobotContainer {
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public final static vision vision = new vision();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
+  private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
+
+  //private final GrabberSubsystem grabberSub = new GrabberSubsystem(); //Commented for Arm TESTING
+
+  //private final Intake intakeSub = new Intake(); COMMENTED  FOR ARM TESTING
+
+  private final Arm intakeArm = new Arm();
 
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
   // private final encoderPrintout encoderPrintoutCMD = new
@@ -108,13 +122,9 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
-    new JoystickButton(driverJoystick, 6).onTrue(visionAlignCMD);
-    new JoystickButton(driverJoystick, 4).onTrue(
-        new InstantCommand(() -> {
-          SmartDashboard.putString("Optimal pid values", PID.calculateOptimalPIDValuesZN());
-          DriverStation.reportWarning("Udated pid values ", false);
-        }));
 
+    // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
+    //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
   }
 
   /**

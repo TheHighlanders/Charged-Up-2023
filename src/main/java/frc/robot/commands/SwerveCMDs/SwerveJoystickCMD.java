@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.SwerveCMDs;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 

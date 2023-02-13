@@ -9,6 +9,9 @@
       "/FMSInfo": "FMSInfo"
     }
   },
+  "NetworkTables Log": {
+    "visible": true
+  },
   "NetworkTables Settings": {
     "serverTeam": "6201"
   }
