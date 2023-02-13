@@ -12,8 +12,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-//import edu.wpi.first.math.util.Units;
-//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -179,14 +177,10 @@ public class SwerveSubsystem extends SubsystemBase {
         double maxD = SmartDashboard.getNumber("Max Output D", 0);
         double minD = SmartDashboard.getNumber("Min Output D", 0);
 
-        if (pS != kP || pS != kP || iS != kI || iS != kI || dS != kD || dS != kD || izS != kIz || izD != kIz
-                || ffS != kFF || ffD != kFF || maxD != kMaxOutput || maxS != kMaxOutput || minS != kMinOutput
-                || minD != kMinOutput) {
-            frontLeft.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-            frontRight.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-            backLeft.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-            backRight.changePIDValues(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-        }
+        frontLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+        frontRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+        backLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+        backRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
 
     }
 

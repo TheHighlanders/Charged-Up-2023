@@ -1,23 +1,18 @@
 package frc.robot.subsystems;
 
 // BASED ON https://www.youtube.com/watch?v=0Xi9yb1IMyA
-//import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
-//import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 
-//import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-//import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -177,11 +172,11 @@ public class SwerveModule {
     drivePIDController.setFF(ffS);
     drivePIDController.setOutputRange(minS, maxS); 
      
-    drivePIDController.setP(pD);
-    drivePIDController.setI(iD);
-    drivePIDController.setD(dD);
-    drivePIDController.setIZone(izD);
-    drivePIDController.setFF(ffD);
-    drivePIDController.setOutputRange(minD, maxD); 
+    anglePIDController.setP(pD);
+    anglePIDController.setI(iD);
+    anglePIDController.setD(dD);
+    anglePIDController.setIZone(izD);
+    anglePIDController.setFF(ffD);
+    anglePIDController.setOutputRange(minD, maxD); 
   }
 }

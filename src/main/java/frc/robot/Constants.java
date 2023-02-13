@@ -30,15 +30,15 @@ public final class Constants {
         public static final double kAngleMotorEncoderRot2Rad = kAngleMotorGearRatio * 2.0f * Math.PI;
         public static final double kDriveMotorEncoderRPM2MeterPerSec = kDriveMotorEncoderRot2Meter / 60.0f;
         public static final double kAngleMotorEncoderRPM2RadPerSec = kAngleMotorEncoderRot2Rad / 60.0f;
-        public static final double kPAngle = 0.1;
+        public static final double kPAngle = 0.01;
         public static final double kIAngle = 0;
         public static final double kDAngle = 0;
         public static final double kAngleTolerance = 0.002;
 
         //Sketchy Velocity PID loop no use D pls TODO: Recalibrate for new correct GearRatio
-        public static final double kPDrive = 0.1;
-        public static final double kIDrive = 0;
-        public static final double kDDrive = 0;
+        public static final double kPDrive = 0.1; //D? Dont do a Negative
+        public static final double kIDrive = 0; //P? //Was 0.75 before gear ratio change, lowering
+        public static final double kDDrive = 0; //??
 
         public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
         public static final double kAngleHomingSpeed = 0.25;
