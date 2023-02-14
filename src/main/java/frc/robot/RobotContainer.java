@@ -14,6 +14,7 @@ import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.AUTOtrajectoryGenerate;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
+import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
@@ -41,6 +42,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -70,9 +72,9 @@ public class RobotContainer {
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
 
-  private final GrabberSubsystem grabberSub = new GrabberSubsystem(); 
+  private final GrabberSubsystem grabberSub = new GrabberSubsystem();
 
-  private final Intake intakeSub = new Intake(); 
+  private final Intake intakeSub = new Intake();
 
   private final Arm armSubsystem = new Arm();
 
@@ -93,7 +95,11 @@ public class RobotContainer {
   private final ArmMoveCMD armShelfCMD = new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSub);
   private final ArmMoveCMD armTopCMD = new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSub);
 
+  private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
+      grabberSub, intakeSub, vision);
 
+  // A chooser for autonomous commands
+  SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
 
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
       new double[] { 2 },
@@ -120,6 +126,10 @@ public class RobotContainer {
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
 
+    m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
+    m_chooser.addOption("Scoring", scoringTableAUTO);
+
+    SmartDashboard.putData(m_chooser);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -137,9 +147,9 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
 
-    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
+    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
-    
+
     new JoystickButton(driverJoystick, 0).onTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 0).whileTrue(intakeInCMD);
     new JoystickButton(driverJoystick, 0).whileTrue(intakeOutCMD);
@@ -157,10 +167,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
 
     // Construct Auto Swerve Command Using Points and Objects from AUTOsubsystem
     // (auto)
-    return autoGroup;
     // new AUTOhomeModulesCMD(swerveSubsystem),
     // new InstantCommand(()->
     // swerveSubsystem.resetOdometry(trajectory.getInitialPose())), // SOME

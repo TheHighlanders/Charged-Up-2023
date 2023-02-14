@@ -5,12 +5,14 @@
 package frc.robot.commands.AutonCMDs.AUTONgroups;
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmToDownCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
+import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstartIntakeCMD;
 import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstopIntakeCMD;
@@ -25,7 +27,10 @@ import frc.robot.subsystems.vision;
 
 import java.nio.file.Path;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -52,15 +57,25 @@ public class ScoringTableAUTON extends SequentialCommandGroup {
     visionSubsystem = vision_subsystem;
     addRequirements(swerveSubsystem, armSubsystem, grabberSubsystem, intakeSubsystem);
 
+    double retreatX = swerveSubsystem.getPose2d().getX();
+    double retreatY = swerveSubsystem.getPose2d().getY() + 0.5;
+    Rotation2d retreatHeading = new Rotation2d(swerveSubsystem.getHeading());
+
+    Pose2d startPose = AutoConstants.kScoringTableConeNode;
+
     String path1 = Filesystem.getDeployDirectory().toPath().resolve(ScoringTable1).toString();
     String path2 = Filesystem.getDeployDirectory().toPath().resolve(ScoringTable2).toString();
 
     addCommands(
+        new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
+        new InstantCommand(() -> swerveSubsystem.resetOdometry(startPose)),
+
         new GrabberCloseCMD(grabberSubsystem), //Finalize grab of preload
         new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem), //Reach Up to Top
-        new VISIONalignAprilTag(0.5, 0, visionSubsystem, swerveSubsystem), //Park //TODO: Allow custom Parking Spots
+        new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, visionSubsystem, swerveSubsystem), //Park
+
         new GrabberOpenCMD(grabberSubsystem), //Drop Cone
-        //Retreat from Node
+        new AUTOswerveMoveCommand(swerveSubsystem, retreatX, retreatY, retreatHeading, true), //Retreat from Node
         new AUTOstartIntakeCMD(intakeSubsystem), //Start Intake
         new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem), //Retract Arm
         new AUTOcsvPathFollowCMD(path1, swerveSubsystem), //Drive To second Peice

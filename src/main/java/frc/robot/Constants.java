@@ -7,6 +7,8 @@ package frc.robot;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -190,6 +192,9 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
+        public static final double kConeNodeOffsetMeters = 0;
+
+        public static final Pose2d kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
 
         public static final double fieldCenterMeters = 8.270875;
         public static final double fieldLength = fieldCenterMeters * 2;

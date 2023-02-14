@@ -4,15 +4,35 @@
 
 package frc.robot.subsystems;
 
+import java.util.HashMap;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 
 public class AutoChooserSubsystem extends SubsystemBase {
   /** Creates a new AutoChooserSubsystem. */
-  public SequentialCommandGroup[] redAutons = new SequentialCommandGroup[] {};
-  public SequentialCommandGroup[] blueAutons = new SequentialCommandGroup[] {};
+  HashMap<String, SequentialCommandGroup> autoLibrary;
+  private SwerveSubsystem swerveSubsystem;
+  private Arm armSubsystem;
+  private Intake intakeSubsystem;
+  private GrabberSubsystem grabberSubsystem;
+  private vision visionSubsystem;
 
-  public AutoChooserSubsystem() {
+  private String selectedAuto;
+
+  public AutoChooserSubsystem(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, Intake intake_subsystem,
+      GrabberSubsystem grabber_subsystem, vision vision_subsystem) {
+    swerveSubsystem = swerve_subsystem;
+    armSubsystem = arm_subsystem;
+    intakeSubsystem = intake_subsystem;
+    grabberSubsystem = grabber_subsystem;
+    visionSubsystem = vision_subsystem;
+
+    //Add more Autos here
+    autoLibrary.put("Scoring Table",
+        new ScoringTableAUTON(swerveSubsystem, armSubsystem, grabberSubsystem, intakeSubsystem, visionSubsystem));
   }
 
   /**
@@ -23,13 +43,6 @@ public class AutoChooserSubsystem extends SubsystemBase {
    * @return Sequential Command Group corresponding to the selected AUTON
    */
   public SequentialCommandGroup getAuto(String alliance, int positionNum) {
-    if (alliance.equals("red")) {
-      return redAutons[positionNum];
-    }
-    if (alliance.equals("blue")) {
-      return blueAutons[positionNum];
-    }
-
     return new SequentialCommandGroup();
   }
 
