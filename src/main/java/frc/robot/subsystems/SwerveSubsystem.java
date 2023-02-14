@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,13 +22,7 @@ import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
 
-    double kP = 0.1;
-    double kI = 1e-4;
-    double kD = 1;
-    double kIz = 0;
-    double kFF = 0;
-    double kMaxOutput = 1;
-    double kMinOutput = -1;
+    int iX = 0;
 
     private double previousAngle = 0;
     private double[] lastOutputAngle = new double[4];
@@ -176,11 +171,19 @@ public class SwerveSubsystem extends SubsystemBase {
         double ffD = SmartDashboard.getNumber("Feed Forward D", 0);
         double maxD = SmartDashboard.getNumber("Max Output D", 0);
         double minD = SmartDashboard.getNumber("Min Output D", 0);
+        
+        if (iX == 200){
+            iX = 0;
+            frontLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            frontRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            backLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+            backRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
 
-        frontLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-        frontRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-        backLeft.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
-        backRight.changePIDValued(pS, iS, dS, izS, ffS, maxS, minS, pD, iD, dD, izD, ffD, maxD, minD);
+
+            //DriverStation.reportWarning("------------------------------------------------------------------------------", false);
+        } else {
+            iX++;
+        }
 
     }
 
