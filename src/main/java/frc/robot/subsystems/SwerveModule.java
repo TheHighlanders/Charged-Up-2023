@@ -177,6 +177,9 @@ public class SwerveModule {
     anglePIDController.setD(dD);
     anglePIDController.setIZone(izD);
     anglePIDController.setFF(ffD);
-    anglePIDController.setOutputRange(minD, maxD); 
+    //anglePIDController.setOutputRange(minD, maxD); 
+    anglePIDController.setPositionPIDWrappingMaxInput(maxD);
+    anglePIDController.setPositionPIDWrappingMaxInput(minD);
+    anglePIDController.setPositionPIDWrappingEnabled(true);
   }
 }
