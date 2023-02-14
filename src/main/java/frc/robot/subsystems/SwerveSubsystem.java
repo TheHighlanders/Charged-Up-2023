@@ -110,9 +110,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public double getHeading() {
-        //DriverStation.reportWarning("getHeading " + gyro.getAngle(), false);
         return gyro.getAngle() * -1;
-        // return Math.IEEEremainder(gyro.getAngle(), 360);
 
     }
 
@@ -125,8 +123,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        // SmartDashboard.putString("Front Left Reset Odometery DEBUG", frontLeft.getState().toString());
-        // SmartDashboard.putString("Front Left Reset Odometery DEBUG2", pose.toString());
+
         odometer.resetPosition(new Rotation2d(getRotation2D().getRadians() - Math.PI / 2), new SwerveModulePosition[] {
                 frontLeft.getState(), frontRight.getState(),
                 backLeft.getState(), backRight.getState()
@@ -143,18 +140,12 @@ public class SwerveSubsystem extends SubsystemBase {
                 });
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose2d().getTranslation().toString());
-        // Odometer will drift after dis and renenabling TODO: fix robot odometer randomness after reenabling
-        // SmartDashboard.putP
-        odoPose = getPose2d();
-        //DriverStation.reportWarning("Stored Odometry " + odoPose.getTranslation().toString(), false);
 
-        // SmartDashboard.putData(frontLeft.drivePIDController);
-        // SmartDashboard.putNumber("Front Left Drive PID Error", frontLeft.drivePIDController.getVelocityError());
+        odoPose = getPose2d();
     }
 
     public void resetOdometryCache() {
         resetOdometry(odoPose);
-        //DriverStation.reportWarning("Reset Odometry " + odoPose.getTranslation().toString(), false);
 
     }
 
@@ -165,25 +156,11 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.stop();
     }
 
-    public void homeAllModules() {//unused function
-        // frontLeft.homingRoutine();
-        // frontRight.homingRoutine();
-        // backLeft.homingRoutine();
-        // backRight.homingRoutine();
-    }
-
     public void zeroAllModules() {
         frontLeft.resetEncoders();
         frontRight.resetEncoders();
         backLeft.resetEncoders();
         backRight.resetEncoders();
-    }
-
-    public void encoderPrintoutDeg() {
-        // SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -193,15 +170,6 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
 
-        // SmartDashboard.putNumber("Front Left: ", frontLeft.getAbsoluteEncoderRad());
-        // SmartDashboard.putNumber("Front Right: ", frontRight.getAbsoluteEncoderRad());
-        // SmartDashboard.putNumber("Back Left: ", backLeft.getAbsoluteEncoderRad());
-        // SmartDashboard.putNumber("Back Right: ", backRight.getAbsoluteEncoderRad());
-
-        // SmartDashboard.putString("Front Left State: ", "" + desiredStates[0]);
-        // SmartDashboard.putString("Front Right State: ", "" + desiredStates[1]);
-        // SmartDashboard.putString("Back Left State: ", "" + desiredStates[2]);
-        // SmartDashboard.putString("Back Right State: ", "" + desiredStates[3]);
     }
 
     /**
@@ -333,21 +301,6 @@ public class SwerveSubsystem extends SubsystemBase {
         return fieldOrient;
     }
 
-    // public SwerveModuleState[] rateLimitModuleStates(SwerveModuleState[] states){
-    //     SwerveModuleState[] out = new SwerveModuleState[4];
-
-    //     for(int i = 0; i < 4; i++){
-    //         double speedLimit;
-    //         double angleLimit;  
-
-    //         speedLimit = speedLimiter[i].calculate(states[i].speedMetersPerSecond) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-    //         angleLimit = turnLimiter[i].calculate(states[i].angle.getRadians());
-
-    //         out[i] = new SwerveModuleState(speedLimit, new Rotation2d(angleLimit));
-    //     }
-
-    //     return out;
-    // }
     public void setLastValidHeading(Rotation2d heading) {
         desiredHeading = heading;
     }
@@ -366,15 +319,6 @@ public class SwerveSubsystem extends SubsystemBase {
         double thetaPIDCorrect = DriveConstants.kHeadingPIDMax * headingPID.calculate(robotHeading.getRadians());
 
         SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
-
-        // if (deltaTheta > 0.2) {
-        //     setLastValidHeading(robotHeading);
-        //     return chassisSpeeds;
-        // }
-
-        // if (deltaTheta < 0.005) { //maybe increase to 0.05 for carpet 
-        //     return chassisSpeeds;
-        // }
 
         inTheta += thetaPIDCorrect;
 
@@ -441,7 +385,6 @@ public class SwerveSubsystem extends SubsystemBase {
                 && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
 
         boolean stopped = isStopped();
-        //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
         chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
                 (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
@@ -451,7 +394,6 @@ public class SwerveSubsystem extends SubsystemBase {
         setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
         //Putting Code to Drive
         chassisSpeeds = fieldOrientedThetaHold(chassisSpeeds);
-        //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
         SwerveModuleState[] moduleStates = getIKMathSwerveModuleStates(chassisSpeeds);
 
         setModuleStates(moduleStates);

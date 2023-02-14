@@ -70,8 +70,7 @@ public class SwerveModule {
     anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
 
     drivePIDController = new PIDController(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive);
-    //drivePIDController.calculate(absoluteEncoderID, absoluteEncoderOffset);
-    //DriverStation.reportWarning("MODULE TOLERANCE " + anglePIDController.getPositionTolerance(), false);
+
     anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
     //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
     angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
@@ -137,26 +136,12 @@ public class SwerveModule {
 
   public void setDesiredState(SwerveModuleState state) {
 
-    // boolean useDashboard = false;//SmartDashboard.getBoolean("Setpoint Control Enabled", false);
-    // if (useDashboard) {
-    //   angleMotor.set(anglePIDController.calculate(
-    //       getAnglePosition(),
-    //       //SmartDashboard.getNumber("Funny Setpoint Control", 0)));
-    //   return;
-    // }
-    //DriverStation.reportWarning("Module.setDesiredState()", false);
     state = optimize(state, getState().angle);
-    //SmartDashboard.putString("Swerve[" + absoluteEncoder.getChannel() + "] state", state.toString());
 
-    //driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
     driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
 
     angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
-    //SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " PID error: ",
-        // anglePIDController.getPositionError());
-    // SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel(), anglePIDController.getSetpoint());
 
-    // SmartDashboard.putNumber("Module " + absoluteEncoder.getChannel() + " Motor Encoder", getAnglePosition());
   }
 
   public void stop() {

@@ -4,14 +4,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
-import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
-import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
-import frc.robot.commands.ArmCMDs.ArmToTopCMD;
-import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
-import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
-import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.AUTOtrajectoryGenerate;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
@@ -29,32 +37,6 @@ import frc.robot.subsystems.Intake;
 //import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
-import pabeles.concurrency.ConcurrencyOps.NewInstance;
-
-import java.util.HashMap;
-import java.util.List;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.GenericHID;
-//import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.ArmConstants;
-//import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.PID.PID;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

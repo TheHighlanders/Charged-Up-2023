@@ -23,7 +23,6 @@ public class AUTOhomeModulesCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    swerveSubsystem.homeAllModules(); //usless function call
 
     swerveSubsystem.zeroAllModules();
 

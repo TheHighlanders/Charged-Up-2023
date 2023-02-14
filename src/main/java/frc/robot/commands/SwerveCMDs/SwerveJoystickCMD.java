@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 //import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,9 +27,6 @@ public class SwerveJoystickCMD extends CommandBase {
         this.swerveSubsystem = swerveSubsystem;
 
         this.fieldOriented = swerveSubsystem.getFieldOrient();
-        //this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        //this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
-        //this.turnLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(swerveSubsystem);
     }
 
@@ -42,9 +38,6 @@ public class SwerveJoystickCMD extends CommandBase {
     @Override
     public void execute() {
         //Get Joystick Readings
-        // double xSpeed = xSpdFunction.get();
-        // double ySpeed = ySpdFunction.get();
-        // double turnSpeed = turnSpdFunction.get();
         double xSpeed = xbox.getRawAxis(OIConstants.kDriverXAxis);
         double ySpeed = xbox.getRawAxis(OIConstants.kDriverYAxis);
         double turnSpeed = xbox.getRawAxis(OIConstants.kDriverTurnAxis);
@@ -68,10 +61,6 @@ public class SwerveJoystickCMD extends CommandBase {
             swerveSubsystem.setLastValidHeading(new Rotation2d(headingRadians));
             SmartDashboard.putNumber("Desired Heading ", swerveSubsystem.desiredHeading.getRadians());
         }
-        //DriverStation.reportWarning("Spood: " + turnSpeed, false);
-        //Ratelimiting
-        //Moved to function in the Subsystem and done after IK
-        //DriverStation.reportWarning("Speed: " + turnSpeed, false);
 
         fieldOriented = swerveSubsystem.getFieldOrient();
 
@@ -90,11 +79,8 @@ public class SwerveJoystickCMD extends CommandBase {
         }
 
         //Making Module States
-        //SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
         //Output to Wheels
-
-        //moduleStates = swerveSubsystem.rateLimitModuleStates(moduleStates);
 
         for (int i = 0; i < 4; i++) {
             moduleStates[i].speedMetersPerSecond = moduleStates[i].speedMetersPerSecond
