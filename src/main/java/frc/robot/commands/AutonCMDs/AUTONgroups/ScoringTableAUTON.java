@@ -58,7 +58,7 @@ public class ScoringTableAUTON extends SequentialCommandGroup {
     addCommands(
         new GrabberCloseCMD(grabberSubsystem), //Finalize grab of preload
         new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem), //Reach Up to Top
-        new VISIONalignAprilTag(visionSubsystem, swerveSubsystem), //Park //TODO: Allow custom Parking Spots
+        new VISIONalignAprilTag(0.5, 0, visionSubsystem, swerveSubsystem), //Park //TODO: Allow custom Parking Spots
         new GrabberOpenCMD(grabberSubsystem), //Drop Cone
         //Retreat from Node
         new AUTOstartIntakeCMD(intakeSubsystem), //Start Intake
@@ -70,7 +70,7 @@ public class ScoringTableAUTON extends SequentialCommandGroup {
         new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSubsystem), //Go to pick up
         new GrabberCloseCMD(grabberSubsystem), //Pick up Game Peice
         new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem), //Go to place pos of arm
-        new VISIONalignAprilTag(visionSubsystem, swerveSubsystem), // Line up
+        new VISIONalignAprilTag(0, 0, visionSubsystem, swerveSubsystem), // Line up
         new GrabberOpenCMD(grabberSubsystem) //Drop
 
     );

@@ -27,9 +27,14 @@ public class VISIONalignAprilTag extends CommandBase {
   private double targetY;
   private Rotation2d targetTheta;
 
-  public VISIONalignAprilTag(vision vision_subsystem, SwerveSubsystem swerve_subsystem) {
+  double parkX;
+  double parkY;
+
+  public VISIONalignAprilTag(double parkX, double parkY, vision vision_subsystem, SwerveSubsystem swerve_subsystem) {
     vision = vision_subsystem;
     swerveSubsystem = swerve_subsystem;
+    this.parkX = parkX;
+    this.parkX = parkY;
     addRequirements(swerveSubsystem, vision);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -38,8 +43,8 @@ public class VISIONalignAprilTag extends CommandBase {
   @Override
   public void initialize() {
     if (vision.tvVal == 1) {
-      targetX = vision.tagOdoX;
-      targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance;
+      targetX = vision.tagOdoX + parkX;
+      targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance + parkY;
 
       targetTheta = swerveSubsystem.getRotation2D();
 

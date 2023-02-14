@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
@@ -15,6 +16,7 @@ import frc.robot.commands.AutonCMDs.AUTOtrajectoryGenerate;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
+import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeInCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeOutCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
@@ -46,7 +48,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.Constants.ArmConstants;
 //import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -68,18 +70,31 @@ public class RobotContainer {
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
 
-  //private final GrabberSubsystem grabberSub = new GrabberSubsystem(); //Commented for Arm TESTING
+  private final GrabberSubsystem grabberSub = new GrabberSubsystem(); 
 
-  //private final Intake intakeSub = new Intake(); COMMENTED  FOR ARM TESTING
+  private final Intake intakeSub = new Intake(); 
 
-  private final Arm intakeArm = new Arm();
+  private final Arm armSubsystem = new Arm();
 
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
-  private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(vision, swerveSubsystem);
+  private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
+
+  private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
+  private final spinIntakeInCMD intakeInCMD = new spinIntakeInCMD(intakeSub);
+  private final spinIntakeOutCMD intakeOutCMD = new spinIntakeOutCMD(intakeSub);
+
+  private final ArmMoveCMD armStowCMD = new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSub);
+  private final ArmMoveCMD armDownCMD = new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSub);
+  private final ArmMoveCMD armMidCMD = new ArmMoveCMD(ArmConstants.kMiddlePos, armSubsystem, intakeSub);
+  private final ArmMoveCMD armShelfCMD = new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSub);
+  private final ArmMoveCMD armTopCMD = new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSub);
+
+
+
   private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
       new double[] { 2 },
       new double[] { 0 },
@@ -122,8 +137,18 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
 
-    // new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
-    //  new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub)); 
+    new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+    
+    new JoystickButton(driverJoystick, 0).onTrue(deployIntakeCMD);
+    new JoystickButton(driverJoystick, 0).whileTrue(intakeInCMD);
+    new JoystickButton(driverJoystick, 0).whileTrue(intakeOutCMD);
+
+    new JoystickButton(operatorJoystick, 0).onTrue(armStowCMD);
+    new JoystickButton(operatorJoystick, 0).onTrue(armDownCMD);
+    new JoystickButton(operatorJoystick, 0).onTrue(armMidCMD);
+    new JoystickButton(operatorJoystick, 0).onTrue(armShelfCMD);
+    new JoystickButton(operatorJoystick, 0).onTrue(armTopCMD);
   }
 
   /**
