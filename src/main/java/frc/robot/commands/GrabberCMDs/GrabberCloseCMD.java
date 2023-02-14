@@ -9,8 +9,8 @@ import frc.robot.subsystems.GrabberSubsystem;
 
 public class GrabberCloseCMD extends CommandBase {
   public final GrabberSubsystem grabber_sub;
-  /** Creates a new GrabberCMDs. */
 
+  /** Creates a new GrabberCMDs. */
 
   public GrabberCloseCMD(GrabberSubsystem grabber_subGrabber) {
     grabber_sub = grabber_subGrabber;
@@ -20,18 +20,18 @@ public class GrabberCloseCMD extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  grabber_sub.Closed();
- }
+    grabber_sub.closeHand();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    grabber_sub.Off();
 
   }
 

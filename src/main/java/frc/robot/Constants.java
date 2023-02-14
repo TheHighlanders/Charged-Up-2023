@@ -49,7 +49,14 @@ public final class Constants {
     }
 
     public static final class GrabberConstants {
-        public static final double DoubleSolenoid = 1;
+        public static final int kPortNumber = 24;
+
+        public static final int kPhand = 0;
+        public static final int kIhand = 0;
+        public static final int kDhand = 0;
+
+        public static final double kClosedPos = 0;
+        public static final double kOpenPos = 0;
     }
 
     public static final class ArmConstants {

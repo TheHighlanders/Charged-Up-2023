@@ -11,36 +11,37 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.Compressor;
 
-
 public class GrabberSubsystem extends SubsystemBase {
-  public DoubleSolenoid squishgrabber = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-  public Compressor airtank = new Compressor(0, PneumaticsModuleType.CTREPCM);
+  public TalonSRX handMotor;
+
   public GrabberSubsystem() {
+    handMotor = new TalonSRX(GrabberConstants.kPortNumber);
 
+    handMotor.selectProfileSlot(0, 0);
 
+    handMotor.config_kP(0, GrabberConstants.kPhand);
+    handMotor.config_kI(0, GrabberConstants.kIhand);
+    handMotor.config_kD(0, GrabberConstants.kDhand);
   }
-public void Closed(){
-  DriverStation.reportWarning("Closed", false);
-  squishgrabber.set(Value.kReverse);
-}
-public void Open(){
-  DriverStation.reportWarning("Open", false);
-  squishgrabber.set(Value.kForward);
-}
-public void Off(){
-  squishgrabber.set(Value.kOff);
-}
-//compressor stuff below
 
-public void Start(){
-  airtank.enableDigital();
-}
+  public void closeHand() {
+    handMotor.set(ControlMode.Position, GrabberConstants.kClosedPos);
+  }
 
-public void Stop(){
-  airtank.disable();
-}
+  public void openHand() {
+    handMotor.set(ControlMode.Position, GrabberConstants.kOpenPos);
+  }
+
+  public void stopHand() {
+    handMotor.set(ControlMode.PercentOutput, 0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
