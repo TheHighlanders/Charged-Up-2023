@@ -26,8 +26,8 @@ public class Robot extends TimedRobot {
 
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private RobotContainer m_robotContainer;
-  private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision,
-      m_robotContainer.swerveSubsystem);
+  // private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision,
+  //     m_robotContainer.swerveSubsystem);
 
   /**
    * This function is run when the robot is first started up and should be used for any
