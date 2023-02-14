@@ -6,16 +6,19 @@ package frc.robot.commands.ArmCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
 public class ArmToMiddleCMD extends CommandBase {
   /** Creates a new ArmToMiddleCMD. */
 
   public final Arm Arm_sub;
+  private Intake intakeSubsystem;
 
-  public ArmToMiddleCMD(Arm arm_subArm) {
+  public ArmToMiddleCMD(Arm arm_subArm, Intake intake_subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     Arm_sub = arm_subArm;
-    addRequirements(Arm_sub);
+    intakeSubsystem = intake_subsystem;
+    addRequirements(Arm_sub, intake_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -26,6 +29,9 @@ public class ArmToMiddleCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (!intakeSubsystem.deployed) {
+      intakeSubsystem.deployIntake();
+    }
     Arm_sub.middle();
   }
 

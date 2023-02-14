@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCMDs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -38,7 +39,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   private boolean cmdDone;
 
   /**
-   * Reads A CVS with the filename path, and parses it out into Arrays for use in
+   * Reads A CSV with the filename path, and parses it out into Arrays for use in
    * following
    * 
    * @param path             The filename of the target path
@@ -52,6 +53,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     ArrayList<Double> yList = new ArrayList<>();
     ArrayList<Double> timeList = new ArrayList<>();
     ArrayList<Double> headingList = new ArrayList<>();
+    boolean mirrorField = (DriverStation.getAlliance() == DriverStation.Alliance.Red);
 
     try {
       reader = new BufferedReader(new FileReader(path));
@@ -86,13 +88,21 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     headingArray = new double[headingList.size()];
     timeArray = new double[timeList.size()];
 
-    for (int i = 0; i < xList.size(); i++) {
-      xArray[i] = xList.get(i).doubleValue();
-      yArray[i] = yList.get(i).doubleValue();
-      headingArray[i] = headingList.get(i).doubleValue();
-      timeArray[i] = timeList.get(i).doubleValue();
+    if (mirrorField) {
+      for (int i = 0; i < xList.size(); i++) {
+        xArray[i] = AutoConstants.fieldLength - xList.get(i).doubleValue();
+        yArray[i] = AutoConstants.fieldLength - yList.get(i).doubleValue();
+        headingArray[i] = headingList.get(i).doubleValue() * -1 + AutoConstants.headingFlipMirror;
+        timeArray[i] = timeList.get(i).doubleValue();
+      }
+    } else {
+      for (int i = 0; i < xList.size(); i++) {
+        xArray[i] = xList.get(i).doubleValue();
+        yArray[i] = yList.get(i).doubleValue();
+        headingArray[i] = headingList.get(i).doubleValue();
+        timeArray[i] = timeList.get(i).doubleValue();
+      }
     }
-
     SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
     SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -100,7 +110,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
@@ -175,9 +186,9 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     // cmdDone = atPoint;
     // }
 
-      if(closestPointIndex == targetPointIndex){
-        cmdDone = true;
-      }
+    if (closestPointIndex == targetPointIndex) {
+      cmdDone = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -187,8 +198,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {  
-    DriverStation.reportWarning("DONE WITH TRAJECTORY", false);  
+  public boolean isFinished() {
+    DriverStation.reportWarning("DONE WITH TRAJECTORY", false);
     return cmdDone;
   }
 
@@ -229,7 +240,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
    */
   public int distanceDelta(int currentIndex, double currentX, double currentY) {
     for (int i = currentIndex; i < xArray.length - 1; i++) {
-      double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY,2));
+      double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY, 2));
       if (distance > 0.2) {
         return i;
       }

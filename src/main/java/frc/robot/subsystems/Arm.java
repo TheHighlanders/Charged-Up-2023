@@ -40,6 +40,10 @@ public class Arm extends SubsystemBase {
 
   }
 
+  public void moveToPos(double targetPos) {
+    armPID.setReference(targetPos, PIDposition);
+  }
+
   public void top() {
     //ArmEncoder.setPosition(ArmConstants.kTopPos); //units unknown
     armPID.setReference(ArmConstants.kTopPos, PIDposition);

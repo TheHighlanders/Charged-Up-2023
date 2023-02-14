@@ -2,23 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ArmCMDs;
+package frc.robot.commands.AutonCMDs.IntakeAUTO;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 
-public class ArmToTopCMD extends CommandBase {
-  /** Creates a new ArmToTopCMD. */
-
-  public final Arm Arm_sub;
+public class AUTOstopIntakeCMD extends CommandBase {
+  /** Creates a new AUTOstartIntake. */
   private Intake intakeSubsystem;
 
-  public ArmToTopCMD(Arm arm_sub, Intake intake_subsystem) {
+  public AUTOstopIntakeCMD(Intake intake_subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    Arm_sub = arm_sub;
     intakeSubsystem = intake_subsystem;
-    addRequirements(Arm_sub, intake_subsystem);
+    addRequirements(intake_subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,16 +25,12 @@ public class ArmToTopCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake();
-    }
-    Arm_sub.top();
+    intakeSubsystem.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Arm_sub.stop();
   }
 
   // Returns true when the command should end.

@@ -4,15 +4,15 @@
 
 package frc.robot;
 
-import frc.robot.commands.AUTOcsvPathFollowCMD;
-
 import frc.robot.commands.ArmCMDs.ArmToMiddleCMD;
 import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
 import frc.robot.commands.ArmCMDs.ArmToTopCMD;
 import frc.robot.commands.ArmCMDs.ArmtoShelfCMD;
+import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.AUTOhomeModulesCMD;
-import frc.robot.commands.AUTOswerveMoveCommand;
-import frc.robot.commands.AUTOtrajectoryGenerate;
+import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
+import frc.robot.commands.AutonCMDs.AUTOtrajectoryGenerate;
+import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeInCMD;
@@ -20,7 +20,6 @@ import frc.robot.commands.IntakeCMDs.spinIntakeOutCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
 import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
 import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
-import frc.robot.commands.VISIONalignAprilTag;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.Intake;

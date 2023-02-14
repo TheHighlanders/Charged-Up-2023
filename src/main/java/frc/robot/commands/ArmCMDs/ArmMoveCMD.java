@@ -5,40 +5,52 @@
 package frc.robot.commands.ArmCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 
-public class ArmToTopCMD extends CommandBase {
-  /** Creates a new ArmToTopCMD. */
-
-  public final Arm Arm_sub;
+public class ArmMoveCMD extends CommandBase {
+  /** Creates a new ArmMoveCMD. */
   private Intake intakeSubsystem;
+  private Arm armSubsystem;
+  private double targetPos;
 
-  public ArmToTopCMD(Arm arm_sub, Intake intake_subsystem) {
+  public ArmMoveCMD(double targetPos, Arm arm_sub, Intake intake_sub) {
+    intakeSubsystem = intake_sub;
+    armSubsystem = arm_sub;
+    this.targetPos = targetPos;
+
+    addRequirements(arm_sub, intake_sub);
     // Use addRequirements() here to declare subsystem dependencies.
-    Arm_sub = arm_sub;
-    intakeSubsystem = intake_subsystem;
-    addRequirements(Arm_sub, intake_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    double armPos = armSubsystem.ArmEncoder.getPosition();
+
+    boolean intakeNeedGoByeBye = false;
+
+    if (armPos <= ArmConstants.kIntakeDeathZone) {
+      intakeNeedGoByeBye = true;
+    } else if (targetPos <= ArmConstants.kIntakeDeathZone) {
+      intakeNeedGoByeBye = true;
+    }
+
+    if (intakeNeedGoByeBye && intakeSubsystem.deployed) {
+      intakeSubsystem.deployIntake();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake();
-    }
-    Arm_sub.top();
+    armSubsystem.moveToPos(targetPos);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Arm_sub.stop();
   }
 
   // Returns true when the command should end.

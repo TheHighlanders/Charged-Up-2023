@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
   public TalonSRXConfiguration spinConfig = new TalonSRXConfiguration();
   public TalonSRXConfiguration deployConfig = new TalonSRXConfiguration();
 
-  private boolean deployed = false;
+  public boolean deployed = false;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -43,6 +43,10 @@ public class Intake extends SubsystemBase {
 
   public void spinIntakeOut() {
     intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeed * -1);
+  }
+
+  public void stop() {
+    intakeSpin.set(ControlMode.PercentOutput, 0);
   }
 
   @Override

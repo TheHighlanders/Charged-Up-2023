@@ -53,6 +53,8 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
+
+        public static final double kIntakeDeathZone = 1000;
         static final double gearboxRatio = 45.0 / 1.0;
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRatio = gearboxRatio * beltRatio;
@@ -181,6 +183,11 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
+
+        public static final double fieldCenterMeters = 8.270875;
+        public static final double fieldLength = fieldCenterMeters * 2;
+        public static final double headingFlipMirror = 90;
+
         public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 24;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;

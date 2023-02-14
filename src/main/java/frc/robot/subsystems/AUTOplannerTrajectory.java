@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.AUTOswerveMoveCommand;
+import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 
 public class AUTOplannerTrajectory extends SubsystemBase {
   /** Creates a new AUTOplannerTrajectory. */
