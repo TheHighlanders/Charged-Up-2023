@@ -1,7 +1,6 @@
 package frc.robot.utilities;
 
 import com.revrobotics.CANSparkMax;
-import java.math.*;
 
 public class CANSparkMaxCurrent extends CANSparkMax {
 

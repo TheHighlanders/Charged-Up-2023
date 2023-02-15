@@ -2,10 +2,6 @@ package frc.robot.commands.SwerveCMDs;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-//import java.util.function.Supplier;
-
-//import edu.wpi.first.math.filter.SlewRateLimiter;
-//import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,7 +15,6 @@ public class SwerveJoystickCMD extends CommandBase {
     XboxController xbox = new XboxController(1);
     private final SwerveSubsystem swerveSubsystem; //MAYBE THESE NEED FINAL
     private boolean fieldOriented;
-    private ChassisSpeeds storeChassisSpeeds = new ChassisSpeeds(0, 0, 0);
     //private final SlewRateLimiter xLimiter, yLimiter, turnLimiter;
 
     public SwerveJoystickCMD(SwerveSubsystem swerveSubsystem) {

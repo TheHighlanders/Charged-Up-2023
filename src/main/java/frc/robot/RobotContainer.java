@@ -5,23 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
-//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
-import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
-import frc.robot.commands.AutonCMDs.AUTOtrajectoryGenerate;
-import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
@@ -34,7 +28,6 @@ import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.Intake;
-//import frc.robot.commands.encoderPrintout;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
 
@@ -64,7 +57,7 @@ public class RobotContainer {
   // private final encoderPrintout encoderPrintoutCMD = new
   // encoderPrintout(swerveSubsystem);
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
-  private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
+  // private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
 
   private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
@@ -83,22 +76,22 @@ public class RobotContainer {
   // A chooser for autonomous commands
   SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
 
-  private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
-      new double[] { 2 },
-      new double[] { 0 },
-      new double[] { 0 },
-      new boolean[] { true });
-  private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
-      new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
-      new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
-      new InstantCommand(
-          () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
-      //trajectory.generateTrajectory(),
-      new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem),
-      new InstantCommand(() -> swerveSubsystem.stopModules()),
-      new InstantCommand(
-          () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),
-      new PrintCommand("AUTO DONE"));
+  // private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
+  //     new double[] { 2 },
+  //     new double[] { 0 },
+  //     new double[] { 0 },
+  //     new boolean[] { true });
+  // private final SequentialCommandGroup autoGroup = new SequentialCommandGroup(
+  //     new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
+  //     new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())),
+  //     new InstantCommand(
+  //         () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
+  //     //trajectory.generateTrajectory(),
+  //     new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem),
+  //     new InstantCommand(() -> swerveSubsystem.stopModules()),
+  //     new InstantCommand(
+  //         () -> SmartDashboard.putString("End Pose", swerveSubsystem.getPose2d() + " Finsihed Pose")),
+  //     new PrintCommand("AUTO DONE"));
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
 
@@ -156,7 +149,6 @@ public class RobotContainer {
     // new AUTOhomeModulesCMD(swerveSubsystem),
     // new InstantCommand(()->
     // swerveSubsystem.resetOdometry(trajectory.getInitialPose())), // SOME
-    // TRAJECTORY STUFF: TODO: MIGRATE TO ACTUAL COMMAND
     // swerveControllerCommand,
 
     // driveTrajectory,

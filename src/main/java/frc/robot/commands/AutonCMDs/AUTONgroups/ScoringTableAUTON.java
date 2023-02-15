@@ -4,13 +4,14 @@
 
 package frc.robot.commands.AutonCMDs.AUTONgroups;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.commands.*;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
-import frc.robot.commands.ArmCMDs.ArmToDownCMD;
-import frc.robot.commands.ArmCMDs.ArmToStowedCMD;
-import frc.robot.commands.ArmCMDs.ArmToTopCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
@@ -24,14 +25,6 @@ import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
-
-import java.nio.file.Path;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

@@ -6,10 +6,8 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.OIConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,7 +20,7 @@ public class Robot extends TimedRobot {
   //private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   //private final encoderPrintout encoderPrintoutCMD = new encoderPrintout(swerveSubsystem);
 
-  private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
+  // private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private RobotContainer m_robotContainer;
   // private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision,
   //     m_robotContainer.swerveSubsystem);
@@ -92,9 +90,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
+    RobotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
 
-    m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
+    RobotContainer.swerveSubsystem.resetOdometry(new Pose2d());
 
   }
 

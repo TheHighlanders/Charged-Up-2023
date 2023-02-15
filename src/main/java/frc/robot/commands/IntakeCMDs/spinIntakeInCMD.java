@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.IntakeCMDs;
-import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake;
 
 public class spinIntakeInCMD extends CommandBase {
   public final Intake intake_sub;
+
   /** Creates a new IntakeSpin. */
   public spinIntakeInCMD(Intake intake_subintake) {
     intake_sub = intake_subintake;
@@ -18,7 +19,8 @@ public class spinIntakeInCMD extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -28,7 +30,8 @@ public class spinIntakeInCMD extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

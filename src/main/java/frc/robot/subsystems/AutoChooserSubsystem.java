@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import java.util.HashMap;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
@@ -19,8 +18,6 @@ public class AutoChooserSubsystem extends SubsystemBase {
   private Intake intakeSubsystem;
   private GrabberSubsystem grabberSubsystem;
   private vision visionSubsystem;
-
-  private String selectedAuto;
 
   public AutoChooserSubsystem(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, Intake intake_subsystem,
       GrabberSubsystem grabber_subsystem, vision vision_subsystem) {

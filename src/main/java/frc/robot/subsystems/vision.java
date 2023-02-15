@@ -18,7 +18,6 @@ public class vision extends SubsystemBase {
   private NetworkTableEntry tv = visionNT.getEntry("tv");
   private NetworkTableEntry tx = visionNT.getEntry("tx");
   private NetworkTableEntry ty = visionNT.getEntry("ty");
-  private NetworkTableEntry tPoseRobotSpace = visionNT.getEntry("targetpose_robotspace");
   private NetworkTableEntry pipe = visionNT.getEntry("pipeline");
   private NetworkTableEntry tid = visionNT.getEntry("tid");
 
@@ -34,9 +33,6 @@ public class vision extends SubsystemBase {
   private double phi;
 
   private double distanceToTarget;
-
-  private double odometerOffsetX;
-  private double odometerOffsetY;
 
   public double tagOdoX;
   public double tagOdoY;

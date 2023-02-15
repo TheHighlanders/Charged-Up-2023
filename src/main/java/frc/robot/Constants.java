@@ -102,7 +102,7 @@ public final class Constants {
 
         public static final double kAngleTolerance = 0.002;
 
-        //Sketchy Velocity PID loop no use D pls TODO: Recalibrate for new correct GearRatio
+        //Sketchy Velocity PID loop no use D pls
         public static final double kPDrive = 0.1; //D? Dont do a Negative
         public static final double kIDrive = 0.75; //P? //Was 0.75 before gear ratio change, lowering
         public static final double kDDrive = 0; //??
@@ -118,6 +118,9 @@ public final class Constants {
         public static final double kDTheta = 0; //0 With Ballast
 
         public static final double kHeadingPIDMax = 0.2;
+
+        public static final int speedLimiter = 5;
+        public static final int turnLimiter = 30;
 
         //Robot Physical Parameters        
         //Speed Stats

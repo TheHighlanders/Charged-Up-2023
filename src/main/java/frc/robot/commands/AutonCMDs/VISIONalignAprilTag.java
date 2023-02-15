@@ -4,28 +4,20 @@
 
 package frc.robot.commands.AutonCMDs;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
-import static java.lang.Math.*;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 
 public class VISIONalignAprilTag extends CommandBase {
   /** Creates a new VISIONalignAprilTag. */
   private vision vision;
   private SwerveSubsystem swerveSubsystem;
-  private boolean cmdDone = false;
 
   private double targetX;
   private double targetY;
-  private Rotation2d targetTheta;
 
   double parkX;
   double parkY;
@@ -45,8 +37,6 @@ public class VISIONalignAprilTag extends CommandBase {
     if (vision.tvVal == 1) {
       targetX = vision.tagOdoX + parkX;
       targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance + parkY;
-
-      targetTheta = swerveSubsystem.getRotation2D();
 
     }
   }

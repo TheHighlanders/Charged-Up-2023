@@ -3,25 +3,20 @@ package frc.robot.subsystems;
 // BASED ON https://www.youtube.com/watch?v=0Xi9yb1IMyA
 //import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 
-//import frc.robot.Constants;
-import frc.robot.Constants.ModuleConstants;
-import frc.robot.PID.PID;
-import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import frc.robot.Constants;
+import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule {
 
@@ -40,7 +35,6 @@ public class SwerveModule {
   private final boolean absoluteEncoderReversed;
   private final double absoluteEncoderOffsetRad;
 
-  //TODO: Instead of hardcoding driveMotorReversed and angleMotorReversed, create a enumeration type to represent the different types of limit switches, such as Forward, Reverse
   public SwerveModule(int driveMotorID, int angleMotorID, boolean driveMotorReversed, boolean angleMotorReversed,
       int absoluteEncoderID, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
@@ -57,7 +51,6 @@ public class SwerveModule {
 
     driveEncoder = driveMotor.getEncoder();
     angleEncoder = angleMotor.getEncoder();
-    PID.setEncoder(angleEncoder);
 
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
@@ -72,7 +65,7 @@ public class SwerveModule {
     drivePIDController = new PIDController(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive);
 
     anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
-    //TODO: Instead of hardcoding Type.kNormallyClosed for the limit switches, create a enumeration type to represent the different types of limit switches, such as NormallyClosed, NormallyOpen
+
     angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
     angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
 
@@ -116,7 +109,6 @@ public class SwerveModule {
   }
 
   public SwerveModulePosition getState() {
-    //TODO change to pass the distance instead of velocity
     return new SwerveModulePosition(getDrivePosition(), new Rotation2d(getAnglePosition()));
   }
 
