@@ -59,6 +59,9 @@ public final class Constants {
 
         public static final double kClosedPos = 0;
         public static final double kOpenPos = 0;
+
+        public static final double kOpeningAmps = 0;
+        public static final double kClosingAmps = 0;
     }
 
     public static final class ArmConstants {
