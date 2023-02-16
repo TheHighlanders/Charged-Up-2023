@@ -7,13 +7,17 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-  public TalonSRX intakeSpin = new TalonSRX(IntakeConstants.INTAKE_MOTOR_ID);
+  public VictorSPX intakeSpin = new VictorSPX(IntakeConstants.INTAKE_MOTOR_ID);
+  public VictorSPX intakeSpin2 = new VictorSPX(IntakeConstants.INTAKE_MOTOR2_ID);
+
   public TalonSRX intakeDeploy = new TalonSRX(IntakeConstants.INTAKE_DEPLOY_ID);
+  public TalonSRX intakeDeploy2 = new TalonSRX(IntakeConstants.INTAKE_DEPLOY2_ID);
 
   public TalonSRXConfiguration spinConfig = new TalonSRXConfiguration();
   public TalonSRXConfiguration deployConfig = new TalonSRXConfiguration();
@@ -24,9 +28,19 @@ public class Intake extends SubsystemBase {
   public Intake() {
     intakeDeploy.selectProfileSlot(0, 0);
 
+    intakeSpin2.setInverted(true);
+    intakeSpin2.follow(intakeSpin);
+
+    intakeDeploy2.setInverted(true);
+    intakeDeploy2.follow(intakeDeploy);
+
     intakeDeploy.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     intakeDeploy.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     intakeDeploy.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
+
+    intakeDeploy2.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
+    intakeDeploy2.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
+    intakeDeploy2.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
   }
 
   public void deployIntake() {

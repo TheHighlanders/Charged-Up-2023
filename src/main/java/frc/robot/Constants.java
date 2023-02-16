@@ -33,7 +33,9 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final int INTAKE_MOTOR_ID = 19;
+        public static final int INTAKE_MOTOR2_ID = 18;
         public static final int INTAKE_DEPLOY_ID = 20;
+        public static final int INTAKE_DEPLOY2_ID = 21;
 
         public static final int DEPLOY_PID_ID = 0;
 
