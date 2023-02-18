@@ -155,8 +155,8 @@ public final class Constants {
         public static final double kWheelOffsetFrontToSideways = Math.toRadians(90);
         public static final double kHomingThetaRad = Math.toRadians(90);
         //Front Left
-        public static final int kFrontLeftDrivePort = 2;
-        public static final int kFrontLeftAnglePort = 4;
+        public static final int kFrontLeftDrivePort = 3;
+        public static final int kFrontLeftAnglePort = 1;
         public static final boolean kFrontLeftDriveReversed = false;
         public static final boolean kFrontLeftAngleReversed = false;
         public static final int kFrontLeftAbsoluteEncoderPort = 0;
@@ -164,8 +164,8 @@ public final class Constants {
         public static final boolean kFrontLeftAbsoluteEncoderReversed = true;
 
         //Front Right
-        public static final int kFrontRightDrivePort = 7;
-        public static final int kFrontRightAnglePort = 8;
+        public static final int kFrontRightDrivePort = 6;
+        public static final int kFrontRightAnglePort = 5;
         public static final boolean kFrontRightDriveReversed = false;
         public static final boolean kFrontRightAngleReversed = false;
         public static final int kFrontRightAbsoluteEncoderPort = 3;
@@ -173,8 +173,8 @@ public final class Constants {
         public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
         //Back Left
-        public static final int kBackLeftDrivePort = 3;
-        public static final int kBackLeftAnglePort = 1;
+        public static final int kBackLeftDrivePort = 4;
+        public static final int kBackLeftAnglePort = 2;
         public static final boolean kBackLeftDriveReversed = false;
         public static final boolean kBackLeftAngleReversed = false;
         public static final int kBackLeftAbsoluteEncoderPort = 1;
@@ -182,8 +182,8 @@ public final class Constants {
         public static final boolean kBackLeftAbsoluteEncoderReversed = true;
 
         //Back Right
-        public static final int kBackRightDrivePort = 6;
-        public static final int kBackRightAnglePort = 5;
+        public static final int kBackRightDrivePort = 8;
+        public static final int kBackRightAnglePort = 7;
         public static final boolean kBackRightDriveReversed = false;
         public static final boolean kBackRightAngleReversed = false;
         public static final int kBackRightAbsoluteEncoderPort = 2;
