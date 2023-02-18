@@ -42,6 +42,7 @@ public final class Constants {
 
         public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
         public static final double kAngleHomingSpeed = 0.25;
+        public static final double MSECtoRPM = 60 / (Math.PI * Units.inchesToMeters(4));
     }
 
     public static final class DriveConstants {

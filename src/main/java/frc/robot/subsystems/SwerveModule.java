@@ -80,6 +80,8 @@ public class SwerveModule {
     driveMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
     driveMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
 
+    driveEncoder.setPositionConversionFactor(ModuleConstants.MSECtoRPM); // m.s to rpm
+
   }
 
   
