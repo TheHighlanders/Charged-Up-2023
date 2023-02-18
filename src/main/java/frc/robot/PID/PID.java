@@ -1,25 +1,12 @@
 package frc.robot.PID;
 
-import frc.robot.RobotContainer;
-import frc.robot.Constants;
-import frc.robot.PID.PID;
+import java.util.ArrayList;
+
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.Constants;
 
 /*
  * PID loops work by continuously measuring the error between the desired angle and the current angle of each wheel
@@ -155,24 +142,24 @@ public class PID {
         return kp + " " + ki + " " + kd;
     }
 
-    public static double testNoiseLevel(int samples) {
-        // accuracy of tests
-        AnalogInput input = new AnalogInput(0);
-        total = 0;
-        timer.scheduleAtFixedRate(new TimerTask() {
-            int i = 0;
+    // public static double testNoiseLevel(int samples) {
+    //     // accuracy of tests
+    //     AnalogInput input = new AnalogInput(0);
+    //     total = 0;
+    //     timer.scheduleAtFixedRate(new TimerTask() {
+    //         int i = 0;
 
-            public void run() {
-                total += input.getVoltage();
-                i++;
-                if (i >= samples) {
-                    timer.cancel();
-                }
-            }
-        }, 0, 10);
-        double average = total / samples;
-        return average;
-    }
+    //         public void run() {
+    //             total += input.getVoltage();
+    //             i++;
+    //             if (i >= samples) {
+    //                 timer.cancel();
+    //             }
+    //         }
+    //     }, 0, 10);
+    //     double average = total / samples;
+    //     return average;
+    // }
 
     /*
      * exaple data:{ 1.0, 2.0, 3.0, 2.0, 1.0, 0.0, -1.0, -2.0, -3.0, -2.0, -1.0 } returns 3.0
