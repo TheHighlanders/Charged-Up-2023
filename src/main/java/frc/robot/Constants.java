@@ -32,10 +32,13 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final int INTAKE_MOTOR_ID = 19;
-        public static final int INTAKE_MOTOR2_ID = 18;
-        public static final int INTAKE_DEPLOY_ID = 20;
-        public static final int INTAKE_DEPLOY2_ID = 21;
+        public static final int kIntakeMotorID = 19;
+        public static final int kIntakeMotor2ID = 18;
+        public static final int kIntakeDeployID = 20;
+        public static final int kIntakeDeploy2ID = 21;
+        public static final int kIntakeTurntableID = 22;
+
+        public static final double kTurntableSpeed = 1;
 
         public static final int DEPLOY_PID_ID = 0;
 

@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
-  public VictorSPX intakeSpin = new VictorSPX(IntakeConstants.INTAKE_MOTOR_ID);
-  public VictorSPX intakeSpin2 = new VictorSPX(IntakeConstants.INTAKE_MOTOR2_ID);
+  public VictorSPX intakeSpin = new VictorSPX(IntakeConstants.kIntakeMotorID);
+  public VictorSPX intakeSpin2 = new VictorSPX(IntakeConstants.kIntakeMotor2ID);
 
-  public TalonSRX intakeDeploy = new TalonSRX(IntakeConstants.INTAKE_DEPLOY_ID);
-  public TalonSRX intakeDeploy2 = new TalonSRX(IntakeConstants.INTAKE_DEPLOY2_ID);
+  public TalonSRX intakeDeploy = new TalonSRX(IntakeConstants.kIntakeDeployID);
+  public TalonSRX intakeDeploy2 = new TalonSRX(IntakeConstants.kIntakeDeploy2ID);
+
+  public TalonSRX intakeTurnable = new TalonSRX(IntakeConstants.kIntakeTurntableID);
 
   public TalonSRXConfiguration spinConfig = new TalonSRXConfiguration();
   public TalonSRXConfiguration deployConfig = new TalonSRXConfiguration();
@@ -58,6 +60,14 @@ public class Intake extends SubsystemBase {
 
   public void stop() {
     intakeSpin.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void spinTurntable(double speed) {
+    intakeTurnable.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void stopTurntable() {
+    spinTurntable(0);
   }
 
   @Override
