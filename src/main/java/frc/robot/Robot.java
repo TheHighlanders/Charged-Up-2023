@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -110,9 +108,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
+    RobotContainer.swerveSubsystem.zeroAllModules(); //MAY NEED TO CHANGE BC CUSTOM ABSOL ENCOD
 
-    m_robotContainer.swerveSubsystem.resetOdometry(new Pose2d());
+    RobotContainer.swerveSubsystem.resetOdometry(new Pose2d());
 
   }
 
@@ -131,7 +129,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    m_robotContainer.swerveSubsystem.encoderPrintoutDeg();
+    RobotContainer.swerveSubsystem.encoderPrintoutDeg();
 
   }
 
