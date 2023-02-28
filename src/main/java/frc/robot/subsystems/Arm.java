@@ -33,7 +33,7 @@ public class Arm extends SubsystemBase {
     ArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     armPID = ArmMotor.getPIDController();
-    armPID.setOutputRange(-0.3, 0.3);
+    armPID.setOutputRange(-0.1, 0.1);
     armPID.setP(ArmConstants.kPArm);
     armPID.setI(ArmConstants.kIArm);
     armPID.setD(ArmConstants.kDArm);
