@@ -97,8 +97,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
         timeArray[i] = timeList.get(i).doubleValue();
       }
     }
-    SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
-    SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
+    //SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
+    //SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

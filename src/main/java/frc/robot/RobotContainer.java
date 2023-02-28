@@ -122,18 +122,18 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
 
-    new JoystickButton(operatorJoystick, 2).onTrue(new GrabberCloseCMD(grabberSub));
-    new JoystickButton(operatorJoystick, 3).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+    new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
+    new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
 
     new JoystickButton(driverJoystick, 0).onTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 0).whileTrue(intakeInCMD);
     new JoystickButton(driverJoystick, 0).whileTrue(intakeOutCMD);
 
-    new JoystickButton(operatorJoystick, 0).onTrue(armStowCMD);
-    new JoystickButton(operatorJoystick, 0).onTrue(armDownCMD);
-    new JoystickButton(operatorJoystick, 0).onTrue(armMidCMD);
-    new JoystickButton(operatorJoystick, 0).onTrue(armShelfCMD);
-    new JoystickButton(operatorJoystick, 0).onTrue(armTopCMD);
+    new JoystickButton(operatorJoystick, 1).onTrue(armStowCMD);
+    new JoystickButton(operatorJoystick, 2).onTrue(armDownCMD);
+    new JoystickButton(operatorJoystick, 3).onTrue(armMidCMD);
+    new JoystickButton(operatorJoystick, 4).onTrue(armShelfCMD);
+    new JoystickButton(operatorJoystick, 8).onTrue(armTopCMD);
   }
 
   /**
