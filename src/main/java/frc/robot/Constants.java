@@ -78,11 +78,11 @@ public final class Constants {
 
         public static final int ARM_MOTOR_ID = 62;
 
-        public static final double kStowedPos = 750;
-        public static final double kDownPos = 1500;
-        public static final double kMiddlePos = 2000;//0.8
-        public static final double kShelfPos = 2500;
-        public static final double kTopPos = 2750;
+        public static final double kStowedPos = 0;
+        public static final double kDownPos = -1500;
+        public static final double kMiddlePos = -2000;//0.8
+        public static final double kShelfPos = -2500;
+        public static final double kTopPos = -2750;
 
         public static final double kPArm = 0.01;
         public static final double kIArm = 0;
