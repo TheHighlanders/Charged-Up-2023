@@ -160,7 +160,7 @@ public final class Constants {
         public static final boolean kFrontLeftDriveReversed = false;
         public static final boolean kFrontLeftAngleReversed = false;
         public static final int kFrontLeftAbsoluteEncoderPort = 0;
-        public static final double kFrontLeftAbsoluteEncoderOffsetRad = 5.519947;// + kWheelOffsetFrontToSideways;
+        public static final double kFrontLeftAbsoluteEncoderOffsetRad = -5.535754;// + kWheelOffsetFrontToSideways;
         public static final boolean kFrontLeftAbsoluteEncoderReversed = true;
 
         //Front Right
@@ -169,7 +169,7 @@ public final class Constants {
         public static final boolean kFrontRightDriveReversed = false;
         public static final boolean kFrontRightAngleReversed = false;
         public static final int kFrontRightAbsoluteEncoderPort = 3;
-        public static final double kFrontRightAbsoluteEncoderOffsetRad = 1.861201;// + kWheelOffsetFrontToSideways;
+        public static final double kFrontRightAbsoluteEncoderOffsetRad = -4.939048;// + kWheelOffsetFrontToSideways;
         public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
         //Back Left
@@ -178,7 +178,7 @@ public final class Constants {
         public static final boolean kBackLeftDriveReversed = false;
         public static final boolean kBackLeftAngleReversed = false;
         public static final int kBackLeftAbsoluteEncoderPort = 1;
-        public static final double kBackLeftAbsoluteEncoderOffsetRad = 5.371961;// + kWheelOffsetFrontToSideways;
+        public static final double kBackLeftAbsoluteEncoderOffsetRad = -2.252243;// + kWheelOffsetFrontToSideways;
         public static final boolean kBackLeftAbsoluteEncoderReversed = true;
 
         //Back Right
@@ -187,7 +187,7 @@ public final class Constants {
         public static final boolean kBackRightDriveReversed = false;
         public static final boolean kBackRightAngleReversed = false;
         public static final int kBackRightAbsoluteEncoderPort = 2;
-        public static final double kBackRightAbsoluteEncoderOffsetRad = 5.991324;// + kWheelOffsetFrontToSideways;
+        public static final double kBackRightAbsoluteEncoderOffsetRad = -3.017009;// + kWheelOffsetFrontToSideways;
         public static final boolean kBackRightAbsoluteEncoderReversed = true;
     }
 
