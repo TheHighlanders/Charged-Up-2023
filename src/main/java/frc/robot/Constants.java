@@ -243,6 +243,8 @@ public final class Constants {
         public static final double kXPIDi = 0;
         public static final double kXPIDd = 0.1;
 
+        public static final double kPIDtimerTol = 5;
+
     }
 
 }
