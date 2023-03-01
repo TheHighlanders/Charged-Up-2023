@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.utilities.CANSparkMaxCurrent;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utilities.SparkMaxPIDControllerSmart;
 
 public class Arm extends SubsystemBase {
   public CANSparkMaxCurrent ArmMotor;
@@ -20,7 +21,8 @@ public class Arm extends SubsystemBase {
 
   public ControlType PIDposition = ControlType.kPosition;
 
-  public SparkMaxPIDController armPID;
+  public SparkMaxPIDControllerSmart armPID;
+  public SparkMaxPIDController armPIDunbox;
 
   //Torque needed to fight gravity = Distance of Cm * (cos(theta) * (9.81 * mass))
 
@@ -32,7 +34,8 @@ public class Arm extends SubsystemBase {
     ArmEncoder.setPosition(0.0);
     ArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    armPID = ArmMotor.getPIDController();
+    armPIDunbox = ArmMotor.getPIDController();
+    armPID = new SparkMaxPIDControllerSmart(armPIDunbox);
     armPID.setOutputRange(-0.1, 0.1);
     armPID.setP(ArmConstants.kPArm);
     armPID.setI(ArmConstants.kIArm);
