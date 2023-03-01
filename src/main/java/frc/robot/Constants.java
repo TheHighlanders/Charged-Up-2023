@@ -65,8 +65,8 @@ public final class Constants {
         public static final double kClosedPos = 0;
         public static final double kOpenPos = 0;
 
-        public static final double kOpeningAmps = -0.1;
-        public static final double kClosingAmps = 0.1;
+        public static final double kOpeningAmps = -1;
+        public static final double kClosingAmps = 1;
     }
 
     public static final class ArmConstants {
@@ -206,6 +206,7 @@ public final class Constants {
         public static final double kConeNodeOffsetMeters = 0;
 
         public static final Pose2d kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
+        public static final Pose2d kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
 
         public static final double fieldCenterMeters = 8.270875;
         public static final double fieldLength = fieldCenterMeters * 2;

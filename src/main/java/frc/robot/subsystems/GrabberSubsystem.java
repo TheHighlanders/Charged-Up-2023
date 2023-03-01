@@ -19,11 +19,11 @@ public class GrabberSubsystem extends SubsystemBase {
   }
 
   public void closeHand() {
-    handMotor.setCurrent(GrabberConstants.kOpeningAmps);
+    handMotor.setCurrent(GrabberConstants.kClosingAmps);
   }
 
   public void openHand() {
-    handMotor.setCurrent(GrabberConstants.kClosingAmps);
+    handMotor.setCurrent(GrabberConstants.kOpeningAmps);
   }
 
   public void stopHand() {
