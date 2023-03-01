@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
+import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
@@ -72,6 +73,8 @@ public class RobotContainer {
 
   private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
       grabberSub, intakeSub, vision);
+  private final SequentialCommandGroup loadingZoneAUTO = new LoadingZoneAUTON(swerveSubsystem, armSubsystem,
+  grabberSub, intakeSub, vision);
 
   // A chooser for autonomous commands
   SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
@@ -103,6 +106,7 @@ public class RobotContainer {
 
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
     m_chooser.addOption("Scoring", scoringTableAUTO);
+    m_chooser.addOption("Loading", loadingZoneAUTO);
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
