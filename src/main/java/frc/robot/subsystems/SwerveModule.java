@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 //import frc.robot.Constants;
@@ -138,5 +139,13 @@ public class SwerveModule {
 
   public void stop() {
     driveMotor.set(0);
+  }
+
+  public void jog(double angleSpeed, double driveSpeed){
+    DriverStation.reportWarning("Jogging: " + absoluteEncoder.getChannel(), false);
+
+    angleMotor.set(angleSpeed);
+    driveMotor.set(driveSpeed);
+
   }
 }

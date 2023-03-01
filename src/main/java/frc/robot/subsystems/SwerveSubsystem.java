@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.sql.Driver;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -12,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -387,6 +390,23 @@ public class SwerveSubsystem extends SubsystemBase {
         setModuleStates(moduleStates);
 
         cmdDone = stopped && atPoint;
+
+    }
+
+    public void jogModule(double angleSpeed, double driveSpeed, double moduleID){
+        DriverStation.reportWarning("JOGGING MODULE", false);
+        if(moduleID == 0){
+            frontLeft.jog(angleSpeed, driveSpeed);
+        }
+        if(moduleID == 1){
+            backLeft.jog(angleSpeed, driveSpeed);
+        }
+        if(moduleID == 2){
+            backRight.jog(angleSpeed, driveSpeed);
+        }
+        if(moduleID == 3){
+            frontRight.jog(angleSpeed, driveSpeed);
+        }
 
     }
 

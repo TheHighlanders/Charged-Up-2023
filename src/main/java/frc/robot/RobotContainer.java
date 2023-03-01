@@ -99,7 +99,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
+    //swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
 
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
     m_chooser.addOption("Scoring", scoringTableAUTO);
@@ -134,6 +134,8 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 3).onTrue(armMidCMD);
     new JoystickButton(operatorJoystick, 4).onTrue(armShelfCMD);
     new JoystickButton(operatorJoystick, 8).onTrue(armTopCMD);
+
+    new JoystickButton(operatorJoystick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.jogModule(0.2, 0.2, 2)));
   }
 
   /**
