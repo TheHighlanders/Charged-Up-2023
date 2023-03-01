@@ -36,8 +36,8 @@ public class LoadingZoneAUTON extends SequentialCommandGroup {
   private GrabberSubsystem grabberSubsystem;
   private Intake intakeSubsystem;
   private vision visionSubsystem;
-  private String ScoringTable1 = "ScoringTable1";
-  private String ScoringTable2 = "ScoringTable2";
+  private String LoadingZone1 = "LoadingZone1";
+  private String LoadingZone2 = "LoadingZone2";
 
   public LoadingZoneAUTON(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, GrabberSubsystem grabber_subsystem,
       Intake intake_subsystem, vision vision_subsystem) {
@@ -56,17 +56,17 @@ public class LoadingZoneAUTON extends SequentialCommandGroup {
 
     Pose2d startPose = AutoConstants.kLoadingZoneConeNode;
 
-    String path1 = Filesystem.getDeployDirectory().toPath().resolve("LoadingZone1").toString();
-    String path2 = Filesystem.getDeployDirectory().toPath().resolve("LoadingZone2").toString();
+    String path1 = Filesystem.getDeployDirectory().toPath().resolve(LoadingZone1).toString();
+    String path2 = Filesystem.getDeployDirectory().toPath().resolve(LoadingZone2).toString();
 
     addCommands(
         new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
-        new InstantCommand(() -> swerveSubsystem.resetOdometry(startPose)),
+        
 
         new GrabberCloseCMD(grabberSubsystem), //Finalize grab of preload
         new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem), //Reach Up to Top
         new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, visionSubsystem, swerveSubsystem), //Park
-
+        new InstantCommand(() -> swerveSubsystem.resetOdometry(startPose)),
         new GrabberOpenCMD(grabberSubsystem), //Drop Cone
         new AUTOswerveMoveCommand(swerveSubsystem, retreatX, retreatY, retreatHeading, true), //Retreat from Node
         new AUTOstartIntakeCMD(intakeSubsystem), //Start Intake

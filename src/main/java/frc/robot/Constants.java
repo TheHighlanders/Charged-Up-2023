@@ -204,9 +204,11 @@ public final class Constants {
 
     public static final class AutoConstants {
         public static final double kConeNodeOffsetMeters = 0;
+        
+        
 
-        public static final Pose2d kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
-        public static final Pose2d kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
+        public static Pose2d kScoringTableConeNode = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
+        public static Pose2d kLoadingZoneConeNode  = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
 
         public static final double fieldCenterMeters = 8.270875;
         public static final double fieldLength = fieldCenterMeters * 2;

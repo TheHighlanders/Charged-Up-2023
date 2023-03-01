@@ -61,12 +61,11 @@ public class ScoringTableAUTON extends SequentialCommandGroup {
 
     addCommands(
         new InstantCommand(() -> swerveSubsystem.zeroAllModules()),
-        new InstantCommand(() -> swerveSubsystem.resetOdometry(startPose)),
 
         new GrabberCloseCMD(grabberSubsystem), //Finalize grab of preload
         new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem), //Reach Up to Top
         new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, visionSubsystem, swerveSubsystem), //Park
-
+        new InstantCommand(() -> swerveSubsystem.resetOdometry(startPose)),
         new GrabberOpenCMD(grabberSubsystem), //Drop Cone
         new AUTOswerveMoveCommand(swerveSubsystem, retreatX, retreatY, retreatHeading, true), //Retreat from Node
         new AUTOstartIntakeCMD(intakeSubsystem), //Start Intake

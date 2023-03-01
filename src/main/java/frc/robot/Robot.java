@@ -5,9 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.AutoConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -66,6 +70,14 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    if(DriverStation.getAlliance() == DriverStation.Alliance.Blue){
+      AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
+      AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
+    }
+    if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
+      AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(14.75, 0.5), new Rotation2d(180));
+      AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(180));
+    }
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
