@@ -36,7 +36,7 @@ public class Arm extends SubsystemBase {
 
     armPIDunbox = ArmMotor.getPIDController();
     armPID = new SparkMaxPIDControllerSmart(armPIDunbox);
-    armPID.setOutputRange(-0.1, 0.1);
+    armPID.setOutputRange(-0.3, 0.3);
     armPID.setP(ArmConstants.kPArm);
     armPID.setI(ArmConstants.kIArm);
     armPID.setD(ArmConstants.kDArm);

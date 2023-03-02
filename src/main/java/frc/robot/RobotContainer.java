@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
+import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -55,10 +56,9 @@ public class RobotContainer {
   private final Arm armSubsystem = new Arm();
 
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
-  // private final encoderPrintout encoderPrintoutCMD = new
-  // encoderPrintout(swerveSubsystem);
+
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
-  // private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
+  private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
 
   private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
@@ -102,7 +102,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    //swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
+    swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
 
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
     m_chooser.addOption("Scoring", scoringTableAUTO);

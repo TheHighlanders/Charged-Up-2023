@@ -70,26 +70,28 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    if(DriverStation.getAlliance() == DriverStation.Alliance.Blue){
-      AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
-      AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
-    }
-    if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
-      AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(14.75, 0.5), new Rotation2d(180));
-      AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(180));
-    }
+    // if(DriverStation.getAlliance() == DriverStation.Alliance.Blue){
+    //   AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
+    //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
+    // }
+    // if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
+    //   AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(14.75, 0.5), new Rotation2d(180));
+    //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(180));
+    // }
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // // schedule the autonomous command (example)
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+    
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    RobotContainer.swerveSubsystem.encoderPrintoutDeg();
   }
 
   @Override
@@ -111,6 +113,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    RobotContainer.swerveSubsystem.encoderPrintoutDeg();
   }
 
   @Override
