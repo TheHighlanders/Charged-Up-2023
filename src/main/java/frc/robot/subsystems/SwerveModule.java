@@ -25,14 +25,14 @@ public class SwerveModule {
   private final CANSparkMax angleMotor;
 
   private final RelativeEncoder driveEncoder;
-  private final RelativeEncoder angleEncoder;
+  public final RelativeEncoder angleEncoder;
 
   private final CANSparkMax.IdleMode holdMode = IdleMode.kBrake;
 
   public final PIDController drivePIDController;
   public final PIDController anglePIDController;
 
-  private final edu.wpi.first.wpilibj.AnalogInput absoluteEncoder;
+  public final edu.wpi.first.wpilibj.AnalogInput absoluteEncoder;
   private final boolean absoluteEncoderReversed;
   private final double absoluteEncoderOffsetRad;
 

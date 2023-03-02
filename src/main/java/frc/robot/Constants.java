@@ -251,5 +251,13 @@ public final class Constants {
         public static final double kPIDtimerTol = 5;
 
     }
-
+    
+    public static final class GyroConstants{
+        // public static final double Vkp = 0.01;
+        // public static final double Vki = 0;
+        // public static final double Vkd = 0;
+        public static final double max = 0.5;
+        public static final double startInreaseTrend = 2;
+        public static final double stopInreaseTrend = 15;
+    }
 }
