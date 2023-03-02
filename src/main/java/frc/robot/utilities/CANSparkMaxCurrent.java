@@ -8,9 +8,9 @@ public class CANSparkMaxCurrent extends CANSparkMax {
         super(deviceId, type);
     }
 
-    public void setCurrent(double amps) {
+    public void setCurrent(int amps) {
         //Math.abs(amps)
-        this.setSmartCurrentLimit((int) Math.abs(amps));
+        this.setSmartCurrentLimit(Math.abs(amps));
         this.set(1 * Math.signum(amps));
     }
 
@@ -18,7 +18,7 @@ public class CANSparkMaxCurrent extends CANSparkMax {
 
         double percentTorque = nm / 3.28;
 
-        double currentLimit = percentTorque * 181;
+        int currentLimit = (int)(percentTorque * 181);
 
         this.setCurrent(currentLimit);
 

@@ -65,8 +65,8 @@ public final class Constants {
         public static final double kClosedPos = 0;
         public static final double kOpenPos = 0;
 
-        public static final double kOpeningAmps = -1;
-        public static final double kClosingAmps = 1;
+        public static final int kOpeningAmps = -1;
+        public static final int kClosingAmps = 1;
     }
 
     public static final class ArmConstants {
@@ -84,9 +84,14 @@ public final class Constants {
         public static final double kShelfPos = -2500;
         public static final double kTopPos = -2750;
 
-        public static final double kPArm = 0.01;
+        public static final double kPArm = 0.005;
         public static final double kIArm = 0;
-        public static final double kDArm = 0.01;
+        public static final double kDArm = 0.0025;
+
+        public static final double maxOut = 0.15;
+        public static final double minOut = -0.3;
+        public static final double kMaxI = 0.05;
+
 
         public static final int COUNTS_PER_REV = 0;
     }

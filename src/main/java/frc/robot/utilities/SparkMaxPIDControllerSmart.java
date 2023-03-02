@@ -10,7 +10,6 @@ public class SparkMaxPIDControllerSmart{
 
     public SparkMaxPIDControllerSmart(SparkMaxPIDController pidController){
         controller = pidController;
-        
     }
 
     public REVLibError setP(double p){
@@ -32,6 +31,10 @@ public class SparkMaxPIDControllerSmart{
     public REVLibError setReference(double setpoint, ControlType controlType){
         this.setpoint = setpoint;
         return controller.setReference(setpoint, controlType);
+    }
+
+    public REVLibError setMaxI(double max){
+        return controller.setIMaxAccum(max, 0);
     }
 
     public double getSetpoint(){
