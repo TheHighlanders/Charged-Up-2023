@@ -133,6 +133,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
     new JoystickButton(driverJoystick, 8).onTrue(balanceCMD);
+    new JoystickButton(driverJoystick, 5).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3

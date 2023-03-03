@@ -20,58 +20,13 @@ public class Robot extends TimedRobot {
   //private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   //private final encoderPrintout encoderPrintoutCMD = new encoderPrintout(swerveSubsystem);
 
-  // private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
-  private RobotContainer m_robotContainer;
-  // private final VISIONalignAprilTag visionAlign = new VISIONalignAprilTag(m_robotContainer.vision,
-  //     m_robotContainer.swerveSubsystem);
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
-    /*m_visionThread = new Thread(
-        () -> {
-          // Get the UsbCamera from CameraServer
-          UsbCamera camera = CameraServer.startAutomaticCapture();
-          // Set the resolution
-          camera.setResolution(640, 480);
-
-          // Get a CvSink. This will capture Mats from the camera
-          CvSink cvSink = CameraServer.getVideo();
-          // Setup a CvSource. This will send images back to the Dashboard
-          CvSource outputStream = CameraServer.putVideo("Video", 640, 480);
-
-          // Mats are very memory expensive. Lets reuse this Mat.
-          Mat mat = new Mat();
-
-          // This cannot be 'true'. The program will never exit if it is. This
-          // lets the robot stop this thread when restarting robot code or
-          // deploying.
-          while (!Thread.interrupted()) {
-            // Tell the CvSink to grab a frame from the camera and put it
-            // in the source mat.  If there is an error notify the output.
-            if (cvSink.grabFrame(mat) == 0) {
-              // Send the output the error.
-              outputStream.notifyError(cvSink.getError());
-              // skip the rest of the current iteration
-              continue;
-            }
-            // Give the output stream a new image to display
-            outputStream.putFrame(mat);
-          }
-        });
-    m_visionThread.setDaemon(true);
-    m_visionThread.start();
-
-    camera1 = CameraServer.startAutomaticCapture(0);
-    camera2 = CameraServer.startAutomaticCapture(1);
-
-    cameraSelection = NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection");*/
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    new RobotContainer();
 
   }
 
