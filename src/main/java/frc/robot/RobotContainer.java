@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,9 +30,11 @@ import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
 import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.GrabberSubsystem;
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
+import frc.robot.commands.autoBalanceCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -55,6 +58,8 @@ public class RobotContainer {
 
   private final Arm armSubsystem = new Arm();
 
+  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+
   String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
@@ -70,6 +75,8 @@ public class RobotContainer {
   private final ArmMoveCMD armMidCMD = new ArmMoveCMD(ArmConstants.kMiddlePos, armSubsystem, intakeSub);
   private final ArmMoveCMD armShelfCMD = new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSub);
   private final ArmMoveCMD armTopCMD = new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSub);
+
+  private final autoBalanceCommand balanceCMD = new autoBalanceCommand(gyroSubsystem, swerveSubsystem);
 
   private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
       grabberSub, intakeSub, vision);
@@ -125,6 +132,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 2).onTrue(zeroHeadingCMD);
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
+    new JoystickButton(driverJoystick, 8).onTrue(balanceCMD);
 
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
