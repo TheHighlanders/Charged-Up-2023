@@ -14,10 +14,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
+import frc.robot.commands.ArmCMDs.ArmUpCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
+import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -34,7 +38,6 @@ import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
-import frc.robot.commands.autoBalanceCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -75,6 +78,9 @@ public class RobotContainer {
   private final ArmMoveCMD armMidCMD = new ArmMoveCMD(ArmConstants.kMiddlePos, armSubsystem, intakeSub);
   private final ArmMoveCMD armShelfCMD = new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSub);
   private final ArmMoveCMD armTopCMD = new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSub);
+
+  private final ArmUpCMD armMoveUpCMD = new ArmUpCMD(armSubsystem);
+  private final ArmDownCMD armMoveDownCMD = new ArmDownCMD(armSubsystem);
 
   private final autoBalanceCommand balanceCMD = new autoBalanceCommand(gyroSubsystem, swerveSubsystem);
 
@@ -147,6 +153,9 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 3).onTrue(armMidCMD);
     new JoystickButton(operatorJoystick, 4).onTrue(armShelfCMD);
     new JoystickButton(operatorJoystick, 8).onTrue(armTopCMD);
+
+    new POVButton(operatorJoystick, 0).whileTrue(armMoveUpCMD);
+    new POVButton(operatorJoystick, 180).whileTrue(armMoveDownCMD);
 
     new JoystickButton(operatorJoystick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.jogModule(0.2, 0.2, 2)));
   }
