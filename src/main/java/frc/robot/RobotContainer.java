@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -20,6 +21,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmUpCMD;
+import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
@@ -63,11 +65,13 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/New New Path.csv";
+  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
+
+  private final AUTOcsvPathFollowCMD testingCSVtrajectory = new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem);
 
   private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
   private final spinIntakeInCMD intakeInCMD = new spinIntakeInCMD(intakeSub);
@@ -120,6 +124,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
     m_chooser.addOption("Scoring", scoringTableAUTO);
     m_chooser.addOption("Loading", loadingZoneAUTO);
+    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
