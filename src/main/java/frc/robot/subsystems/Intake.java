@@ -51,11 +51,15 @@ public class Intake extends SubsystemBase {
   }
 
   public void spinIntakeIn() {
-    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeed);
+    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeedLow);
   }
 
   public void spinIntakeOut() {
-    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeed * -1);
+    intakeSpin.set(ControlMode.PercentOutput, IntakeConstants.kIntakeSpeedLow * -1);
+  }
+  
+  public void spinIntake(double speed){
+    intakeSpin.set(ControlMode.PercentOutput, speed);
   }
 
   public void stop() {

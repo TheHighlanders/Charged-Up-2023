@@ -4,10 +4,10 @@
 
 package frc.robot.commands.AutonCMDs;
 
-import frc.robot.Constants.AutoConstants;
 import frc.robot.utilities.*;
 
-import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.RelativeEncoder;
+
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -15,16 +15,14 @@ public class AUTOwaitUntilPIDtargetCMD extends CommandBase {
   /** Creates a new AUTOwaitUntilPIDtargetCMD. */
   public SparkMaxPIDControllerSmart pid;
   public boolean cmdComplete = false;
-  public SparkMaxRelativeEncoder encoder;
-  public double highTol;
-  public double lowTol;
-  public double setpoint;
+  public RelativeEncoder encoder;
+  double toleranceDeg;
 
-  public AUTOwaitUntilPIDtargetCMD(SparkMaxPIDControllerSmart pidCon, SparkMaxRelativeEncoder encoder) {
+  public AUTOwaitUntilPIDtargetCMD(SparkMaxPIDControllerSmart pidCon, RelativeEncoder encoder, double tolerance) {
     // Use addRequirements() here to declare subsystem dependencies.
     pid = pidCon;
     this.encoder = encoder;
-    setpoint = pid.getSetpoint();
+    toleranceDeg = tolerance / 2;
   }
 
   // Called when the command is initially scheduled.
@@ -34,11 +32,12 @@ public class AUTOwaitUntilPIDtargetCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    setpoint = pid.getSetpoint();
-    highTol = encoder.getPosition() + AutoConstants.kPIDtimerTol;
-    lowTol = encoder.getPosition() - AutoConstants.kPIDtimerTol;
+    double setpoint = pid.getSetpoint();
+    double highTol = setpoint + toleranceDeg;
+    double lowTol = setpoint- toleranceDeg;
+    double position = encoder.getPosition();
 
-    cmdComplete = (setpoint >= lowTol && setpoint <= highTol);
+    cmdComplete = (position >= lowTol && position <= highTol);
 
   }
 

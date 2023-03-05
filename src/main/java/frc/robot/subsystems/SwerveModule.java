@@ -14,8 +14,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -95,12 +97,14 @@ public class SwerveModule {
     double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
     angle *= 2.0 * Math.PI;
     angle -= absoluteEncoderOffsetRad;
+    angle = edu.wpi.first.math.MathUtil.angleModulus(angle);
     return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
   }
 
   public double getAbsoluteEncoderRadNoOffset() {
     double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
     angle *= 2.0 * Math.PI;
+    
     return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
   }
 
@@ -133,8 +137,8 @@ public class SwerveModule {
 
     driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
 
-    angleMotor.set(anglePIDController.calculate(getAnglePosition(), state.angle.getRadians()));
-
+    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
+    SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
   }
 
   public void stop() {

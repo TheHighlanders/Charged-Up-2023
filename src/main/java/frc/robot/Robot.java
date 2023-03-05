@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private RobotContainer m_robotContainer;
   //private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   //private final encoderPrintout encoderPrintoutCMD = new encoderPrintout(swerveSubsystem);
 
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    new RobotContainer();
+    m_robotContainer = new RobotContainer();
 
   }
 
@@ -79,12 +80,12 @@ public class Robot extends TimedRobot {
     //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(180));
     // }
 
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.schedule();
-    // }
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
     
   }
 

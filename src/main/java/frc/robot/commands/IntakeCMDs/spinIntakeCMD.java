@@ -7,12 +7,14 @@ package frc.robot.commands.IntakeCMDs;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class spinIntakeInCMD extends CommandBase {
+public class spinIntakeCMD extends CommandBase {
   public final Intake intake_sub;
+  public double speed;
 
   /** Creates a new IntakeSpin. */
-  public spinIntakeInCMD(Intake intake_subintake) {
+  public spinIntakeCMD(double speed, Intake intake_subintake) {
     intake_sub = intake_subintake;
+    this.speed = speed;
     addRequirements(intake_sub);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,7 +27,7 @@ public class spinIntakeInCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake_sub.spinIntakeIn();
+    intake_sub.spinIntake(speed);
   }
 
   // Called once the command ends or is interrupted.

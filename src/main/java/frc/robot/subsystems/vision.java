@@ -7,8 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -56,9 +54,9 @@ public class vision extends SubsystemBase {
   public void periodic() {
     updateNetworkTables();
 
-    SmartDashboard.putNumber("targetX", txVal);
-    SmartDashboard.putNumber("targetY", tyVal);
-    SmartDashboard.putNumber("tag ID", tidVal);
+    // SmartDashboard.putNumber("targetX", txVal);
+    // SmartDashboard.putNumber("targetY", tyVal);
+    // SmartDashboard.putNumber("tag ID", tidVal);
 
     // This method will be called once per scheduler run
   }
@@ -66,7 +64,6 @@ public class vision extends SubsystemBase {
   public void updateNetworkTables() {
     updateZalpha();
     calulateTag();
-    DriverStation.reportWarning("Entry " + tx, false);
     tvVal = tv.getDouble(0.0);
     txVal = tx.getDouble(0.0);
     tyVal = ty.getDouble(0.0);
@@ -78,15 +75,15 @@ public class vision extends SubsystemBase {
     Xr = poseArray[0];
     Yr = poseArray[2]; //0 & 1 are guesses, should be the index of the transform in X and Y
 
-    SmartDashboard.putNumber("TargetPoseX in Robot Space", Xr);
-    SmartDashboard.putNumber("TargetPoseY in Robot Space", Yr);
+    // SmartDashboard.putNumber("TargetPoseX in Robot Space", Xr);
+    // SmartDashboard.putNumber("TargetPoseY in Robot Space", Yr);
 
   }
 
   public void updateZalpha() {
     if (tvVal == 1) {
       Z = Math.hypot(Xr, Yr);
-      SmartDashboard.putNumber("Z", Z);
+      //SmartDashboard.putNumber("Z", Z);
       alpha = Math.atan2(Yr, Xr);
 
     }
@@ -101,17 +98,17 @@ public class vision extends SubsystemBase {
     robotX = RobotContainer.swerveSubsystem.getPose2d().getX();
     robotY = RobotContainer.swerveSubsystem.getPose2d().getY();
 
-    SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
-    SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
+    // SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
+    // SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
 
     tagOffsetX = (distanceToTarget * Math.cos(theta - phi));
     tagOffsetY = (distanceToTarget * Math.sin(theta - phi));
     tagOdoX = robotX - tagOffsetX;
     tagOdoY = robotY - tagOffsetY;
 
-    SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
-    SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
-    SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
-    SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
+    // SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
+    // SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
+    // SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
+    // SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
   }
 }

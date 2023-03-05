@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,7 +16,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmUpCMD;
@@ -26,11 +28,12 @@ import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
-import frc.robot.commands.IntakeCMDs.spinIntakeInCMD;
-import frc.robot.commands.IntakeCMDs.spinIntakeOutCMD;
+import frc.robot.commands.IntakeCMDs.TurntableSpinCMD;
+import frc.robot.commands.IntakeCMDs.spinIntakeCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
 import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
 import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
@@ -65,7 +68,7 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
+  String autoPath1 = "pathplanner/generatedCSV/TestAutoLine.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
@@ -74,8 +77,11 @@ public class RobotContainer {
   private final AUTOcsvPathFollowCMD testingCSVtrajectory = new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem);
 
   private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
-  private final spinIntakeInCMD intakeInCMD = new spinIntakeInCMD(intakeSub);
-  private final spinIntakeOutCMD intakeOutCMD = new spinIntakeOutCMD(intakeSub);
+  private final spinIntakeCMD intakeInHighCMD = new spinIntakeCMD(IntakeConstants.kIntakeSpeedHigh, intakeSub);
+  private final spinIntakeCMD intakeInLowCMD = new spinIntakeCMD(IntakeConstants.kIntakeSpeedLow, intakeSub);
+  private final spinIntakeCMD intakeOutCMD = new spinIntakeCMD(-IntakeConstants.kIntakeSpeedHigh, intakeSub);
+
+  private final TurntableSpinCMD spinTurntableCMD = new TurntableSpinCMD(intakeSub, false);
 
   private final ArmMoveCMD armStowCMD = new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSub);
   private final ArmMoveCMD armDownCMD = new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSub);
@@ -93,6 +99,8 @@ public class RobotContainer {
   private final SequentialCommandGroup loadingZoneAUTO = new LoadingZoneAUTON(swerveSubsystem, armSubsystem,
   grabberSub, intakeSub, vision);
 
+  private final SequentialCommandGroup testSubsystemsAUTO = new TestAUTON(armSubsystem, intakeSub, grabberSub);
+
   // A chooser for autonomous commands
   SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
 
@@ -107,6 +115,7 @@ public class RobotContainer {
   //     new InstantCommand(
   //         () -> SmartDashboard.putString("Start Pose", swerveSubsystem.getPose2d() + " Start Pose")),
   //     //trajectory.generateTrajectory(),
+
   //     new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem),
   //     new InstantCommand(() -> swerveSubsystem.stopModules()),
   //     new InstantCommand(
@@ -125,6 +134,7 @@ public class RobotContainer {
     m_chooser.addOption("Scoring", scoringTableAUTO);
     m_chooser.addOption("Loading", loadingZoneAUTO);
     m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
+    m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
@@ -144,14 +154,19 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 3).onTrue(new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d())));
     new JoystickButton(driverJoystick, 1).onTrue(toggleFieldOrientedCMD);
     new JoystickButton(driverJoystick, 8).onTrue(balanceCMD);
-    new JoystickButton(driverJoystick, 5).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));
+    new JoystickButton(driverJoystick, 7).whileTrue(intakeOutCMD);
+
+    new JoystickButton(driverJoystick, 4).onTrue(deployIntakeCMD);
+    new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
+    new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
+    new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));
+    new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+
+    new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
 
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
-
-    new JoystickButton(driverJoystick, 0).onTrue(deployIntakeCMD);
-    new JoystickButton(driverJoystick, 0).whileTrue(intakeInCMD);
-    new JoystickButton(driverJoystick, 0).whileTrue(intakeOutCMD);
 
     new JoystickButton(operatorJoystick, 1).onTrue(armStowCMD);
     new JoystickButton(operatorJoystick, 2).onTrue(armDownCMD);

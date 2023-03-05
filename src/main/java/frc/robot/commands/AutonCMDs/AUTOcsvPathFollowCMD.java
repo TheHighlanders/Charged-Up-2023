@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -26,11 +28,13 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   private int closestPointIndex = 0;
   private SwerveSubsystem swerveSubsystem;
 
+  private PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi, AutoConstants.kXPIDd);
+
   private double[] xArray;
   private double[] yArray;
   private double[] headingArray;
   private double[] timeArray;
-  private boolean cmdDone;
+  private boolean cmdDone = false;
 
   /**
    * Reads A CSV with the filename path, and parses it out into Arrays for use in
@@ -42,7 +46,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   public AUTOcsvPathFollowCMD(String path, SwerveSubsystem swerve_subsystem) {
     swerveSubsystem = swerve_subsystem;
     addRequirements(swerveSubsystem);
-
+    
     ArrayList<Double> xList = new ArrayList<>();
     ArrayList<Double> yList = new ArrayList<>();
     ArrayList<Double> timeList = new ArrayList<>();
@@ -105,6 +109,12 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DriverStation.reportWarning("Initialize", false);
+    Pose2d pathStartPose = new Pose2d(new Translation2d(xArray[0], yArray[0]), new Rotation2d(Units.degreesToRadians(headingArray[0] + 90)));
+    swerveSubsystem.zeroHeading();
+    swerveSubsystem.resetOdometry(pathStartPose);
+    cmdDone = false;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -137,15 +147,14 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     SmartDashboard.putNumber("Y Target", yEndPoint);
     SmartDashboard.putNumber("theta Target", headingEndPoint.getRadians());
 
-    double deltaX = xEndPoint - currentX;
+    double deltaX = currentX - xEndPoint;
     double deltaY = yEndPoint - currentY;
 
-    PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi, AutoConstants.kXPIDd);
+    
 
     double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
 
-    pidController.close();
 
     double speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     double speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
@@ -155,19 +164,21 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     //     && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
+        (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         0.0,
         swerveSubsystem.getRotation2D());
 
-    swerveSubsystem.setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
+    swerveSubsystem.setLastValidHeading(headingEndPoint);
     // Putting Code to Drive
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
 
     SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
-
+    DriverStation.reportWarning(
+      "asdadClosest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
+  
     if (closestPointIndex == targetPointIndex) {
       cmdDone = true;
     }

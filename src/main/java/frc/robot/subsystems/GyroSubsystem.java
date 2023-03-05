@@ -24,13 +24,13 @@ public class GyroSubsystem extends SubsystemBase {
 
   public SwerveModuleState[] CalculateAngle(SwerveSubsystem subsystem) {
     float roll = ahrs.getRoll() * -1; // it was the wrong direction
-    float pitch = ahrs.getPitch();
-    double angle = Math.atan2(roll, pitch);
-    double magnitue = clamp(Math.hypot(roll, pitch));
+    float pitch = ahrs.getPitch()* -1;
+    double angle = Math.atan2(pitch, roll);
+    double magnitue = clamp(Math.hypot(pitch, roll));
     //double Vpid = VpidController.calculate((yaw + pitch)/2, 0);
     // double xSpeed =  magnitue * Math.cos(angle);
     // double ySpeed = magnitue * Math.sin(angle);
-    SmartDashboard.putString("Gyro values", "pitch/yaw " + pitch + " " + roll);
+    SmartDashboard.putString("Gyro values", "pitch/yaw " + roll + " " + pitch);
     SwerveModuleState state = new SwerveModuleState(magnitue, new Rotation2d(angle- Math.PI/2));
     SmartDashboard.putString("Module state", state.toString());
     return new SwerveModuleState[] {state, state, state, state};
@@ -45,7 +45,7 @@ public class GyroSubsystem extends SubsystemBase {
       return (-(x-GyroConstants.startInreaseTrend)/GyroConstants.stopInreaseTrend * -GyroConstants.max);
     }
     else if (x > 15){
-      return 0.5;
+      return GyroConstants.max;
     }
     return 0;
   }

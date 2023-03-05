@@ -51,7 +51,8 @@ public final class Constants {
         public static final double kIntakeOutPos = 0;
         public static final double kIntakeInPos = 0;
 
-        public static final double kIntakeSpeed = 0.5;
+        public static final double kIntakeSpeedLow = 0.5;
+        public static final double kIntakeSpeedHigh = 0.7;
 
     }
 
@@ -105,9 +106,9 @@ public final class Constants {
         public static final double kAngleMotorEncoderRot2Rad = kAngleMotorGearRatio * 2.0f * Math.PI;
         public static final double kDriveMotorEncoderRPM2MeterPerSec = kDriveMotorEncoderRot2Meter / 60.0f;
         public static final double kAngleMotorEncoderRPM2RadPerSec = kAngleMotorEncoderRot2Rad / 60.0f;
-        public static final double kPAngle = 0.3;
+        public static final double kPAngle = 0.6;
         public static final double kIAngle = 0;
-        public static final double kDAngle = 0.01;
+        public static final double kDAngle = 0;
 
         // public static final double kPAngle = 0.5;
         // public static final double kIAngle = 1.0;
@@ -219,7 +220,7 @@ public final class Constants {
         public static final double fieldLength = fieldCenterMeters * 2;
         public static final double headingFlipMirror = 90;
 
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 24;
+        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 6;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -256,7 +257,7 @@ public final class Constants {
         // public static final double Vkp = 0.01;
         // public static final double Vki = 0;
         // public static final double Vkd = 0;
-        public static final double max = 0.5;
+        public static final double max = 0.25/2;
         public static final double startInreaseTrend = 2;
         public static final double stopInreaseTrend = 15;
     }
