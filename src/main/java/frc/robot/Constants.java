@@ -51,8 +51,8 @@ public final class Constants {
         public static final double kIntakeOutPos = 0;
         public static final double kIntakeInPos = 0;
 
-        public static final double kIntakeSpeedLow = 0.5;
-        public static final double kIntakeSpeedHigh = 0.7;
+        public static final double kIntakeSpeedLow = 0.4;
+        public static final double kIntakeSpeedHigh = 0.8;
 
     }
 
