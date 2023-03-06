@@ -5,20 +5,29 @@
 package frc.robot.commands.IntakeCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 
 public class DeployIntakeCMD extends CommandBase {
   /** Creates a new DeployIntakeCMD. */
   private Intake intakeSubsystem;
+  private Arm armSubsystem;
 
-  public DeployIntakeCMD(Intake intake_subsystem) {
+  public DeployIntakeCMD(Intake intake_subsystem, Arm arm_subsystem) {
     intakeSubsystem = intake_subsystem;
+    armSubsystem = arm_subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    double armPos = armSubsystem.ArmEncoder.getPosition();
+    if(intakeSubsystem.deployed == true && 
+        (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
+      return;
+    }
     intakeSubsystem.deployIntake();
   }
 

@@ -76,7 +76,7 @@ public class RobotContainer {
 
   private final AUTOcsvPathFollowCMD testingCSVtrajectory = new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem);
 
-  private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub);
+  private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub, armSubsystem);
   private final spinIntakeCMD intakeInHighCMD = new spinIntakeCMD(IntakeConstants.kIntakeSpeedHigh, intakeSub);
   private final spinIntakeCMD intakeInLowCMD = new spinIntakeCMD(IntakeConstants.kIntakeSpeedLow, intakeSub);
   private final spinIntakeCMD intakeOutCMD = new spinIntakeCMD(-IntakeConstants.kIntakeSpeedHigh, intakeSub);
