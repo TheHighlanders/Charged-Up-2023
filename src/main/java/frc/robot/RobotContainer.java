@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -165,8 +166,11 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
     new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
     new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));
-    new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
-    new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+
+    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
     new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);
