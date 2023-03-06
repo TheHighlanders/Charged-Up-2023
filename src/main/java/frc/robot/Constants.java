@@ -46,7 +46,7 @@ public final class Constants {
         public static final double kIIntakeDeploy = 0;
         public static final double kDIntakeDeploy = 0;
 
-        public static final double kIntakeDeployRatio = 0;
+        public static final double kIntakeDeployRatio = 1.0f/200.0f;
 
         public static final double kIntakeOutPos = 0;
         public static final double kIntakeInPos = 0;
