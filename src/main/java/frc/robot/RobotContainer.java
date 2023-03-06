@@ -26,6 +26,7 @@ import frc.robot.commands.ArmCMDs.ArmUpCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
+import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
@@ -82,6 +83,7 @@ public class RobotContainer {
   private final spinIntakeCMD intakeOutCMD = new spinIntakeCMD(-IntakeConstants.kIntakeSpeedHigh, intakeSub);
 
   private final TurntableSpinCMD spinTurntableCMD = new TurntableSpinCMD(intakeSub, false);
+  private final TurntableSpinCMD spinTurntableReverseCMD = new TurntableSpinCMD(intakeSub, true);
 
   private final ArmMoveCMD armStowCMD = new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSub);
   private final ArmMoveCMD armDownCMD = new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSub);
@@ -100,6 +102,8 @@ public class RobotContainer {
   grabberSub, intakeSub, vision);
 
   private final SequentialCommandGroup testSubsystemsAUTO = new TestAUTON(armSubsystem, intakeSub, grabberSub);
+
+  private final SequentialCommandGroup chargeStationAUTO = new ChargeStationAUTON(swerveSubsystem, armSubsystem, grabberSub, intakeSub, vision, gyroSubsystem);
 
   // A chooser for autonomous commands
   SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
@@ -133,6 +137,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
     m_chooser.addOption("Scoring", scoringTableAUTO);
     m_chooser.addOption("Loading", loadingZoneAUTO);
+    m_chooser.addOption("Charge Station", chargeStationAUTO);
     m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
 
@@ -164,6 +169,7 @@ public class RobotContainer {
     new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
+    new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);
 
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3

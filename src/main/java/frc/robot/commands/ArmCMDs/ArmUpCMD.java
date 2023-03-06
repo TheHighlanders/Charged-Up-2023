@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ArmCMDs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arm;
 
@@ -26,6 +27,7 @@ public class ArmUpCMD extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    DriverStation.reportWarning("Arm Going Up", false);
     Arm_sub.moveUp();
   }
 

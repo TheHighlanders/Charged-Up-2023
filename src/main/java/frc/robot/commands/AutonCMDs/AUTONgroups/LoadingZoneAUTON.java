@@ -73,7 +73,7 @@ public class LoadingZoneAUTON extends SequentialCommandGroup {
         new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem), //Retract Arm
         new AUTOcsvPathFollowCMD(path1, swerveSubsystem), //Drive To second Peice
         new AUTOstopIntakeCMD(intakeSubsystem), //Stop Intake
-        new DeployIntakeCMD(intakeSubsystem), //Retract Intake
+        new DeployIntakeCMD(intakeSubsystem, armSubsystem), //Retract Intake
         new AUTOcsvPathFollowCMD(path2, swerveSubsystem), //Drive back to Align Point
         new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSubsystem), //Go to pick up
         new GrabberCloseCMD(grabberSubsystem), //Pick up Game Peice

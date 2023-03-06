@@ -74,11 +74,15 @@ public class Robot extends TimedRobot {
     // if(DriverStation.getAlliance() == DriverStation.Alliance.Blue){
     //   AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(1.85, 0.45), new Rotation2d(0));
     //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(1.85, 4.95), new Rotation2d(0));
+    //    AutoConstants.kChargeStationCubeNode = new Pose2d(new Translation2d(1.85, 2.75), new Rotation2d(0));
     // }
     // if(DriverStation.getAlliance() == DriverStation.Alliance.Red){
-    //   AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(14.75, 0.5), new Rotation2d(180));
-    //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(180));
+    //   AutoConstants.kScoringTableConeNode = new Pose2d(new Translation2d(14.75, 0.5), new Rotation2d(Math.toRadians(180)));
+    //   AutoConstants.kLoadingZoneConeNode  = new Pose2d(new Translation2d(14.75, 5), new Rotation2d(Math.toRadians(180)));
+    //   AutoConstants.kChargeStationCubeNode = new Pose2d(new Translation2d(14.75, 2.75), new Rotation2d(Math.toRadians(180)));
     // }
+    
+      
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 

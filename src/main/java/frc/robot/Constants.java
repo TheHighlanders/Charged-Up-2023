@@ -216,6 +216,7 @@ public final class Constants {
 
         public static Pose2d kScoringTableConeNode = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
         public static Pose2d kLoadingZoneConeNode  = new Pose2d(new Translation2d(0, 0), new Rotation2d(0));
+        public static Pose2d kChargeStationCubeNode = new Pose2d(new Translation2d(0,0), new Rotation2d(0));
 
         public static final double fieldCenterMeters = 8.270875;
         public static final double fieldLength = fieldCenterMeters * 2;
@@ -229,7 +230,7 @@ public final class Constants {
 
         public static final double kTrajectoryPointSeperation = 0.2;
 
-        public static final double kAprilTagParkingDistance = 1.0;
+        public static final double kAprilTagParkingDistance = 1.25;
 
         public static final double kVelocityTolerance = 0.1;
 
