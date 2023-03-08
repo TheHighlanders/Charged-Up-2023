@@ -70,7 +70,7 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/TestAutoLine.csv";
+  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
@@ -162,7 +162,7 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 8).onTrue(balanceCMD);
     new JoystickButton(driverJoystick, 7).whileTrue(intakeOutCMD);
 
-    new JoystickButton(driverJoystick, 4).onTrue(deployIntakeCMD);
+    new JoystickButton(driverJoystick, 4).whileTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
     new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
     new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));

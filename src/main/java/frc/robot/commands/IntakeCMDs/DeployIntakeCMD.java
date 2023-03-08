@@ -4,6 +4,7 @@
 
 package frc.robot.commands.IntakeCMDs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
@@ -24,10 +25,11 @@ public class DeployIntakeCMD extends CommandBase {
   @Override
   public void initialize() {
     double armPos = armSubsystem.ArmEncoder.getPosition();
-    if(intakeSubsystem.deployed == true && 
-        (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
-      return;
-    }
+    // if(intakeSubsystem.deployed == true && 
+    //     (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
+    //   return;
+    // }
+    DriverStation.reportWarning("DeployCMD", false);
     intakeSubsystem.deployIntake();
   }
 

@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
@@ -25,6 +26,7 @@ public class Intake extends SubsystemBase {
   public TalonSRXConfiguration deployConfig = new TalonSRXConfiguration();
 
   public boolean deployed = false;
+  public double currentSetpoint;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -39,7 +41,6 @@ public class Intake extends SubsystemBase {
     intakeDeploy.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     intakeDeploy.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     intakeDeploy.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
-
     // intakeDeploy2.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     // intakeDeploy2.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     // intakeDeploy2.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
@@ -47,7 +48,9 @@ public class Intake extends SubsystemBase {
 
   public void deployIntake() {
     deployed = !deployed;
-    intakeDeploy.set(ControlMode.Position, (deployed ? IntakeConstants.kIntakeOutPos : IntakeConstants.kIntakeOutPos));
+    DriverStation.reportWarning("Deployed: " + deployed, false);
+    //intakeDeploy.set(ControlMode.Current, (deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr));
+    
   }
 
   public void spinIntakeIn() {
@@ -76,6 +79,20 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(currentSetpoint < IntakeConstants.kIntakeInCurr && deployed){
+      currentSetpoint += 10;
+    }
+    if(currentSetpoint > IntakeConstants.kIntakeOutCurr && !deployed){
+      currentSetpoint -= 10;
+    }
+
+    //(deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr)
+
+    intakeDeploy.set(ControlMode.Position, currentSetpoint);
+    // if(intakeDeploy.getSelectedSensorVelocity() <= 0.1){
+    //   intakeDeploy.set(ControlMode.PercentOutput, 0);
+    // }
+    
     // This method will be called once per scheduler run
   }
 }

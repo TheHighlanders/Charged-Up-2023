@@ -42,17 +42,17 @@ public final class Constants {
 
         public static final int DEPLOY_PID_ID = 0;
 
-        public static final double kPIntakeDeploy = 0;
-        public static final double kIIntakeDeploy = 0;
+        public static final double kPIntakeDeploy = 2.5;
+        public static final double kIIntakeDeploy = 0.001;
         public static final double kDIntakeDeploy = 0;
 
         public static final double kIntakeDeployRatio = 1.0f/200.0f;
 
-        public static final double kIntakeOutPos = 0;
-        public static final double kIntakeInPos = 0;
+        public static final double kIntakeOutCurr = -700;
+        public static final double kIntakeInCurr = 0;
 
-        public static final double kIntakeSpeedLow = 0.4;
-        public static final double kIntakeSpeedHigh = 0.8;
+        public static final double kIntakeSpeedLow = -0.4;
+        public static final double kIntakeSpeedHigh = -0.8;
 
     }
 
