@@ -18,7 +18,7 @@ public class VISIONalignAprilTag extends CommandBase {
 
   private double targetX;
   private double targetY;
-
+  boolean tagGood = false;
   double parkX;
   double parkY;
 
@@ -37,8 +37,9 @@ public class VISIONalignAprilTag extends CommandBase {
     if (vision.tvVal == 1) {
       targetX = vision.tagOdoX + parkX;
       targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance + parkY;
-
+      tagGood = true;
     }
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,6 +58,9 @@ public class VISIONalignAprilTag extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return swerveSubsystem.cmdDone;
+    if(tagGood){
+      return swerveSubsystem.cmdDone;
+    }
+    return true;
   }
 }

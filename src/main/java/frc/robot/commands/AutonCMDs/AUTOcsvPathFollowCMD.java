@@ -192,7 +192,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    DriverStation.reportWarning("DONE WITH TRAJECTORY", false);
+    DriverStation.reportWarning("DONE WITH TRAJECTORY" + cmdDone, false);
     return cmdDone;
   }
 
@@ -235,6 +235,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     for (int i = currentIndex; i < xArray.length - 1; i++) {
       double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY, 2));
       if (distance > 0.2) {
+        //if(i == closestPointIndex && i < xArray.length-1){i++;}//Nye 3/8 may cause zooom
         return i;
       }
     }

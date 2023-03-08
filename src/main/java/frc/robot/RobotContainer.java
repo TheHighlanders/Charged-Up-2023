@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -70,7 +71,7 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
+  String autoPath1 = "pathplanner/generatedCSV/TestAutoLine.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
@@ -139,7 +140,7 @@ public class RobotContainer {
     m_chooser.addOption("Scoring", scoringTableAUTO);
     m_chooser.addOption("Loading", loadingZoneAUTO);
     m_chooser.addOption("Charge Station", chargeStationAUTO);
-    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
+    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(new InstantCommand(() -> DriverStation.reportWarning("CMDGROUPSTART", false)),testingCSVtrajectory));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
 
     SmartDashboard.putData(m_chooser);
@@ -165,12 +166,12 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 4).whileTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
     new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
-    new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(1, 0, vision, swerveSubsystem));
+    new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(0, 0, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
-    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
-    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(0, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(0, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
     new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);
