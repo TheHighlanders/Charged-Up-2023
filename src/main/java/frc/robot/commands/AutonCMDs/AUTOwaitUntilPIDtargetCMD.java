@@ -27,17 +27,18 @@ public class AUTOwaitUntilPIDtargetCMD extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() 
+  {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double setpoint = pid.getSetpoint();
     double highTol = setpoint + toleranceDeg;
-    double lowTol = setpoint- toleranceDeg;
+    double lowTol = setpoint - toleranceDeg;
     double position = encoder.getPosition();
 
-    cmdComplete = (position >= lowTol && position <= highTol);
+    cmdComplete = (position >= lowTol) && (position <= highTol);
 
   }
 

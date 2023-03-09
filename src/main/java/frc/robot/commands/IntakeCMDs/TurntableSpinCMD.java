@@ -4,6 +4,7 @@
 
 package frc.robot.commands.IntakeCMDs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
@@ -23,12 +24,14 @@ public class TurntableSpinCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.spinTurntable(IntakeConstants.kTurntableSpeed * (reverse ? -1 : 1));
+    DriverStation.reportWarning("started spinnnnnnnnnnnnner", false);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    intakeSubsystem.spinTurntable(IntakeConstants.kTurntableSpeed * (reverse ? -1 : 1));
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +43,6 @@ public class TurntableSpinCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -36,8 +36,8 @@ public class LoadingZoneAUTON extends SequentialCommandGroup {
   private GrabberSubsystem grabberSubsystem;
   private Intake intakeSubsystem;
   private vision visionSubsystem;
-  private String LoadingZone1 = "LoadingZone1";
-  private String LoadingZone2 = "LoadingZone2";
+  private String LoadingZone1 = "pathplanner/generatedCSV/LoadingZone1.csv";
+  private String LoadingZone2 = "pathplanner/generatedCSV/LoadingZone2.csv";
 
   public LoadingZoneAUTON(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, GrabberSubsystem grabber_subsystem,
       Intake intake_subsystem, vision vision_subsystem) {

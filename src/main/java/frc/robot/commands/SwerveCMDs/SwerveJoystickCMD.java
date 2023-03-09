@@ -74,7 +74,7 @@ public class SwerveJoystickCMD extends CommandBase {
         }
 
         //Making Module States
-        SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
         //Output to Wheels
 
         for (int i = 0; i < 4; i++) {

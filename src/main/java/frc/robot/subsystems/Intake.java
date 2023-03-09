@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
@@ -21,9 +22,6 @@ public class Intake extends SubsystemBase {
   public TalonSRX intakeDeploy2 = new TalonSRX(IntakeConstants.kIntakeDeploy2ID);
 
   public TalonSRX intakeTurnable = new TalonSRX(IntakeConstants.kIntakeTurntableID);
-
-  public TalonSRXConfiguration spinConfig = new TalonSRXConfiguration();
-  public TalonSRXConfiguration deployConfig = new TalonSRXConfiguration();
 
   public boolean deployed = false;
   public double currentSetpoint;

@@ -92,7 +92,7 @@ public class AUTOswerveMoveCommand extends CommandBase {
     //Putting Code to Drive
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
-    SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
 

@@ -36,8 +36,8 @@ public class ScoringTableAUTON extends SequentialCommandGroup {
   private GrabberSubsystem grabberSubsystem;
   private Intake intakeSubsystem;
   private vision visionSubsystem;
-  private String ScoringTable1 = "ScoringTable1";
-  private String ScoringTable2 = "ScoringTable2";
+  private String ScoringTable1 = "pathplanner/generatedCSV/ScoringTable1.csv";
+  private String ScoringTable2 = "pathplanner/generatedCSV/ScoringTable2.csv";
 
   public ScoringTableAUTON(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, GrabberSubsystem grabber_subsystem,
       Intake intake_subsystem, vision vision_subsystem) {

@@ -42,8 +42,8 @@ public final class Constants {
 
         public static final int DEPLOY_PID_ID = 0;
 
-        public static final double kPIntakeDeploy = 0;
-        public static final double kIIntakeDeploy = 0;
+        public static final double kPIntakeDeploy = 0.5;
+        public static final double kIIntakeDeploy = 0.1;
         public static final double kDIntakeDeploy = 0;
 
         public static final double kIntakeDeployRatio = 1.0f/200.0f;
@@ -128,9 +128,9 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 2.5; //10 with Ballast
-        public static final double kITheta = 0; //0 with Ballast
-        public static final double kDTheta = 0; //0 With Ballast
+        public static final double kPTheta = 1.25; 
+        public static final double kITheta = 0;
+        public static final double kDTheta = 0.2;
 
         public static final double kHeadingPIDMax = 0.2;
 
@@ -232,27 +232,15 @@ public final class Constants {
 
         public static final double kAprilTagParkingDistance = 0.825;
 
-        public static final double kVelocityTolerance = 0.1;
-
-        public static final double kPXController = 1;
-        public static final double kPYController = 1;
-        public static final double kPThetaController = 1;
-        public static final TrapezoidProfile.Constraints kPThetaControllerConstraints = new TrapezoidProfile.Constraints(
-                kMaxAngularSpeedRadiansPerSecond,
-                kMaxAngularAccelerationRadiansPerSecondSquared);
+        public static final double kVelocityTolerance = 0.1;//determines when we are stopped
 
         public static final double kTranslatePointError = 0.01;
-        public static final double kTranslateSpeed = 0.5;
 
         public static final double kRotationError = 0.1;
-        public static final double kRotationSpeed = 0.4;
 
         public static final double kXPIDp = 2.8;
         public static final double kXPIDi = 0;
         public static final double kXPIDd = 0.1;
-
-        public static final double kPIDtimerTol = 5;
-
     }
     
     public static final class GyroConstants{

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.AutonCMDs.AUTONgroups;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
@@ -30,16 +32,27 @@ public class TestAUTON extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 * 8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 *360/8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new ArmMoveCMD(ArmConstants.kMiddlePos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 * 8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*360/8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 * 8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*360/8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 * 8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*360/8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5 * 8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*360/8100),
+      new InstantCommand(() -> DriverStation.reportWarning("Step", false)),
       new AUTOWaitCMD(10),
 
       new GrabberCloseCMD(grabberSubsystem),

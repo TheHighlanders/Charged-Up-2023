@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ArmCMDs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
@@ -56,6 +57,7 @@ public class ArmMoveCMD extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // DriverStation.reportWarning("ArmMoveIsFinished", false);
     return true;
   }
 }

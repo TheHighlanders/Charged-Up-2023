@@ -36,7 +36,7 @@ public class ChargeStationAUTON extends SequentialCommandGroup {
   private Intake intakeSubsystem;
   private vision visionSubsystem;
   private GyroSubsystem gyroSubsystem;
-  private String ChargeStation1 = "ChargeStation1";
+  private String ChargeStation1 = "pathplanner/generatedCSV/ChargeStation1.csv";
 
   public ChargeStationAUTON(SwerveSubsystem swerve_subsystem, Arm arm_subsystem, GrabberSubsystem grabber_subsystem,
       Intake intake_subsystem, vision vision_subsystem, GyroSubsystem gyro_subsystem) {

@@ -140,7 +140,7 @@ public class RobotContainer {
     m_chooser.addOption("Scoring", scoringTableAUTO);
     m_chooser.addOption("Loading", loadingZoneAUTO);
     m_chooser.addOption("Charge Station", chargeStationAUTO);
-    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(new InstantCommand(() -> DriverStation.reportWarning("CMDGROUPSTART", false)),testingCSVtrajectory));
+    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
 
     SmartDashboard.putData(m_chooser);
@@ -188,7 +188,7 @@ public class RobotContainer {
     new POVButton(operatorJoystick, 0).whileTrue(armMoveUpCMD);
     new POVButton(operatorJoystick, 180).whileTrue(armMoveDownCMD);
 
-    new JoystickButton(operatorJoystick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.jogModule(0.2, 0.2, 2)));
+    // new JoystickButton(operatorJoystick, 7).whileTrue(new InstantCommand(() -> swerveSubsystem.jogModule(0.2, 0.2, 2)));
   }
 
   /**
