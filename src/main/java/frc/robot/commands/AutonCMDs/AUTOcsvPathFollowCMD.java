@@ -108,7 +108,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
         headingArray[i] = headingArray[i] * -1 + AutoConstants.headingFlipMirror;
       }
     }
-    Pose2d pathStartPose = new Pose2d(new Translation2d(xArray[0], yArray[0]), new Rotation2d(Units.degreesToRadians(headingArray[0] + 90)));
+    Pose2d pathStartPose = new Pose2d(new Translation2d(xArray[0], yArray[0]), new Rotation2d(edu.wpi.first.math.MathUtil.angleModulus(Units.degreesToRadians(headingArray[0] + 90))));
     swerveSubsystem.zeroHeading();
     swerveSubsystem.resetOdometry(pathStartPose);
     cmdDone = false;
@@ -136,8 +136,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
     closestPointIndex = crazySearch(currentX, currentY);
     int targetPointIndex = distanceDelta(closestPointIndex, currentX, currentY);
-    // DriverStation.reportWarning(
-        // "Closest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
+     DriverStation.reportWarning(
+         "Closest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
     double xEndPoint = xArray[targetPointIndex];
     double yEndPoint = yArray[targetPointIndex];
     Rotation2d headingEndPoint = new Rotation2d(Math.toRadians(headingArray[targetPointIndex]));
@@ -170,8 +170,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
     SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
-    // DriverStation.reportWarning(
-    //   "asdadClosest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
+     DriverStation.reportWarning(
+       "asdadClosest Point Index: " + closestPointIndex + "\nasdTarget Point Index: " + targetPointIndex, false);
   
     if (closestPointIndex == targetPointIndex) {
       cmdDone = true;

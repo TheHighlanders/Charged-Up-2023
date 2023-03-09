@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,7 @@ public class Intake extends SubsystemBase {
   public TalonSRX intakeDeploy2 = new TalonSRX(IntakeConstants.kIntakeDeploy2ID);
 
   public TalonSRX intakeTurnable = new TalonSRX(IntakeConstants.kIntakeTurntableID);
+  
 
   public boolean deployed = false;
   public double currentSetpoint;
@@ -35,6 +37,10 @@ public class Intake extends SubsystemBase {
 
     intakeDeploy2.setInverted(true);
     intakeDeploy2.follow(intakeDeploy);
+
+    intakeTurnable.config_kP(0,1);
+    intakeTurnable.config_kI(0,0);
+    intakeTurnable.config_kD(0,0);
 
     intakeDeploy.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     intakeDeploy.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
@@ -69,6 +75,13 @@ public class Intake extends SubsystemBase {
 
   public void spinTurntable(double speed) {
     intakeTurnable.set(ControlMode.PercentOutput, speed);
+  }
+  public void spinTurntableDeg(double deg){
+    double pos = deg;
+    intakeTurnable.setSelectedSensorPosition(0);
+    DriverStation.reportWarning("TurntableDeg: " + intakeTurnable.getSelectedSensorPosition(), false);
+
+    intakeTurnable.set(ControlMode.Position, pos);
   }
 
   public void stopTurntable() {

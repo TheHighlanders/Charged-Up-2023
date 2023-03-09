@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.opencv.osgi.OpenCVInterface;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -71,7 +73,7 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/TestAutoLine.csv";
+  String autoPath1 = "pathplanner/generatedCSV/LoadingZone1.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
@@ -178,6 +180,8 @@ public class RobotContainer {
 
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
+
+    new JoystickButton(operatorJoystick, 10).onTrue(new InstantCommand(()-> intakeSub.spinTurntableDeg(180)));
 
     new JoystickButton(operatorJoystick, 1).onTrue(armStowCMD);
     new JoystickButton(operatorJoystick, 2).onTrue(armDownCMD);

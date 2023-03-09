@@ -67,7 +67,7 @@ public final class Constants {
         public static final double kOpenPos = 0;
 
         public static final int kOpeningAmps = -1;
-        public static final int kClosingAmps = 1;
+        public static final int kClosingAmps = 20;
     }
 
     public static final class ArmConstants {
@@ -81,9 +81,9 @@ public final class Constants {
         public static final int ARM_MOTOR_ID = 62;
 
         public static final double kStowedPos = 0;
-        public static final double kDownPos = -1500;
-        public static final double kMiddlePos = -2000;//0.8
-        public static final double kShelfPos = -2500;
+        public static final double kDownPos = -800;
+        public static final double kMiddlePos = -1500;//0.8
+        public static final double kShelfPos = -2250;
         public static final double kTopPos = -2750;
 
         public static final double kPArm = 0.005;
