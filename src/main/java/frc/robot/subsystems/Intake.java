@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -38,6 +39,7 @@ public class Intake extends SubsystemBase {
     intakeDeploy2.setInverted(true);
     intakeDeploy2.follow(intakeDeploy);
 
+    intakeTurnable.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     intakeTurnable.config_kP(0,1);
     intakeTurnable.config_kI(0,0);
     intakeTurnable.config_kD(0,0);
@@ -77,7 +79,7 @@ public class Intake extends SubsystemBase {
     intakeTurnable.set(ControlMode.PercentOutput, speed);
   }
   public void spinTurntableDeg(double deg){
-    double pos = deg;
+    double pos = deg * IntakeConstants.kTurnGearRatio * IntakeConstants.kTurnBeltRatio;
     intakeTurnable.setSelectedSensorPosition(0);
     DriverStation.reportWarning("TurntableDeg: " + intakeTurnable.getSelectedSensorPosition(), false);
 

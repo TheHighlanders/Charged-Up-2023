@@ -181,8 +181,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        SmartDashboard.putString("Array Before Putting", desiredStates[0].toString() + desiredStates[1].toString()
-                + desiredStates[2].toString() + desiredStates[3].toString());
+        // SmartDashboard.putString("Array Before Putting", desiredStates[0].toString() + desiredStates[1].toString()
+        //         + desiredStates[2].toString() + desiredStates[3].toString());
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
@@ -365,7 +365,7 @@ public class SwerveSubsystem extends SubsystemBase {
         double thetaPIDCorrect = DriveConstants.kHeadingPIDMax
                 * Math.min(Math.max(headingPID.calculate(robotHeading.getRadians()), -1), 1);
 
-        SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
+        // SmartDashboard.putNumber("HEADING PID ", thetaPIDCorrect);
 
         inTheta += thetaPIDCorrect;
 

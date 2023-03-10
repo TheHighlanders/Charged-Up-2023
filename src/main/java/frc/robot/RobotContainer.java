@@ -73,7 +73,7 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/LoadingZone1.csv";
+  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);

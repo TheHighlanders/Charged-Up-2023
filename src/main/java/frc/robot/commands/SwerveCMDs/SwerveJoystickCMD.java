@@ -54,7 +54,7 @@ public class SwerveJoystickCMD extends CommandBase {
             }
 
             swerveSubsystem.setLastValidHeading(new Rotation2d(headingRadians));
-            SmartDashboard.putNumber("Desired Heading ", swerveSubsystem.desiredHeading.getRadians());
+            // SmartDashboard.putNumber("Desired Heading ", swerveSubsystem.desiredHeading.getRadians());
         }
 
         fieldOriented = swerveSubsystem.getFieldOrient();
