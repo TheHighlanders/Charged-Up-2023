@@ -42,13 +42,15 @@ public final class Constants {
 
         public static final int DEPLOY_PID_ID = 0;
 
-        public static final double kPIntakeDeploy = 0.5;
-        public static final double kIIntakeDeploy = 0.1;
+        public static final double kPIntakeDeploy = 1;
+        public static final double kIIntakeDeploy = 0;
+        
         public static final double kDIntakeDeploy = 0;
 
         public static final double kIntakeDeployRatio = 1.0f/200.0f;
 
-        public static final double kIntakeOutCurr = -3900;
+        public static final double kIntakeOutCurr = -4900;
+        public static final double kIntakeMidCurr = -3500;
         public static final double kIntakeInCurr = 0;
 
         public static final double kIntakeSpeedLow = -0.4;
@@ -63,21 +65,22 @@ public final class Constants {
     public static final class GrabberConstants {
         public static final int kPortNumber = 10;
 
-        public static final int kPhand = 0;
-        public static final int kIhand = 0;
-        public static final int kDhand = 0;
+        public static final double kPhand = 1;
 
         public static final double kClosedPos = 0;
         public static final double kOpenPos = 0;
 
-        public static final int kOpeningAmps = -1;
+
+        public static double kHandMidPos = -6.201;
+        public static final int kOpeningAmps = -2;
         public static final int kClosingAmps = 20;
     }
 
     public static final class ArmConstants {
 
         public static final double kIntakeDeathZone = 1000;
-        public static final double kIntakeDeathZoneLow = 0;
+        public static final double kIntakeDeathZoneLow = 250;
+
         static final double gearboxRatio = 45.0 / 1.0;
         static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRatio = gearboxRatio * beltRatio;
@@ -89,6 +92,9 @@ public final class Constants {
         public static final double kMiddlePos = -1500;//0.8
         public static final double kShelfPos = -2250;
         public static final double kTopPos = -2750;
+
+        public static final double kIntakeDeathZoneHighBottom = kTopPos - 500;
+        public static final double kIntakeDeathZoneHighTop = kTopPos;
 
         public static final double kPArm = 0.005;
         public static final double kIArm = 0;
@@ -177,7 +183,7 @@ public final class Constants {
         //Front Right
         public static final int kFrontRightDrivePort = 6;
         public static final int kFrontRightAnglePort = 5;
-        public static final boolean kFrontRightDriveReversed = true;
+        public static final boolean kFrontRightDriveReversed = false;
         public static final boolean kFrontRightAngleReversed = false;
         public static final int kFrontRightAbsoluteEncoderPort = 3;
         public static final double kFrontRightAbsoluteEncoderOffsetRad = 4.971493;// + kWheelOffsetFrontToSideways;

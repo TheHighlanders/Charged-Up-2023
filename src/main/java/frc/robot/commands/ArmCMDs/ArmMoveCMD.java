@@ -30,15 +30,15 @@ public class ArmMoveCMD extends CommandBase {
   public void initialize() {
     double armPos = armSubsystem.ArmEncoder.getPosition();
 
-    boolean intakeNeedGoByeBye = false;
+    boolean armMovingThroughZone = false;
 
     if (armPos <= ArmConstants.kIntakeDeathZone) {
-      intakeNeedGoByeBye = true;
+      armMovingThroughZone = true;
     } else if (targetPos <= ArmConstants.kIntakeDeathZone) {
-      intakeNeedGoByeBye = true;
+      armMovingThroughZone = true;
     }
 
-    if (intakeNeedGoByeBye && intakeSubsystem.deployed) {
+    if (armMovingThroughZone && !intakeSubsystem.deployed) {
       intakeSubsystem.deployIntake();
     }
   }

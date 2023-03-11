@@ -25,10 +25,18 @@ public class DeployIntakeCMD extends CommandBase {
   @Override
   public void initialize() {
     double armPos = armSubsystem.ArmEncoder.getPosition();
-    // if(intakeSubsystem.deployed == true && 
-    //     (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
-    //   return;
-    // }
+    if(intakeSubsystem.deployed == true && 
+        (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
+      return;
+    }
+    if(intakeSubsystem.deployed == true && 
+        (armPos <= ArmConstants.kIntakeDeathZoneHighTop && armPos >= ArmConstants.kIntakeDeathZoneHighBottom)){
+      return;
+    }
+    if(intakeSubsystem.deployed == true && 
+      (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
+      return;
+    }
     DriverStation.reportWarning("DeployCMD", false);
     intakeSubsystem.deployIntake();
   }

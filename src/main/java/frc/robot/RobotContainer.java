@@ -36,6 +36,8 @@ import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
+import frc.robot.commands.GrabberCMDs.GrabberZeroCMDG;
+import frc.robot.commands.GrabberCMDs.GrapperPosCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
 import frc.robot.commands.IntakeCMDs.TurntableSpinCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeCMD;
@@ -182,6 +184,9 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
 
     new JoystickButton(operatorJoystick, 10).onTrue(new InstantCommand(()-> intakeSub.spinTurntableDeg(180)));
+
+    new Trigger(() -> operatorJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new GrapperPosCMD(grabberSub));
+    new Trigger(() -> operatorJoystick.getRightTriggerAxis() > 0.5).whileTrue(new GrabberZeroCMDG(grabberSub));
 
     new JoystickButton(operatorJoystick, 1).onTrue(armStowCMD);
     new JoystickButton(operatorJoystick, 2).onTrue(armDownCMD);

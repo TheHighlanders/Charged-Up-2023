@@ -28,7 +28,7 @@ public class Intake extends SubsystemBase {
 
   public boolean deployed = false;
   public double currentSetpoint = IntakeConstants.kIntakeInCurr;
-
+  public boolean atSetpoint = false;
   /** Creates a new Intake. */
   public Intake() {
     intakeDeploy.selectProfileSlot(0, 0);
@@ -92,17 +92,30 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(currentSetpoint < IntakeConstants.kIntakeInCurr && deployed){
-      currentSetpoint += 10;
+    if(currentSetpoint < IntakeConstants.kIntakeInCurr && !deployed){
+      currentSetpoint += 50;
     }
-    if(currentSetpoint > IntakeConstants.kIntakeOutCurr && !deployed){
-      currentSetpoint -= 10;
+    if(currentSetpoint > IntakeConstants.kIntakeOutCurr && deployed){
+      currentSetpoint -= 50;
     }
+    
+    if(deployed){
+      atSetpoint = Math.abs(IntakeConstants.kIntakeOutCurr - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(IntakeConstants.kIntakeOutCurr/10)); 
+    }else{
+      atSetpoint = Math.abs(IntakeConstants.kIntakeInCurr - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(IntakeConstants.kIntakeOutCurr/10)); 
+    }
+    if(atSetpoint){
+      intakeDeploy.set(ControlMode.PercentOutput, 0);
+    } else{
+      intakeDeploy.set(ControlMode.Position, currentSetpoint);
+    }
+    
+
     SmartDashboard.putBoolean("Deployed", deployed);
     SmartDashboard.putNumber("Setpoint", currentSetpoint);
     //(deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr)
 
-    intakeDeploy.set(ControlMode.Position, currentSetpoint);
+
     // if(intakeDeploy.getSelectedSensorVelocity() <= 0.1){
     //   intakeDeploy.set(ControlMode.PercentOutput, 0);
     // }
