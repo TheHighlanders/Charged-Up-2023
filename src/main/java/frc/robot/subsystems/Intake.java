@@ -27,7 +27,7 @@ public class Intake extends SubsystemBase {
   
 
   public boolean deployed = false;
-  public double currentSetpoint;
+  public double currentSetpoint = IntakeConstants.kIntakeInCurr;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -98,7 +98,8 @@ public class Intake extends SubsystemBase {
     if(currentSetpoint > IntakeConstants.kIntakeOutCurr && !deployed){
       currentSetpoint -= 10;
     }
-
+    SmartDashboard.putBoolean("Deployed", deployed);
+    SmartDashboard.putNumber("Setpoint", currentSetpoint);
     //(deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr)
 
     intakeDeploy.set(ControlMode.Position, currentSetpoint);

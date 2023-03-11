@@ -106,22 +106,28 @@ public final class Constants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1.0f / 8.14; // was 5.8462, not sure why, changed to SDS L1 ratio
         public static final double kAngleMotorGearRatio = 1.0f / 12.8f; // Reciprocalized 1/12
-
         public static final double kDriveMotorEncoderRot2Meter = kDriveMotorGearRatio * Math.PI
                 * kWheelDiameterMeters;
         public static final double kAngleMotorEncoderRot2Rad = kAngleMotorGearRatio * 2.0f * Math.PI;
         public static final double kDriveMotorEncoderRPM2MeterPerSec = kDriveMotorEncoderRot2Meter / 60.0f;
         public static final double kAngleMotorEncoderRPM2RadPerSec = kAngleMotorEncoderRot2Rad / 60.0f;
-
-        public static final double kPAngle = 1;//0.6;
+        public static final double kPAngle = 0.6;
         public static final double kIAngle = 0;
         public static final double kDAngle = 0;
 
+        // public static final double kPAngle = 0.5;
+        // public static final double kIAngle = 1.0;
+        // public static final double kDAngle = 0.0;
+
         public static final double kAngleTolerance = 0.002;
 
-        public static final double kPDrive = 0.45;
-        public static final double kIDrive = 0;
-        public static final double kDDrive = 0.75; 
+        //Sketchy Velocity PID loop no use D pls
+        public static final double kPDrive = 0.1; //D? Dont do a Negative
+        public static final double kIDrive = 0.75; //P? //Was 0.75 before gear ratio change, lowering
+        public static final double kDDrive = 0; //??
+
+        public static final SparkMaxLimitSwitch.Type kEncoderFakeLimitType = Type.kNormallyClosed;
+        public static final double kAngleHomingSpeed = 0.25;
     }
 
     public static final class DriveConstants {
@@ -171,7 +177,7 @@ public final class Constants {
         //Front Right
         public static final int kFrontRightDrivePort = 6;
         public static final int kFrontRightAnglePort = 5;
-        public static final boolean kFrontRightDriveReversed = false;
+        public static final boolean kFrontRightDriveReversed = true;
         public static final boolean kFrontRightAngleReversed = false;
         public static final int kFrontRightAbsoluteEncoderPort = 3;
         public static final double kFrontRightAbsoluteEncoderOffsetRad = 4.971493;// + kWheelOffsetFrontToSideways;

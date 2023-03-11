@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 //import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxLimitSwitch.Type;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -32,69 +31,51 @@ public class SwerveModule {
 
   private final CANSparkMax.IdleMode holdMode = IdleMode.kBrake;
 
-  public final SparkMaxPIDController drivePIDController;
-  public final SparkMaxPIDController anglePIDController;
+  public final PIDController drivePIDController;
+  public final PIDController anglePIDController;
 
   public final edu.wpi.first.wpilibj.AnalogInput absoluteEncoder;
   private final boolean absoluteEncoderReversed;
   private final double absoluteEncoderOffsetRad;
 
   public SwerveModule(int driveMotorID, int angleMotorID, boolean driveMotorReversed, boolean angleMotorReversed,
-  int absoluteEncoderID, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+      int absoluteEncoderID, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
-  this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
-  this.absoluteEncoderReversed = absoluteEncoderReversed;
+    this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
+    this.absoluteEncoderReversed = absoluteEncoderReversed;
 
-  absoluteEncoder = new edu.wpi.first.wpilibj.AnalogInput(absoluteEncoderID);
+    absoluteEncoder = new edu.wpi.first.wpilibj.AnalogInput(absoluteEncoderID);
 
-  driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
-  angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
+    driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
+    angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
 
-  driveMotor.setInverted(driveMotorReversed);
-  angleMotor.setInverted(angleMotorReversed);
+    driveMotor.setInverted(driveMotorReversed);
+    angleMotor.setInverted(angleMotorReversed);
 
-  driveEncoder = driveMotor.getEncoder();
-  angleEncoder = angleMotor.getEncoder();
+    driveEncoder = driveMotor.getEncoder();
+    angleEncoder = angleMotor.getEncoder();
 
-  driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
-  driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
-  angleEncoder.setPositionConversionFactor(ModuleConstants.kAngleMotorEncoderRot2Rad);
-  angleEncoder.setVelocityConversionFactor(ModuleConstants.kAngleMotorEncoderRPM2RadPerSec);
+    driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
+    driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
+    angleEncoder.setPositionConversionFactor(ModuleConstants.kAngleMotorEncoderRot2Rad);
+    angleEncoder.setVelocityConversionFactor(ModuleConstants.kAngleMotorEncoderRPM2RadPerSec);
 
-  driveMotor.setIdleMode(holdMode);
+    driveMotor.setIdleMode(holdMode);
 
-  anglePIDController = angleMotor.getPIDController();
-  anglePIDController.setP(ModuleConstants.kPAngle);
-  anglePIDController.setI(ModuleConstants.kIAngle);
-  anglePIDController.setD(ModuleConstants.kDAngle);
-  // anglePIDController.setIZone(0);
-  // anglePIDController.setFF(0);
+    anglePIDController = new PIDController(ModuleConstants.kPAngle, ModuleConstants.kIAngle, ModuleConstants.kDAngle);
+    anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
 
-  anglePIDController.setPositionPIDWrappingMinInput(-Math.PI);
-  anglePIDController.setPositionPIDWrappingMaxInput(Math.PI);
-  anglePIDController.setPositionPIDWrappingEnabled(true);
-  //anglePIDController.enableContinuousInput(-Math.PI, Math.PI);
+    drivePIDController = new PIDController(ModuleConstants.kPDrive, ModuleConstants.kIDrive, ModuleConstants.kDDrive);
 
-  drivePIDController = driveMotor.getPIDController();
-  drivePIDController.setP(ModuleConstants.kPDrive);
-  drivePIDController.setI(ModuleConstants.kIDrive);
-  drivePIDController.setD(ModuleConstants.kDDrive);
-  // drivePIDController.setIZone(0);
-  // drivePIDController.setFF(0);
-  // drivePIDController.setOutputRange(-Math.PI, Math.PI);
-  //drivePIDController.calculate(absoluteEncoderID, absoluteEncoderOffset);
-  //DriverStation.reportWarning("MODULE TOLERANCE " + anglePIDController.getPositionTolerance(), false);
+    anglePIDController.setTolerance(ModuleConstants.kAngleTolerance);
 
+    angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
+    angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
 
+    driveMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
+    driveMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
 
-  angleMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false); //disables the limit switches for the drive and angle motors
-  angleMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
-
-  driveMotor.getForwardLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
-  driveMotor.getReverseLimitSwitch(Type.kNormallyClosed).enableLimitSwitch(false);
-
-
-}
+  }
 
   public double getDrivePosition() {
     return driveEncoder.getPosition();
@@ -154,12 +135,10 @@ public class SwerveModule {
 
     state = optimize(state, getState().angle);
 
-    //driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
-    drivePIDController.setReference(state.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-    //angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
-    anglePIDController.setReference(state.angle.getRadians(), CANSparkMax.ControlType.kPosition);
-    
-    // SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
+    driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
+
+    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
+    SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
   }
 
   public void stop() {
