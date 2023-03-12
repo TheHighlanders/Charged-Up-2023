@@ -89,7 +89,7 @@ public final class Constants {
 
         public static final double kStowedPos = 0;
         public static final double kDownPos = -800;
-        public static final double kMiddlePos = -1500;//0.8
+        public static final double kMiddlePos = -1700;//0.8
         public static final double kShelfPos = -2250;
         public static final double kTopPos = -2750;
 
