@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake.IntakePos;
 
 public class DeployIntakeCMD extends CommandBase {
   /** Creates a new DeployIntakeCMD. */
@@ -24,6 +25,7 @@ public class DeployIntakeCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    IntakePos state = IntakePos.RETRACT;
     double armPos = armSubsystem.ArmEncoder.getPosition();
     if(intakeSubsystem.deployed == true && 
         (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
@@ -31,14 +33,11 @@ public class DeployIntakeCMD extends CommandBase {
     }
     if(intakeSubsystem.deployed == true && 
         (armPos <= ArmConstants.kIntakeDeathZoneHighTop && armPos >= ArmConstants.kIntakeDeathZoneHighBottom)){
-      return;
+      state = IntakePos.RETRACT;
     }
-    if(intakeSubsystem.deployed == true && 
-      (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
-      return;
-    }
+
     DriverStation.reportWarning("DeployCMD", false);
-    intakeSubsystem.deployIntake();
+    intakeSubsystem.deployIntake(state);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

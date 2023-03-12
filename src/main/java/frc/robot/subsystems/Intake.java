@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.EnumMap;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -25,8 +27,8 @@ public class Intake extends SubsystemBase {
 
   public TalonSRX intakeTurnable = new TalonSRX(IntakeConstants.kIntakeTurntableID);
   
-
   public boolean deployed = false;
+  public IntakePos state = IntakePos.RETRACT;
   public double currentSetpoint = IntakeConstants.kIntakeInCurr;
   public boolean atSetpoint = false;
   /** Creates a new Intake. */
@@ -50,11 +52,17 @@ public class Intake extends SubsystemBase {
     // intakeDeploy2.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     // intakeDeploy2.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     // intakeDeploy2.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
+
+    intakePosMap.put(IntakePos.DEPLOYED, IntakeConstants.kIntakeOutCurr);
+    intakePosMap.put(IntakePos.RETRACT_ALT, IntakeConstants.kIntakeMidCurr);
+    intakePosMap.put(IntakePos.RETRACT, IntakeConstants.kIntakeInCurr);
   }
 
-  public void deployIntake() {
+  public void deployIntake(IntakePos stateTarget) {
     deployed = !deployed;
     DriverStation.reportWarning("Deployed: " + deployed, false);
+
+    state = stateTarget;
     //intakeDeploy.set(ControlMode.Current, (deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr));
     
   }
@@ -92,18 +100,21 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(currentSetpoint < IntakeConstants.kIntakeInCurr && !deployed){
-      currentSetpoint += 50;
-    }
-    if(currentSetpoint > IntakeConstants.kIntakeOutCurr && deployed){
-      currentSetpoint -= 50;
-    }
+    // if(currentSetpoint < IntakeConstants.kIntakeInCurr && !deployed){
+    //   currentSetpoint += 50;
+    // }
+    // if(currentSetpoint > IntakeConstants.kIntakeOutCurr && deployed){
+    //   currentSetpoint -= 50;
+    // }
+
+    stepToStatePos(state);
     
-    if(deployed){
-      atSetpoint = Math.abs(IntakeConstants.kIntakeOutCurr - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(IntakeConstants.kIntakeOutCurr/10)); 
-    }else{
-      atSetpoint = Math.abs(IntakeConstants.kIntakeInCurr - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(IntakeConstants.kIntakeOutCurr/10)); 
+    if(state == IntakePos.DEPLOYED){
+      atSetpoint = Math.abs(intakePosMap.get(IntakePos.DEPLOYED) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED)/10)); 
+    }else if (state == IntakePos.RETRACT){
+      atSetpoint = Math.abs(intakePosMap.get(IntakePos.RETRACT) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED)/10)); 
     }
+
     if(atSetpoint){
       intakeDeploy.set(ControlMode.PercentOutput, 0);
     } else{
@@ -122,4 +133,42 @@ public class Intake extends SubsystemBase {
     
     // This method will be called once per scheduler run
   }
+
+  public void stepToStatePos(IntakePos state){
+    if(state == IntakePos.DEPLOYED){ //stepping to deploy pos
+      if(currentSetpoint < intakePosMap.get(IntakePos.DEPLOYED)){
+        currentSetpoint += 50;
+      }
+      if(currentSetpoint > intakePosMap.get(IntakePos.DEPLOYED)){
+        currentSetpoint -= 50;
+      }
+    } 
+    else if(state == IntakePos.RETRACT){ //Stepping Towards retract pos
+      if(currentSetpoint < intakePosMap.get(IntakePos.RETRACT)){
+        currentSetpoint += 50;
+      }
+      if(currentSetpoint > intakePosMap.get(IntakePos.RETRACT)){
+        currentSetpoint -= 50;
+      }
+    }
+    else if(state == IntakePos.RETRACT_ALT){ //Stepping Towards Alt Retract pos
+      if(currentSetpoint < intakePosMap.get(IntakePos.RETRACT_ALT)){
+        currentSetpoint += 50;
+      }
+      if(currentSetpoint > intakePosMap.get(IntakePos.RETRACT_ALT)){
+        currentSetpoint -= 50;
+      }
+    }
+  
+    
+    
+  }
+
+  public enum IntakePos{
+    DEPLOYED,
+    RETRACT,
+    RETRACT_ALT
+  }
+  public EnumMap<IntakePos, Double> intakePosMap = new EnumMap<>(IntakePos.class);
+  
 }
