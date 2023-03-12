@@ -18,6 +18,9 @@ import frc.robot.utilities.SparkMaxPIDControllerSmart;
 public class Arm extends SubsystemBase {
   public CANSparkMaxCurrent ArmMotor;
   public RelativeEncoder ArmEncoder;
+  
+  public double target;
+  public double setpoint;
 
   public ControlType PIDposition = ControlType.kPosition;
 
@@ -45,7 +48,8 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveToPos(double targetPos) {
-    armPID.setReference(targetPos, PIDposition);
+    //armPID.setReference(targetPos, PIDposition);
+    target = targetPos;
   }
 
   public void top() {
@@ -96,6 +100,14 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(setpoint < target){
+      setpoint += 50;
+    }
+    if (setpoint > target){
+      setpoint -=50;
+    }
+    armPID.setReference(setpoint, PIDposition);
+
     // This method will be called once per scheduler run
   }
 } // end class
