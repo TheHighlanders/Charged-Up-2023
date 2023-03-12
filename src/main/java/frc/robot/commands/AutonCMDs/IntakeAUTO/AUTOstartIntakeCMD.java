@@ -6,6 +6,7 @@ package frc.robot.commands.AutonCMDs.IntakeAUTO;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake.IntakePos;
 
 public class AUTOstartIntakeCMD extends CommandBase {
   /** Creates a new AUTOstartIntake. */
@@ -21,7 +22,7 @@ public class AUTOstartIntakeCMD extends CommandBase {
   @Override
   public void initialize() {
     if (intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake();
+      intakeSubsystem.deployIntake(IntakePos.DEPLOYED);
     }
   }
 

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake.IntakePos;
 
 public class ArmMoveCMD extends CommandBase {
   /** Creates a new ArmMoveCMD. */
@@ -39,7 +40,7 @@ public class ArmMoveCMD extends CommandBase {
     }
 
     if (armMovingThroughZone && !intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake();
+      intakeSubsystem.deployIntake(IntakePos.DEPLOYED);
     }
   }
 
