@@ -33,6 +33,11 @@ public class Intake extends SubsystemBase {
   public boolean atSetpoint = false;
   /** Creates a new Intake. */
   public Intake() {
+    atSetpoint = false;
+    currentSetpoint = IntakeConstants.kIntakeInCurr;
+    state = IntakePos.RETRACT;
+    deployed = false;
+
     intakeDeploy.selectProfileSlot(0, 0);
 
     intakeSpin2.setInverted(true);
@@ -58,8 +63,8 @@ public class Intake extends SubsystemBase {
     intakePosMap.put(IntakePos.RETRACT, IntakeConstants.kIntakeInCurr);
   }
 
-  public void deployIntake(IntakePos stateTarget) {
-    deployed = !deployed;
+  public void deployIntake(IntakePos stateTarget, boolean toggle) {
+    if(toggle){deployed = !deployed;}
     DriverStation.reportWarning("Deployed: " + deployed, false);
 
     state = stateTarget;
@@ -100,19 +105,15 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if(currentSetpoint < IntakeConstants.kIntakeInCurr && !deployed){
-    //   currentSetpoint += 50;
-    // }
-    // if(currentSetpoint > IntakeConstants.kIntakeOutCurr && deployed){
-    //   currentSetpoint -= 50;
-    // }
-
+    SmartDashboard.putString("Intake State", state.toString());
     stepToStatePos(state);
     
     if(state == IntakePos.DEPLOYED){
-      atSetpoint = Math.abs(intakePosMap.get(IntakePos.DEPLOYED) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED)/10)); 
+      atSetpoint = Math.abs(intakePosMap.get(IntakePos.DEPLOYED) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED).doubleValue()/10)); 
     }else if (state == IntakePos.RETRACT){
-      atSetpoint = Math.abs(intakePosMap.get(IntakePos.RETRACT) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED)/10)); 
+      atSetpoint = Math.abs(intakePosMap.get(IntakePos.RETRACT) - intakeDeploy.getSelectedSensorPosition()) <= (Math.abs(intakePosMap.get(IntakePos.DEPLOYED).doubleValue()/10)); 
+    } else{
+      atSetpoint = false;
     }
 
     if(atSetpoint){
@@ -121,47 +122,19 @@ public class Intake extends SubsystemBase {
       intakeDeploy.set(ControlMode.Position, currentSetpoint);
     }
     
-
+    SmartDashboard.putBoolean("At Setpoint", atSetpoint);
     SmartDashboard.putBoolean("Deployed", deployed);
     SmartDashboard.putNumber("Setpoint", currentSetpoint);
-    //(deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr)
-
-
-    // if(intakeDeploy.getSelectedSensorVelocity() <= 0.1){
-    //   intakeDeploy.set(ControlMode.PercentOutput, 0);
-    // }
-    
     // This method will be called once per scheduler run
   }
 
   public void stepToStatePos(IntakePos state){
-    if(state == IntakePos.DEPLOYED){ //stepping to deploy pos
-      if(currentSetpoint < intakePosMap.get(IntakePos.DEPLOYED)){
-        currentSetpoint += 50;
-      }
-      if(currentSetpoint > intakePosMap.get(IntakePos.DEPLOYED)){
-        currentSetpoint -= 50;
-      }
-    } 
-    else if(state == IntakePos.RETRACT){ //Stepping Towards retract pos
-      if(currentSetpoint < intakePosMap.get(IntakePos.RETRACT)){
-        currentSetpoint += 50;
-      }
-      if(currentSetpoint > intakePosMap.get(IntakePos.RETRACT)){
-        currentSetpoint -= 50;
-      }
+    if(currentSetpoint < intakePosMap.get(state)){
+      currentSetpoint += 50;
     }
-    else if(state == IntakePos.RETRACT_ALT){ //Stepping Towards Alt Retract pos
-      if(currentSetpoint < intakePosMap.get(IntakePos.RETRACT_ALT)){
-        currentSetpoint += 50;
-      }
-      if(currentSetpoint > intakePosMap.get(IntakePos.RETRACT_ALT)){
-        currentSetpoint -= 50;
-      }
+    if(currentSetpoint > intakePosMap.get(state)){
+      currentSetpoint -= 50;
     }
-  
-    
-    
   }
 
   public enum IntakePos{

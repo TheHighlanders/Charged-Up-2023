@@ -6,6 +6,7 @@ package frc.robot.commands.AutonCMDs;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -19,15 +20,19 @@ public class VISIONalignAprilTag extends CommandBase {
   private double targetX;
   private double targetY;
   boolean tagGood = false;
+  boolean valid = false;
   double parkX;
   double parkY;
+  AUTOswerveMoveCommand swerveMove;
 
   public VISIONalignAprilTag(double parkX, double parkY, vision vision_subsystem, SwerveSubsystem swerve_subsystem) {
     vision = vision_subsystem;
     swerveSubsystem = swerve_subsystem;
     this.parkX = parkX;
-    this.parkX = parkY;
+    this.parkY = parkY;
     addRequirements(swerveSubsystem, vision);
+
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -36,30 +41,36 @@ public class VISIONalignAprilTag extends CommandBase {
   public void initialize() {
     if (vision.tvVal == 1) {
       targetX = vision.tagOdoX + parkX;
-      targetY = vision.tagOdoY + AutoConstants.kAprilTagParkingDistance + parkY;
+      targetY = vision.tagOdoY - AutoConstants.kAprilTagParkingDistance + parkY;
       tagGood = true;
+      SmartDashboard.putNumber("X", targetX);
+      SmartDashboard.putNumber("Y", targetY);
+      swerveMove = new AUTOswerveMoveCommand(swerveSubsystem, targetX, -targetY, new Rotation2d(Math.toRadians(90)), true);
+      swerveMove.initialize();
+
     }
+
+
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DriverStation.reportWarning("April Execute", false);
-    swerveSubsystem.driveAUTOfieldOrient(targetX, targetY, new Rotation2d(Math.toRadians(90)));
-
+    if(tagGood){swerveMove.execute();}
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    swerveMove.end(interrupted);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if(tagGood){
-      return swerveSubsystem.cmdDone;
+      return swerveMove.isFinished();
     }
     return true;
   }

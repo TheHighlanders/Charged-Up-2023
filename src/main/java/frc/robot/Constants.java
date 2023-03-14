@@ -50,7 +50,7 @@ public final class Constants {
         public static final double kIntakeDeployRatio = 1.0f/200.0f;
 
         public static final double kIntakeOutCurr = -4900;
-        public static final double kIntakeMidCurr = -3500;
+        public static final double kIntakeMidCurr = -2500;
         public static final double kIntakeInCurr = 0;
 
         public static final double kIntakeSpeedLow = -0.4;
@@ -232,7 +232,7 @@ public final class Constants {
         public static final double fieldLength = fieldCenterMeters * 2;
         public static final double headingFlipMirror = 90;
 
-        public static final double kMaxSpeedMetersPerSecond = DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 6;
+        public static final double kMaxSpeedMetersPerSecond = 0.1;//DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 20;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -240,7 +240,7 @@ public final class Constants {
 
         public static final double kTrajectoryPointSeperation = 0.2;
 
-        public static final double kAprilTagParkingDistance = 0.825;
+        public static final double kAprilTagParkingDistance = 0.825 + 0.5;
 
         public static final double kVelocityTolerance = 0.1;//determines when we are stopped
 
@@ -257,7 +257,7 @@ public final class Constants {
         // public static final double Vkp = 0.01;
         // public static final double Vki = 0;
         // public static final double Vkd = 0;
-        public static final double max = 0.25/2;
+        public static final double max = 0.25/3;
         public static final double startInreaseTrend = 2;
         public static final double stopInreaseTrend = 15;
     }

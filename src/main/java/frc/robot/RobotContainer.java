@@ -7,6 +7,7 @@ package frc.robot;
 import org.opencv.osgi.OpenCVInterface;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -28,6 +29,7 @@ import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmUpCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
+import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
@@ -75,13 +77,15 @@ public class RobotContainer {
 
   private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
-  String autoPath1 = "pathplanner/generatedCSV/TestAutoLine.csv";
+  String autoPath1 = "pathplanner/generatedCSV/ScoringTable1.csv";
 
   private final ZeroHeadingCMD zeroHeadingCMD = new ZeroHeadingCMD(swerveSubsystem);
   private final VISIONalignAprilTag visionAlignCMD = new VISIONalignAprilTag(0, 0.75, vision, swerveSubsystem);
   private final ToggleFieldOrientedCMD toggleFieldOrientedCMD = new ToggleFieldOrientedCMD(swerveSubsystem);
 
   private final AUTOcsvPathFollowCMD testingCSVtrajectory = new AUTOcsvPathFollowCMD(Filesystem.getDeployDirectory().toPath().resolve(autoPath1).toString(), swerveSubsystem);
+
+  private final AUTOswerveMoveCommand swerveMove = new AUTOswerveMoveCommand(swerveSubsystem, 1, 1, new Rotation2d(Math.toRadians(90)), true);
 
   private final DeployIntakeCMD deployIntakeCMD = new DeployIntakeCMD(intakeSub, armSubsystem);
   private final spinIntakeCMD intakeInHighCMD = new spinIntakeCMD(IntakeConstants.kIntakeSpeedHigh, intakeSub);
@@ -145,6 +149,7 @@ public class RobotContainer {
     m_chooser.addOption("Loading", loadingZoneAUTO);
     m_chooser.addOption("Charge Station", chargeStationAUTO);
     m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
+    m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
 
     SmartDashboard.putData(m_chooser);
@@ -174,8 +179,8 @@ public class RobotContainer {
     //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
-    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(0, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
-    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(0, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(-AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
     new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);

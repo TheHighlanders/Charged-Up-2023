@@ -16,15 +16,21 @@ public class GyroSubsystem extends SubsystemBase {
   //PIDController VpidController = new PIDController(GyroConstants.Vkp, GyroConstants.Vki, GyroConstants.Vkd);
   //PIDController TpidController = new PIDController(GyroConstants.Tkp, GyroConstants.Tki, GyroConstants.Tkd);
   AHRS ahrs;
+  public boolean balanced = false;
+  public float roll;
+  public float pitch;
+  public double balCount;
   /** Creates a new GyroSubsystem. */
   public GyroSubsystem() {
     ahrs = new AHRS();
     ahrs.calibrate();
+    balanced = false;
+    balCount = 0;
   }
 
   public SwerveModuleState[] CalculateAngle(SwerveSubsystem subsystem) {
-    float roll = ahrs.getRoll() * -1; // it was the wrong direction
-    float pitch = ahrs.getPitch()* -1;
+    roll = ahrs.getRoll() * -1; // it was the wrong direction
+    pitch = ahrs.getPitch()* -1;
     double angle = Math.atan2(pitch, roll);
     double magnitue = clamp(Math.hypot(pitch, roll));
     //double Vpid = VpidController.calculate((yaw + pitch)/2, 0);
@@ -48,5 +54,19 @@ public class GyroSubsystem extends SubsystemBase {
       return GyroConstants.max;
     }
     return 0;
+  }
+  
+  public void periodic(){
+    if(Math.abs(roll) <= 2 && Math.abs(pitch) <= 2){
+      balCount++;
+    }else{
+      balCount = 0;
+    }
+
+    if(balCount >= 50){
+      balanced = true;
+    } else {
+      balanced = false;
+    }
   }
 }

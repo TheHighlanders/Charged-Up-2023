@@ -22,7 +22,7 @@ public class AUTOstartIntakeCMD extends CommandBase {
   @Override
   public void initialize() {
     if (intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake(IntakePos.DEPLOYED);
+      intakeSubsystem.deployIntake(IntakePos.DEPLOYED, true);
     }
   }
 

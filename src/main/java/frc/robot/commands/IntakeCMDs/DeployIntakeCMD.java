@@ -27,17 +27,20 @@ public class DeployIntakeCMD extends CommandBase {
   public void initialize() {
     IntakePos state = IntakePos.RETRACT;
     double armPos = armSubsystem.ArmEncoder.getPosition();
+    if(!intakeSubsystem.deployed){
+      state = IntakePos.DEPLOYED;
+    }
     if(intakeSubsystem.deployed == true && 
         (armPos <= ArmConstants.kIntakeDeathZone && armPos >= ArmConstants.kIntakeDeathZoneLow)){
       return;
     }
     if(intakeSubsystem.deployed == true && 
         (armPos <= ArmConstants.kIntakeDeathZoneHighTop && armPos >= ArmConstants.kIntakeDeathZoneHighBottom)){
-      state = IntakePos.RETRACT;
+      state = IntakePos.RETRACT_ALT;
     }
 
     DriverStation.reportWarning("DeployCMD", false);
-    intakeSubsystem.deployIntake(state);
+    intakeSubsystem.deployIntake(state, true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

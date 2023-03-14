@@ -33,7 +33,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SlewRateLimiter[] speedLimiter = new SlewRateLimiter[4];
     private final SlewRateLimiter[] turnLimiter = new SlewRateLimiter[4];
 
-    private PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi,
+    private PIDController pointDrivePID = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi,
             AutoConstants.kXPIDd);
 
     // private PIDController AprilpidController = new
@@ -146,8 +146,8 @@ public class SwerveSubsystem extends SubsystemBase {
                 temp2);
 
         // SmartDashboard.putNumber("Robot Heading", getHeading());
-        // SmartDashboard.putString("Robot Location",
-        // getPose2d().getTranslation().toString());
+        SmartDashboard.putString("Robot Location",
+        getPose2d().getTranslation().toString());
 
         odoPose = getPose2d();
 
@@ -388,64 +388,64 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
 
-    public void driveAUTOfieldOrient(double x, double y, Rotation2d heading) {
-        Pose2d currentPose;
-        double currentX;
-        double currentY;
-        Rotation2d currentHeading;
-        double deltaX;
-        double deltaY;
-        double deltaHeading;
+    // public void driveAUTOfieldOrient(double x, double y, Rotation2d heading) {
+    //     Pose2d currentPose;
+    //     double currentX;
+    //     double currentY;
+    //     Rotation2d currentHeading;
+    //     double deltaX;
+    //     double deltaY;
+    //     double deltaHeading;
 
-        double xEndPoint = x;
-        double yEndPoint = y;
-        Rotation2d headingEndPoint = heading;
+    //     double xEndPoint = x;
+    //     double yEndPoint = y;
+    //     Rotation2d headingEndPoint = heading;
 
-        double speedX;
-        double speedY;
+    //     double speedX;
+    //     double speedY;
 
-        ChassisSpeeds chassisSpeeds;
+    //     ChassisSpeeds chassisSpeeds;
 
-        currentPose = getPose2d();
+    //     currentPose = getPose2d();
 
-        currentX = currentPose.getX();
-        currentY = currentPose.getY();
-        currentHeading = currentPose.getRotation();
+    //     currentX = currentPose.getX();
+    //     currentY = currentPose.getY();
+    //     currentHeading = currentPose.getRotation();
 
-        deltaX = xEndPoint - currentX;
-        deltaY = yEndPoint - currentY;
+    //     deltaX = xEndPoint - currentX;
+    //     deltaY = yEndPoint - currentY;
 
-        deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
+    //     deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
 
-        deltaHeading %= Math.PI * 2;
+    //     deltaHeading %= Math.PI * 2;
 
-        double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
-                * AutoConstants.kMaxSpeedMetersPerSecond;
+    //     double pid = Math.abs(pointDrivePID.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
+    //             * AutoConstants.kMaxSpeedMetersPerSecond;
 
-        speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
-        speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
+    //     speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
+    //     speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
 
-        boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
-                && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
-                && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
+    //     boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
+    //             && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
+    //             && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
 
-        boolean stopped = isStopped();
-        chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
-                (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
-                0.0,
-                getRotation2D());
+    //     boolean stopped = isStopped();
+    //     chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+    //             (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
+    //             (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
+    //             0.0,
+    //             getRotation2D());
 
-        setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
-        // Putting Code to Drive
-        chassisSpeeds = fieldOrientedThetaHold(chassisSpeeds);
-        SwerveModuleState[] moduleStates = doIKMathSwerveModuleStates(chassisSpeeds);
+    //     setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
+    //     // Putting Code to Drive
+    //     chassisSpeeds = fieldOrientedThetaHold(chassisSpeeds);
+    //     SwerveModuleState[] moduleStates = doIKMathSwerveModuleStates(chassisSpeeds);
 
-        setModuleStates(moduleStates);
+    //     setModuleStates(moduleStates);
 
-        cmdDone = stopped && atPoint;
+    //     cmdDone = stopped && atPoint;
 
-    }
+    // }
 
     public void jogModule(double angleSpeed, double driveSpeed, double moduleID) {
         DriverStation.reportWarning("JOGGING MODULE", false);

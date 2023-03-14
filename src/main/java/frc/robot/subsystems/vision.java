@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -98,17 +99,11 @@ public class vision extends SubsystemBase {
     robotX = RobotContainer.swerveSubsystem.getPose2d().getX();
     robotY = RobotContainer.swerveSubsystem.getPose2d().getY();
 
-    // SmartDashboard.putNumber("Theta", Math.toDegrees(theta));
-    // SmartDashboard.putNumber("Phi", Math.toDegrees(phi));
-
-    tagOffsetX = (distanceToTarget * Math.cos(theta - phi));
-    tagOffsetY = (distanceToTarget * Math.sin(theta - phi));
-    tagOdoX = robotX - tagOffsetX;
-    tagOdoY = robotY - tagOffsetY;
-
+    tagOffsetX = (distanceToTarget * Math.cos(theta + phi));
+    tagOffsetY = (distanceToTarget * Math.sin(theta + phi));
+    tagOdoX = -tagOffsetX + robotX;
+    tagOdoY = tagOffsetY - robotY;
     // SmartDashboard.putNumber("Xo Offset to Primary Tag", tagOffsetX);
     // SmartDashboard.putNumber("Yo Offset to Primary Tag", tagOffsetY);
-    // SmartDashboard.putNumber("Tag X location in Absolute Odometer", tagOdoX);
-    // SmartDashboard.putNumber("Tag Y location in Absolute Odometer", tagOdoY);
   }
 }
