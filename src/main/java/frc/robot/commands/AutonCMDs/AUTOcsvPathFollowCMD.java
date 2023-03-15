@@ -35,6 +35,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   private double[] headingArray;
   private double[] timeArray;
   private boolean cmdDone = false;
+  private Rotation2d gyroOffset;
 
   /**
    * Reads A CSV with the filename path, and parses it out into Arrays for use in
@@ -107,9 +108,10 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
         yArray[i] = AutoConstants.fieldLength - yArray[i];
         headingArray[i] = headingArray[i] * -1 + AutoConstants.headingFlipMirror;
       }
-    }
+    }//Maybe x And y are sawpperd,(addressde in chassisSpeeds) and check gyro/odo resetting stuff
     Pose2d pathStartPose = new Pose2d(new Translation2d(xArray[0], yArray[0]), new Rotation2d(edu.wpi.first.math.MathUtil.angleModulus(Units.degreesToRadians(headingArray[0] + 90))));
-    swerveSubsystem.zeroHeading();
+    //swerveSubsystem.zeroHeading(); ?? Trying fix 4:03pm
+    gyroOffset = swerveSubsystem.getRotation2D();
     swerveSubsystem.resetOdometry(pathStartPose);
     cmdDone = false;
     closestPointIndex = 0;
@@ -162,7 +164,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
         (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         0.0,
-        swerveSubsystem.getRotation2D());
+        swerveSubsystem.getRotation2D().minus(gyroOffset));
 
     swerveSubsystem.setLastValidHeading(headingEndPoint);
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);

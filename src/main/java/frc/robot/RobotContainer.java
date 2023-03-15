@@ -32,6 +32,7 @@ import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
+import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
@@ -106,6 +107,8 @@ public class RobotContainer {
 
   private final autoBalanceCommand balanceCMD = new autoBalanceCommand(gyroSubsystem, swerveSubsystem);
 
+  private final SequentialCommandGroup oneScoreAUTO = new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub);
+
   private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
       grabberSub, intakeSub, vision);
   private final SequentialCommandGroup loadingZoneAUTO = new LoadingZoneAUTON(swerveSubsystem, armSubsystem,
@@ -151,6 +154,7 @@ public class RobotContainer {
     m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
+    m_chooser.addOption("One Peice", oneScoreAUTO);
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings

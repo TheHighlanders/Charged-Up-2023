@@ -40,7 +40,7 @@ public class ArmMoveCMD extends CommandBase {
     }
 
     if (armMovingThroughZone && !intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake(IntakePos.RETRACT_ALT, false);
+      intakeSubsystem.deployIntake(IntakePos.DEPLOYED, true);
     }
   }
 

@@ -4,7 +4,9 @@
 
 package frc.robot.commands.AutonCMDs;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -39,6 +41,8 @@ public class VISIONalignAprilTag extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    swerveSubsystem.zeroHeading();
+    swerveSubsystem.resetOdometry(new Pose2d(new Translation2d(), new Rotation2d()));
     if (vision.tvVal == 1) {
       targetX = vision.tagOdoX + parkX;
       targetY = vision.tagOdoY - AutoConstants.kAprilTagParkingDistance + parkY;

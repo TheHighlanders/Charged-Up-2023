@@ -71,8 +71,9 @@ public final class Constants {
         public static final double kOpenPos = 0;
 
 
-        public static double kHandMidPos = -6.201;
-        public static final int kOpeningAmps = -2;
+        public static double kHandMidPos = -6.201 * 4
+        ;
+        public static final int kOpeningAmps = -8;
         public static final int kClosingAmps = 20;
     }
 
@@ -257,7 +258,8 @@ public final class Constants {
         // public static final double Vkp = 0.01;
         // public static final double Vki = 0;
         // public static final double Vkd = 0;
-        public static final double max = 0.25/3;
+        public static final double max = 1.0f/10.0f;
+        public static final double kThreshold = Units.degreesToRadians(13.45);
         public static final double startInreaseTrend = 2;
         public static final double stopInreaseTrend = 15;
     }
