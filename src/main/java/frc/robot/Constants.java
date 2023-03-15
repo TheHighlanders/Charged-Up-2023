@@ -71,8 +71,8 @@ public final class Constants {
         public static final double kOpenPos = 0;
 
 
-        public static double kHandMidPos = -6.201 * 4
-        ;
+        public static double kHandMidPos = -6.201 * 2.5;
+
         public static final int kOpeningAmps = -8;
         public static final int kClosingAmps = 20;
     }
@@ -139,7 +139,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 1.25; 
+        public static final double kPTheta = 6; 
         public static final double kITheta = 0;
         public static final double kDTheta = 0.2;
 
@@ -233,7 +233,7 @@ public final class Constants {
         public static final double fieldLength = fieldCenterMeters * 2;
         public static final double headingFlipMirror = 90;
 
-        public static final double kMaxSpeedMetersPerSecond = 0.1;//DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 20;
+        public static final double kMaxSpeedMetersPerSecond = 0.750;//DriveConstants.kPhysicalMaxSpeedMetersPerSecond / 20;
         public static final double kMaxAngularSpeedRadiansPerSecond = //
                 DriveConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -249,9 +249,9 @@ public final class Constants {
 
         public static final double kRotationError = 0.1;
 
-        public static final double kXPIDp = 2.8;
+        public static final double kXPIDp = 7;
         public static final double kXPIDi = 0;
-        public static final double kXPIDd = 0.1;
+        public static final double kXPIDd = 0.3;
     }
     
     public static final class GyroConstants{

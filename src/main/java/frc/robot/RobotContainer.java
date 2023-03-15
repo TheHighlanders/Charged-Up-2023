@@ -154,7 +154,7 @@ public class RobotContainer {
     m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
-    m_chooser.addOption("One Peice", oneScoreAUTO);
+    m_chooser.addOption("One Peice",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
