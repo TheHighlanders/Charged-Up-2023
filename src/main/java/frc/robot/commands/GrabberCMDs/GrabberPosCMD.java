@@ -9,10 +9,10 @@ import frc.robot.Constants.GrabberConstants;
 import frc.robot.subsystems.GrabberSubsystem;
 
 
-public class GrapperPosCMD extends CommandBase {
+public class GrabberPosCMD extends CommandBase {
   /** Creates a new GrapperPosCMD. */
   GrabberSubsystem grabberSubsystem;
-  public GrapperPosCMD(GrabberSubsystem grabber_subsystem) {
+  public GrabberPosCMD(GrabberSubsystem grabber_subsystem) {
     grabberSubsystem = grabber_subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }

@@ -21,9 +21,6 @@ public class AUTOstartIntakeCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (intakeSubsystem.deployed) {
-      intakeSubsystem.deployIntake(IntakePos.DEPLOYED, true);
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
