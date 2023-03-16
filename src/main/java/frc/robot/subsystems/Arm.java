@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.utilities.CANSparkMaxCurrent;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.SparkMaxPIDControllerSmart;
 
@@ -100,6 +101,7 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Arm Setpoint", setpoint);
     if(setpoint < target){
       setpoint += 50;
     }
