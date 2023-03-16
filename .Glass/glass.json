@@ -1,10 +1,23 @@
 {
   "NetworkTables": {
+    "retained": {
+      "CameraPublisher": {
+        "limelight": {
+          "open": true
+        },
+        "open": true
+      }
+    },
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     }
   },
+  "NetworkTables Log": {
+    "visible": true
+  },
   "NetworkTables Settings": {
-    "mode": "Client (NT4)"
+    "mode": "Client (NT4)",
+    "serverTeam": "6201"
   }
 }

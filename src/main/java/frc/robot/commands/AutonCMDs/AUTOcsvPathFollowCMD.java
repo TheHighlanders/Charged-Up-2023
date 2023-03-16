@@ -2,26 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCMDs;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.ejml.dense.row.decomposition.hessenberg.TridiagonalDecomposition_FDRB_to_FDRM;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.constraint.TrajectoryConstraint.MinMax;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -31,14 +28,17 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   private int closestPointIndex = 0;
   private SwerveSubsystem swerveSubsystem;
 
+  private PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi, AutoConstants.kXPIDd);
+
   private double[] xArray;
   private double[] yArray;
   private double[] headingArray;
   private double[] timeArray;
-  private boolean cmdDone;
+  private boolean cmdDone = false;
+  private Rotation2d gyroOffset;
 
   /**
-   * Reads A CVS with the filename path, and parses it out into Arrays for use in
+   * Reads A CSV with the filename path, and parses it out into Arrays for use in
    * following
    * 
    * @param path             The filename of the target path
@@ -47,7 +47,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
   public AUTOcsvPathFollowCMD(String path, SwerveSubsystem swerve_subsystem) {
     swerveSubsystem = swerve_subsystem;
     addRequirements(swerveSubsystem);
-
+    
     ArrayList<Double> xList = new ArrayList<>();
     ArrayList<Double> yList = new ArrayList<>();
     ArrayList<Double> timeList = new ArrayList<>();
@@ -92,15 +92,31 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
       headingArray[i] = headingList.get(i).doubleValue();
       timeArray[i] = timeList.get(i).doubleValue();
     }
-
-    SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
-    SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
+    //SmartDashboard.putNumber("Last X", xArray[xArray.length - 1]);
+    //SmartDashboard.putNumber("Last Y", yArray[yArray.length - 1]);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    boolean mirrorField = (DriverStation.getAlliance() == DriverStation.Alliance.Red);
+
+    if(mirrorField){
+      for (int i = 0; i < xArray.length; i++) {
+        xArray[i] = AutoConstants.fieldLength - xArray[i];
+        yArray[i] = AutoConstants.fieldLength - yArray[i];
+        headingArray[i] = headingArray[i] * -1 + AutoConstants.headingFlipMirror;
+      }
+    }//Maybe x And y are sawpperd,(addressde in chassisSpeeds) and check gyro/odo resetting stuff
+    Pose2d pathStartPose = new Pose2d(new Translation2d(xArray[0], yArray[0]), new Rotation2d(edu.wpi.first.math.MathUtil.angleModulus(Units.degreesToRadians(headingArray[0] + 90))));
+    //swerveSubsystem.zeroHeading(); ?? Trying fix 4:03pm
+    gyroOffset = swerveSubsystem.getRotation2D();
+    swerveSubsystem.resetOdometry(pathStartPose);
+    cmdDone = false;
+    closestPointIndex = 0;
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
@@ -119,65 +135,49 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
     double currentX = currentPose.getX();
     double currentY = currentPose.getY();
-    Rotation2d currentHeading = currentPose.getRotation();
 
     closestPointIndex = crazySearch(currentX, currentY);
     int targetPointIndex = distanceDelta(closestPointIndex, currentX, currentY);
-    DriverStation.reportWarning(
-        "Closest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
+     DriverStation.reportWarning(
+         "Closest Point Index: " + closestPointIndex + "\nTarget Point Index: " + targetPointIndex, false);
     double xEndPoint = xArray[targetPointIndex];
     double yEndPoint = yArray[targetPointIndex];
     Rotation2d headingEndPoint = new Rotation2d(Math.toRadians(headingArray[targetPointIndex]));
 
-    SmartDashboard.putNumber("X Target", xEndPoint);
-    SmartDashboard.putNumber("Y Target", yEndPoint);
-    SmartDashboard.putNumber("theta Target", headingEndPoint.getRadians());
+    // SmartDashboard.putNumber("X Target", xEndPoint);
+    // SmartDashboard.putNumber("Y Target", yEndPoint);
+    // SmartDashboard.putNumber("theta Target", headingEndPoint.getRadians());
 
-    double deltaX = xEndPoint - currentX;
+    double deltaX = currentX - xEndPoint;
     double deltaY = yEndPoint - currentY;
 
-    double deltaHeading = headingEndPoint.getRadians() - currentHeading.getRadians();
-
-    deltaHeading %= Math.PI * 2;
-
-    PIDController pidController = new PIDController(AutoConstants.kXPIDp, AutoConstants.kXPIDi, AutoConstants.kXPIDd);
+    
 
     double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
         * AutoConstants.kMaxSpeedMetersPerSecond;
 
+
     double speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     double speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
 
-    boolean atPoint = !(Math.abs(deltaX) > AutoConstants.kTranslatePointError)
-        && !(Math.abs(deltaY) > AutoConstants.kTranslatePointError)
-        && !(Math.abs(deltaHeading) > AutoConstants.kRotationError);
-
-    boolean stopped = swerveSubsystem.isStopped();
-    //SmartDashboard.putNumber("AUTO deltaTheta", deltaHeading);
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         (Math.abs(deltaY) > AutoConstants.kTranslatePointError ? speedY : 0.0),
+        (Math.abs(deltaX) > AutoConstants.kTranslatePointError ? speedX : 0.0),
         0.0,
-        swerveSubsystem.getRotation2D());
+        swerveSubsystem.getRotation2D().minus(gyroOffset));
 
-    swerveSubsystem.setLastValidHeading(headingEndPoint.minus(new Rotation2d(Math.toRadians(90))));
-    // Putting Code to Drive
+    swerveSubsystem.setLastValidHeading(headingEndPoint);
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
-    // chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
 
-    SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
-
-    // if (stopping) {
-    // cmdDone = (stopped && atPoint);
-    // } else {
-    // cmdDone = atPoint;
-    // }
-
-      if(closestPointIndex == targetPointIndex){
-        cmdDone = true;
-      }
+     DriverStation.reportWarning(
+       "asdadClosest Point Index: " + closestPointIndex + "\nasdTarget Point Index: " + targetPointIndex, false);
+  
+    if (closestPointIndex == targetPointIndex) {
+      cmdDone = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -187,8 +187,8 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {  
-    DriverStation.reportWarning("DONE WITH TRAJECTORY", false);  
+  public boolean isFinished() {
+    DriverStation.reportWarning("DONE WITH TRAJECTORY" + cmdDone, false);
     return cmdDone;
   }
 
@@ -213,7 +213,7 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
         out = i;
       }
       if (minZ < search) {
-        DriverStation.reportWarning("Crazy Break: " + i, false);
+        // DriverStation.reportWarning("Crazy Break: " + i, false);
         break;
       }
     }
@@ -229,8 +229,9 @@ public class AUTOcsvPathFollowCMD extends CommandBase {
    */
   public int distanceDelta(int currentIndex, double currentX, double currentY) {
     for (int i = currentIndex; i < xArray.length - 1; i++) {
-      double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY,2));
+      double distance = Math.sqrt(Math.pow(xArray[i] - currentX, 2) + Math.pow(yArray[i] - currentY, 2));
       if (distance > 0.2) {
+        //if(i == closestPointIndex && i < xArray.length-1){i++;}//Nye 3/8 may cause zooom
         return i;
       }
     }

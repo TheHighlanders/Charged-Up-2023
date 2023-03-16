@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutonCMDs;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.PID.PID;
 
 public class AUTOswerveMoveCommand extends CommandBase {
   /** Creates a new AUTOswerveMoveCommad. */
@@ -54,11 +53,14 @@ public class AUTOswerveMoveCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putString("Cur Rot", swerveSubsystem.getRotation2D().toString());
+    
     currentPose = swerveSubsystem.getPose2d();
 
     currentX = currentPose.getX();
@@ -72,9 +74,10 @@ public class AUTOswerveMoveCommand extends CommandBase {
 
     deltaHeading %= Math.PI * 2;
 
-    double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0))
-        * AutoConstants.kMaxSpeedMetersPerSecond;
+    double pid = Math.abs(pidController.calculate(Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)), 0));
 
+    pid = Math.min(pid, 1);
+    pid *= AutoConstants.kMaxSpeedMetersPerSecond;
     speedX = (deltaX / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
     speedY = (deltaY / (Math.abs(deltaX) + Math.abs(deltaY))) * pid;
 
@@ -94,7 +97,7 @@ public class AUTOswerveMoveCommand extends CommandBase {
     //Putting Code to Drive
     chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
     //chassisSpeeds = swerveSubsystem.fieldOrientedThetaHold(chassisSpeeds);
-    SwerveModuleState[] moduleStates = swerveSubsystem.getIKMathSwerveModuleStates(chassisSpeeds);
+    SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
 
     swerveSubsystem.setModuleStates(moduleStates);
 
