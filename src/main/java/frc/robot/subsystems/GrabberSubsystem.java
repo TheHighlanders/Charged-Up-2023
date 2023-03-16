@@ -49,7 +49,7 @@ public class GrabberSubsystem extends SubsystemBase {
 
   public void zero(){
     handEncoder.setPosition(0);
-    DriverStation.reportWarning("POS" + handEncoder.getPosition(), false);
+    //DriverStation.reportWarning("POS" + handEncoder.getPosition(), false);
   }
 
   @Override

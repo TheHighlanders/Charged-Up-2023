@@ -24,7 +24,7 @@ public class TurntableSpinCMD extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    DriverStation.reportWarning("started spinnnnnnnnnnnnner", false);
+    //DriverStation.reportWarning("started spinnnnnnnnnnnnner", false);
 
   }
 

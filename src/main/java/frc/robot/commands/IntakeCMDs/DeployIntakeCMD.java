@@ -39,7 +39,7 @@ public class DeployIntakeCMD extends CommandBase {
       state = IntakePos.RETRACT_ALT;
     }
 
-    DriverStation.reportWarning("DeployCMD", false);
+    //DriverStation.reportWarning("DeployCMD", false);
     intakeSubsystem.deployIntake(state, true);
   }
 

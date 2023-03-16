@@ -65,7 +65,7 @@ public class Intake extends SubsystemBase {
 
   public void deployIntake(IntakePos stateTarget, boolean toggle) {
     if(toggle){deployed = !deployed;}
-    DriverStation.reportWarning("Deployed: " + deployed, false);
+    //DriverStation.reportWarning("Deployed: " + deployed, false);
 
     state = stateTarget;
     //intakeDeploy.set(ControlMode.Current, (deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr));
@@ -94,7 +94,7 @@ public class Intake extends SubsystemBase {
   public void spinTurntableDeg(double deg){
     double pos = deg * IntakeConstants.kTurnGearRatio * IntakeConstants.kTurnBeltRatio;
     intakeTurnable.setSelectedSensorPosition(0);
-    DriverStation.reportWarning("TurntableDeg: " + intakeTurnable.getSelectedSensorPosition(), false);
+    //DriverStation.reportWarning("TurntableDeg: " + intakeTurnable.getSelectedSensorPosition(), false);
 
     intakeTurnable.set(ControlMode.Position, pos);
   }

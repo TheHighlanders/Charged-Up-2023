@@ -146,7 +146,7 @@ public class SwerveModule {
   }
 
   public void jog(double angleSpeed, double driveSpeed){
-    DriverStation.reportWarning("Jogging: " + absoluteEncoder.getChannel(), false);
+    //DriverStation.reportWarning("Jogging: " + absoluteEncoder.getChannel(), false);
 
     angleMotor.set(angleSpeed);
     driveMotor.set(driveSpeed);

@@ -42,9 +42,9 @@ public class GyroSubsystem extends SubsystemBase {
     //double Vpid = VpidController.calculate((yaw + pitch)/2, 0);
     // double xSpeed =  magnitue * Math.cos(angle);
     // double ySpeed = magnitue * Math.sin(angle);
-    SmartDashboard.putString("Gyro values", "pitch/yaw " + roll + " " + pitch);
+    // SmartDashboard.putString("Gyro values", "pitch/yaw " + roll + " " + pitch);
     SwerveModuleState state = new SwerveModuleState(magnitude, new Rotation2d(angle- Math.PI/2));
-    SmartDashboard.putString("Module state", state.toString());
+    // SmartDashboard.putString("Module state", state.toString());
     return new SwerveModuleState[] {state, state, state, state};
 
   }
@@ -54,10 +54,10 @@ public class GyroSubsystem extends SubsystemBase {
   }
 
   public double bangBang(double angleRobotRadians){
-    SmartDashboard.putNumber("gyroX", Units.radiansToDegrees(angleRobotRadians));
+    // SmartDashboard.putNumber("gyroX", Units.radiansToDegrees(angleRobotRadians));
     double out = 0;
     double threshold = GyroConstants.kThreshold;
-    SmartDashboard.putNumber("Threshold", Units.radiansToDegrees(threshold));
+    // SmartDashboard.putNumber("Threshold", Units.radiansToDegrees(threshold));
     if(Math.abs(angleRobotRadians) >= threshold){
       out = GyroConstants.max;
     } else if (Math.abs(angleRobotRadians) >= Units.degreesToRadians(2.5)){
@@ -65,7 +65,7 @@ public class GyroSubsystem extends SubsystemBase {
     }
 
 
-    SmartDashboard.putNumber("GyroOut", out);
+    // SmartDashboard.putNumber("GyroOut", out);
     return out;
   }
 
@@ -85,10 +85,10 @@ public class GyroSubsystem extends SubsystemBase {
   public void periodic(){
     if(Math.abs(roll) <= 2 && Math.abs(pitch) <= 2){
       balCount++;
-      SmartDashboard.putString("State", "Balancing");
+      // SmartDashboard.putString("State", "Balancing");
     }else{
       balCount = 0;
-      SmartDashboard.putString("State", "Reseting");
+      // SmartDashboard.putString("State", "Reseting");
     }
 
     if(balCount >= 25){
