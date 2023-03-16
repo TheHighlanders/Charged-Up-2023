@@ -33,6 +33,7 @@ import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.BalanceAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
@@ -148,13 +149,14 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
 
     m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
-    m_chooser.addOption("Scoring", scoringTableAUTO);
-    m_chooser.addOption("Loading", loadingZoneAUTO);
-    m_chooser.addOption("Charge Station", chargeStationAUTO);
-    m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
-    m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
-    m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
-    m_chooser.addOption("One Peice",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
+    // m_chooser.addOption("Scoring", scoringTableAUTO);
+    // m_chooser.addOption("Loading", loadingZoneAUTO);
+    // m_chooser.addOption("Charge Station", chargeStationAUTO);
+    // m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
+    // m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
+    // m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
+    m_chooser.addOption("Score Cone and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
+    m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
 
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
