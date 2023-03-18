@@ -7,7 +7,6 @@ package frc.robot.commands.AutonCMDs.AUTONgroups;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -29,22 +28,18 @@ import frc.robot.subsystems.SwerveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BalanceAUTON extends SequentialCommandGroup {
-  /** Creates a new BalanceAUTON. */
-  public BalanceAUTON(SwerveSubsystem swerveSubsystem, Arm armSubsystem, Intake intakeSubsystem, GrabberSubsystem grabberSubsystem, GyroSubsystem gyroSubsystem) {
+public class NoMoveAUTON extends SequentialCommandGroup {
+  /** Creates a new NoMoveAUTON. */
+  public NoMoveAUTON(SwerveSubsystem swerveSubsystem, Arm armSubsystem, Intake intakeSubsystem, GrabberSubsystem grabberSubsystem, GyroSubsystem gyroSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0)))),
-      new InstantCommand(() -> swerveSubsystem.zeroHeading()),
       new GrabberCloseCMD(grabberSubsystem),
       new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       new AUTOWaitCMD(1),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
       new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*8100/360),
       new AUTOWaitCMD(2),
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, -Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
       new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),
       new GrabberCloseCMD(grabberSubsystem),
@@ -52,9 +47,7 @@ public class BalanceAUTON extends SequentialCommandGroup {
       new AUTOWaitCMD(2),
       new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       //new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
-      new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString())),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 2 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), false),
-      new autoBalanceCommand(gyroSubsystem, swerveSubsystem)
+      new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString()))
     );
   }
 }

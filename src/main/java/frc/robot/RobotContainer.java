@@ -36,6 +36,7 @@ import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.BalanceAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.NoMoveAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
@@ -157,7 +158,7 @@ public class RobotContainer {
     // m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
     m_chooser.addOption("Score Cone and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
     m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
-
+    m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
     configureButtonBindings();
@@ -178,9 +179,9 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 8).onTrue(balanceCMD);
     new JoystickButton(driverJoystick, 7).whileTrue(intakeOutCMD);
 
-    new JoystickButton(driverJoystick, 4).whileTrue(deployIntakeCMD);
+    new JoystickButton(driverJoystick, 6).whileTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
-    new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
+    //new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
     new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(0, 0, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));

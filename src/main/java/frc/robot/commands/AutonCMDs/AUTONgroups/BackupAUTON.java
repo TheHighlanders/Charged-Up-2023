@@ -7,6 +7,7 @@ package frc.robot.commands.AutonCMDs.AUTONgroups;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -42,16 +43,18 @@ public class BackupAUTON extends SequentialCommandGroup {
       new AUTOWaitCMD(1),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
       new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*8100/360),
-      new AUTOWaitCMD(3),
+      new AUTOWaitCMD(2),
+      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
+      new AUTOWaitCMD(1),
+      new AUTOswerveMoveCommand(swerveSubsystem, 0, -Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
       new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),
       new GrabberCloseCMD(grabberSubsystem),
       new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem),
-      new AUTOWaitCMD(1),
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
+      new AUTOWaitCMD(1.5),
       //new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
       new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString())),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 4.25, swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true)
+      new AUTOswerveMoveCommand(swerveSubsystem, 0, 4.25 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true)
 
     );
   }

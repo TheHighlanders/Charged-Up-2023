@@ -90,8 +90,8 @@ public final class Constants {
 
         public static final double kStowedPos = 0;
         public static final double kDownPos = -800;
-        public static final double kMiddlePos = -1700;//0.8
-        public static final double kShelfPos = -2250;
+        public static final double kMiddlePos = -1950;//0.8
+        public static final double kShelfPos = -1900;
         public static final double kTopPos = -2750;
 
         public static final double kIntakeDeathZoneHighBottom = kTopPos - 500;
@@ -153,7 +153,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 6;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3 ;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 
