@@ -173,10 +173,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void encoderPrintoutDeg() {
-        // SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
-        // SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Front Left Radians no Offset", (frontLeft.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Front Right Radians no Offset", (frontRight.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Back Left Encoder Radians no Offset", (backLeft.getAbsoluteEncoderRadNoOffset()));
+        SmartDashboard.putNumber("Back Right Encoder Radians no Offset", (backRight.getAbsoluteEncoderRadNoOffset()));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {

@@ -8,6 +8,7 @@ import java.util.EnumMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -54,6 +55,10 @@ public class Intake extends SubsystemBase {
     intakeDeploy.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     intakeDeploy.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     intakeDeploy.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
+
+    SupplyCurrentLimitConfiguration limit = new SupplyCurrentLimitConfiguration(true, 20,0, 2);
+    intakeDeploy.configSupplyCurrentLimit(limit);
+    intakeDeploy2.configSupplyCurrentLimit(limit);
     // intakeDeploy2.config_kP(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kPIntakeDeploy);
     // intakeDeploy2.config_kI(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kIIntakeDeploy);
     // intakeDeploy2.config_kD(IntakeConstants.DEPLOY_PID_ID, IntakeConstants.kDIntakeDeploy);
@@ -144,4 +149,7 @@ public class Intake extends SubsystemBase {
   }
   public EnumMap<IntakePos, Double> intakePosMap = new EnumMap<>(IntakePos.class);
   
+  public void zeroIntake(){
+    intakeDeploy.setSelectedSensorPosition(0);
+  }
 }

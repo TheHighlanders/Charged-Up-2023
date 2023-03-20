@@ -103,10 +103,10 @@ public class Arm extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Arm Setpoint", setpoint);
     if(setpoint < target){
-      setpoint += 50;
+      setpoint += 50 / 8100.0f;
     }
     if (setpoint > target){
-      setpoint -=50;
+      setpoint -= 50 / 8100.0f;
     }
     armPID.setReference(setpoint, PIDposition);
 

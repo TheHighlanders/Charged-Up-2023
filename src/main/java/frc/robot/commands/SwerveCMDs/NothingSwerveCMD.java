@@ -2,41 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.AutonCMDs.IntakeAUTO;
+package frc.robot.commands.SwerveCMDs;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Intake.IntakePos;
+import frc.robot.subsystems.SwerveSubsystem;
 
-public class AUTOstartIntakeCMD extends CommandBase {
-  /** Creates a new AUTOstartIntake. */
-  private Intake intakeSubsystem;
-
-  public AUTOstartIntakeCMD(Intake intake_subsystem) {
+public class NothingSwerveCMD extends CommandBase {
+  /** Creates a new CrAPCMD. */
+  public NothingSwerveCMD(SwerveSubsystem swerve) {
+    addRequirements(swerve);
     // Use addRequirements() here to declare subsystem dependencies.
-    intakeSubsystem = intake_subsystem;
-    addRequirements(intake_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    intakeSubsystem.spinIntakeOut();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

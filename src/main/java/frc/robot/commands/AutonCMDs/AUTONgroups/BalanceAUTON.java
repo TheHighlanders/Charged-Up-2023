@@ -17,6 +17,8 @@ import frc.robot.commands.AutonCMDs.AUTOWaitCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.AUTOwaitUntilPIDtargetCMD;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
+import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstartIntakeCMD;
+import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstopIntakeCMD;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
@@ -37,21 +39,24 @@ public class BalanceAUTON extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> swerveSubsystem.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0)))),
       new InstantCommand(() -> swerveSubsystem.zeroHeading()),
-      new GrabberCloseCMD(grabberSubsystem),
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
-      new AUTOWaitCMD(1),
-      new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*8100/360),
-      new AUTOWaitCMD(2),
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
+      // new GrabberCloseCMD(grabberSubsystem),
+      // new DeployIntakeCMD(intakeSubsystem, armSubsystem),
+      // new AUTOWaitCMD(1),
+      // new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
+      // new AUTOWaitCMD(2),
+      // new DeployIntakeCMD(intakeSubsystem, armSubsystem),
+      // new AUTOWaitCMD(1),
       new AUTOswerveMoveCommand(swerveSubsystem, 0, -Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
-      new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),
-      new GrabberCloseCMD(grabberSubsystem),
-      new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSubsystem),
+      // new GrabberOpenCMD(grabberSubsystem),
+      // new AUTOWaitCMD(1),
+      // new GrabberCloseCMD(grabberSubsystem),
+      new AUTOstartIntakeCMD(intakeSubsystem),
       new AUTOWaitCMD(2),
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
-      //new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
+      new AUTOstopIntakeCMD(intakeSubsystem),
+      //new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem),
+      new AUTOWaitCMD(1),
+      // // new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
       new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString())),
       new AUTOswerveMoveCommand(swerveSubsystem, 0, 2 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), false),
       new autoBalanceCommand(gyroSubsystem, swerveSubsystem)

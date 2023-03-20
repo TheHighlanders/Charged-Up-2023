@@ -35,7 +35,7 @@ public final class Constants {
         public static final int kIntakeMotorID = 19;
         public static final int kIntakeMotor2ID = 18;
         public static final int kIntakeDeployID = 21;
-        public static final int kIntakeDeploy2ID = 20;
+        public static final int kIntakeDeploy2ID = 43;
         public static final int kIntakeTurntableID = 22;
 
         public static final double kTurntableSpeed = 1;
@@ -82,24 +82,24 @@ public final class Constants {
         public static final double kIntakeDeathZone = 1000;
         public static final double kIntakeDeathZoneLow = 250;
 
-        static final double gearboxRatio = 45.0 / 1.0;
-        static final double beltRatio = 2.0 / 1.0; //GUESTIMATED find actual belt ratio from mechanical
+        static final double gearboxRatio = 1.0 / 49.0;
+        static final double beltRatio = 1.0 / 2.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRatio = gearboxRatio * beltRatio;
 
         public static final int ARM_MOTOR_ID = 62;
 
-        public static final double kStowedPos = 0;
-        public static final double kDownPos = -800;
-        public static final double kMiddlePos = -1950;//0.8
-        public static final double kShelfPos = -1900;
-        public static final double kTopPos = -2750;
+        public static final double kStowedPos = 0/8100.0f;
+        public static final double kDownPos = -800/8100.0f;
+        public static final double kMiddlePos = -1950/8100.0f;//0.8
+        public static final double kShelfPos = -1900/8100.0f;
+        public static final double kTopPos = -2750/8100.0f;
 
-        public static final double kIntakeDeathZoneHighBottom = kTopPos - 500;
+        public static final double kIntakeDeathZoneHighBottom = kTopPos - (500 / 8100.0f);
         public static final double kIntakeDeathZoneHighTop = kTopPos;
 
-        public static final double kPArm = 0.005;
+        public static final double kPArm = 0.005 * 8100.0f;
         public static final double kIArm = 0;
-        public static final double kDArm = 0.0025;
+        public static final double kDArm = 0.0025 * 8100.0f;
 
         public static final double maxOut = 0.15;
         public static final double minOut = -0.3;
@@ -153,7 +153,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3 ;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2.5 ;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 
@@ -245,7 +245,7 @@ public final class Constants {
 
         public static final double kVelocityTolerance = 0.1;//determines when we are stopped
 
-        public static final double kTranslatePointError = 0.01;
+        public static final double kTranslatePointError = 0.10;
 
         public static final double kRotationError = 0.1;
 

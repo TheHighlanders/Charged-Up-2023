@@ -28,6 +28,7 @@ import frc.robot.Constants.VisionConstants;
 import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.ArmCMDs.ArmUpCMD;
+import frc.robot.commands.AutonCMDs.AUTOWaitCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
@@ -74,7 +75,7 @@ public class RobotContainer {
 
   private final GrabberSubsystem grabberSub = new GrabberSubsystem();
 
-  private final Intake intakeSub = new Intake();
+  public static final Intake intakeSub = new Intake();
 
   private final Arm armSubsystem = new Arm();
 
@@ -121,7 +122,7 @@ public class RobotContainer {
   private final SequentialCommandGroup chargeStationAUTO = new ChargeStationAUTON(swerveSubsystem, armSubsystem, grabberSub, intakeSub, vision, gyroSubsystem);
 
   // A chooser for autonomous commands
-  SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
+  public static SendableChooser<SequentialCommandGroup> m_chooser = new SendableChooser<>();
 
   // private final AUTOtrajectoryGenerate trajectory = new AUTOtrajectoryGenerate(swerveSubsystem,
   //     new double[] { 2 },
@@ -148,8 +149,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
-
-    m_chooser.setDefaultOption("Nothing", new SequentialCommandGroup());
+    m_chooser.setDefaultOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     // m_chooser.addOption("Scoring", scoringTableAUTO);
     // m_chooser.addOption("Loading", loadingZoneAUTO);
     // m_chooser.addOption("Charge Station", chargeStationAUTO);
@@ -157,9 +157,11 @@ public class RobotContainer {
     // m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     // m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
     m_chooser.addOption("Score Cone and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
-    m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
+    //m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
+    m_chooser.addOption("Nothing", new SequentialCommandGroup(new AUTOWaitCMD(14)));
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     SmartDashboard.putData(m_chooser);
+    
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -182,12 +184,12 @@ public class RobotContainer {
     new JoystickButton(driverJoystick, 6).whileTrue(deployIntakeCMD);
     new JoystickButton(driverJoystick, 5).whileTrue(intakeInHighCMD);
     //new JoystickButton(driverJoystick, 6).whileTrue(intakeInLowCMD);
-    new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(0, 0, vision, swerveSubsystem));
+    //new POVButton(driverJoystick, 0).whileTrue(new VISIONalignAprilTag(0, 0, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
-    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
-    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(-AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
+    //new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
+    //new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(-AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
     new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);
@@ -229,5 +231,10 @@ public class RobotContainer {
 
     // driveTrajectory,
 
+  }
+
+  public static void putAUTONchooser(){
+    SmartDashboard.putData(m_chooser);
+    // DriverStation.reportWarning("null", false);
   }
 }

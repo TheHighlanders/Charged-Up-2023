@@ -85,6 +85,8 @@ public class SwerveJoystickCMD extends CommandBase {
 
         swerveSubsystem.setModuleStates(moduleStates);
 
+        //SmartDashboard.putString("States", moduleStates.toString());  
+
     }
 
     @Override

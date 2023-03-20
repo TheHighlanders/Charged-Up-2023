@@ -12,16 +12,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.commands.ArmCMDs.ArmDownCMD;
 import frc.robot.commands.ArmCMDs.ArmMoveCMD;
 import frc.robot.commands.AutonCMDs.AUTOWaitCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.AUTOwaitUntilPIDtargetCMD;
+import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstartIntakeCMD;
+import frc.robot.commands.AutonCMDs.IntakeAUTO.AUTOstopIntakeCMD;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
-import frc.robot.commands.GrabberCMDs.GrabberPosCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
-import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.Intake;
@@ -50,8 +49,11 @@ public class BackupAUTON extends SequentialCommandGroup {
       new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),
       new GrabberCloseCMD(grabberSubsystem),
+      // new AUTOstartIntakeCMD(intakeSubsystem),
+      // new AUTOWaitCMD(2),
+      // new AUTOstopIntakeCMD(intakeSubsystem),
       new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem),
-      new AUTOWaitCMD(1.5),
+      new AUTOWaitCMD(2),
       //new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
       new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString())),
       new AUTOswerveMoveCommand(swerveSubsystem, 0, 4.25 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true)
