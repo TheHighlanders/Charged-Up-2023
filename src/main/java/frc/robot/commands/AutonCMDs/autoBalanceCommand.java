@@ -32,7 +32,7 @@ public class autoBalanceCommand extends CommandBase {
     addRequirements(gyroSubsystem);
     addRequirements(swerveSubsystem);
 
-    balancePID = new PIDController(0.13/14.0f, 0, 4/100.0f);
+    balancePID = new PIDController(0.13/14.0f, 0, 8/100.0f);
   }
 
   // Called when the command is initially scheduled.
