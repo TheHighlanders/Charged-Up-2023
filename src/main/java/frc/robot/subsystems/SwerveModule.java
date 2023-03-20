@@ -59,7 +59,7 @@ public class SwerveModule {
     
     driveMotor.setSmartCurrentLimit(40);
     driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
-    angleMotor.setSmartCurrentLimit(80);
+    angleMotor.setSmartCurrentLimit(20);
     
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
