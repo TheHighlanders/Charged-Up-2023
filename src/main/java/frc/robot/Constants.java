@@ -158,14 +158,16 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2.5;
-        public static final double kTeleDriveMaxSpeedMetersPerSecondSlow = kTeleDriveMaxSpeedMetersPerSecond / 2;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4.0f;
+        public static final double kTeleDriveMaxSpeedMetersPerSecondSlow = 1.0f;
 
 
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecondFast = 4.0f / 50.0f;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecondSlow = 4.0f / 50.0f;
+        
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
         //Size Info

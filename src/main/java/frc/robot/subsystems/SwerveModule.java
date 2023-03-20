@@ -18,12 +18,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.utilities.CANSparkMaxCurrent;
 
 public class SwerveModule {
+  private double setpoint = 0;
+
 
   private final CANSparkMaxCurrent driveMotor;
   private final CANSparkMax angleMotor;
@@ -141,7 +144,14 @@ public class SwerveModule {
 
     state = optimize(state, getState().angle);
 
-    driveMotor.set(drivePIDController.calculate(getDriveVelocity(), state.speedMetersPerSecond));
+    if(!RobotContainer.swerveSubsystem.slowed){
+      setpoint += Math.min(Math.abs(state.speedMetersPerSecond - setpoint), DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecondFast) * Math.signum(state.speedMetersPerSecond - setpoint);
+    }else{
+      setpoint += Math.min(Math.abs(state.speedMetersPerSecond - setpoint), DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecondSlow) * Math.signum(state.speedMetersPerSecond - setpoint);
+    }
+
+    driveMotor.set(drivePIDController.calculate(getDriveVelocity(), setpoint));
+  
 
     angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
     //SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
