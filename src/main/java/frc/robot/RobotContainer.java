@@ -162,6 +162,8 @@ public class RobotContainer {
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     SmartDashboard.putData(m_chooser);
     
+    DriverStation.silenceJoystickConnectionWarning(true);
+
     // Configure the button bindings
     configureButtonBindings();
   }

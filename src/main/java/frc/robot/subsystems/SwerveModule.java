@@ -18,12 +18,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.DriveConstants;
 //import frc.robot.Constants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.utilities.CANSparkMaxCurrent;
 
 public class SwerveModule {
 
-  private final CANSparkMax driveMotor;
+  private final CANSparkMaxCurrent driveMotor;
   private final CANSparkMax angleMotor;
 
   private final RelativeEncoder driveEncoder;
@@ -46,7 +48,7 @@ public class SwerveModule {
 
     absoluteEncoder = new edu.wpi.first.wpilibj.AnalogInput(absoluteEncoderID);
 
-    driveMotor = new CANSparkMax(driveMotorID, MotorType.kBrushless);
+    driveMotor = new CANSparkMaxCurrent(driveMotorID, MotorType.kBrushless);
     angleMotor = new CANSparkMax(angleMotorID, MotorType.kBrushless);
 
     driveMotor.setInverted(driveMotorReversed);
@@ -56,6 +58,7 @@ public class SwerveModule {
     angleEncoder = angleMotor.getEncoder();
     
     driveMotor.setSmartCurrentLimit(40);
+    driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
     angleMotor.setSmartCurrentLimit(80);
     
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
@@ -154,5 +157,9 @@ public class SwerveModule {
     angleMotor.set(angleSpeed);
     driveMotor.set(driveSpeed);
 
+  }
+
+  public void updateLimit(){
+    driveMotor.periodicLimit();
   }
 }

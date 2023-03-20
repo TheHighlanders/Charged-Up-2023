@@ -20,6 +20,8 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
+    public boolean slowed = false;
+
     private double previousAngle = 0;
     private double[] lastOutputAngle = new double[4];
     public Rotation2d desiredHeading = new Rotation2d(0);
@@ -88,6 +90,8 @@ public class SwerveSubsystem extends SubsystemBase {
                     new Rotation2d(0))); // Could Add OPTIONAL ROBOT Starting pose for field posing
 
     public SwerveSubsystem() {
+        slowed = false;
+
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -151,6 +155,15 @@ public class SwerveSubsystem extends SubsystemBase {
 
         odoPose = getPose2d();
 
+        updateLimits();
+
+    }
+
+    private void updateLimits() {
+        frontLeft.updateLimit();
+        frontRight.updateLimit();
+        backLeft.updateLimit();
+        backRight.updateLimit();
     }
 
     public void resetOdometryCache() {

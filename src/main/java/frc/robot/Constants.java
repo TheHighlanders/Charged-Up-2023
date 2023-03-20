@@ -110,6 +110,11 @@ public final class Constants {
     }
 
     public static final class ModuleConstants {
+        public static final double kLimitToAmps = 30.0f;
+        public static final double kMaxSpikeTime = 50.0f;
+        public static final double kMaxSpikeAmps = 80.0f;
+        public static final int kSmartLimit = 40;
+
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1.0f / 8.14; // was 5.8462, not sure why, changed to SDS L1 ratio
         public static final double kAngleMotorGearRatio = 1.0f / 12.8f; // Reciprocalized 1/12
@@ -153,7 +158,10 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2.5 ;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 2.5;
+        public static final double kTeleDriveMaxSpeedMetersPerSecondSlow = kTeleDriveMaxSpeedMetersPerSecond / 2;
+
+
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 

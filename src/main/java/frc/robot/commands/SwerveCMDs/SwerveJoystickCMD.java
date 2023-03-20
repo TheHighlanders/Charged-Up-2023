@@ -77,9 +77,11 @@ public class SwerveJoystickCMD extends CommandBase {
         SwerveModuleState[] moduleStates = swerveSubsystem.doIKMathSwerveModuleStates(chassisSpeeds);
         //Output to Wheels
 
+        double swerveSpeed = (swerveSubsystem.slowed ? DriveConstants.kTeleDriveMaxSpeedMetersPerSecondSlow : DriveConstants.kTeleDriveMaxSpeedMetersPerSecond);
+
         for (int i = 0; i < 4; i++) {
             moduleStates[i].speedMetersPerSecond = moduleStates[i].speedMetersPerSecond
-                    * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+                    * swerveSpeed; //DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 
         }
 
