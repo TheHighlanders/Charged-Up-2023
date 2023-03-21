@@ -50,7 +50,7 @@ public class CANSparkMaxCurrent extends CANSparkMax {
 
 
     public void periodicLimit(){
-        currentCurrent = this.getOutputCurrent();
+        currentCurrent = 0;//this.getOutputCurrent();
         
         currentBuffer[(int) index] = currentCurrent;
         index++;

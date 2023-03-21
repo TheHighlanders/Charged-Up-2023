@@ -8,10 +8,14 @@ import org.opencv.osgi.OpenCVInterface;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,6 +51,7 @@ import frc.robot.commands.GrabberCMDs.GrabberPosCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
 import frc.robot.commands.IntakeCMDs.TurntableSpinCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeCMD;
+import frc.robot.commands.SwerveCMDs.SlowSwerveCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
 import frc.robot.commands.SwerveCMDs.ToggleFieldOrientedCMD;
 import frc.robot.commands.SwerveCMDs.ZeroHeadingCMD;
@@ -161,7 +166,7 @@ public class RobotContainer {
     m_chooser.addOption("Nothing", new SequentialCommandGroup(new AUTOWaitCMD(14)));
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     SmartDashboard.putData(m_chooser);
-    
+
     DriverStation.silenceJoystickConnectionWarning(true);
 
     // Configure the button bindings
@@ -191,7 +196,7 @@ public class RobotContainer {
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
     //new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
-    //new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(-AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new SlowSwerveCMD(swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
     new JoystickButton(operatorJoystick, 9).whileTrue(spinTurntableReverseCMD);

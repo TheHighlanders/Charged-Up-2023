@@ -158,7 +158,7 @@ public final class Constants {
         public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = 4.0f;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = 2.0f;
         public static final double kTeleDriveMaxSpeedMetersPerSecondSlow = 1.0f;
 
 

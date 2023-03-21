@@ -60,7 +60,7 @@ public class SwerveModule {
     driveEncoder = driveMotor.getEncoder();
     angleEncoder = angleMotor.getEncoder();
     
-    driveMotor.setSmartCurrentLimit(40);
+    //driveMotor.setSmartCurrentLimit(40);
     driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
     angleMotor.setSmartCurrentLimit(20);
     
@@ -114,6 +114,7 @@ public class SwerveModule {
     double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
     angle *= 2.0 * Math.PI;
     
+    angle = edu.wpi.first.math.MathUtil.angleModulus(angle);
     return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
   }
 
