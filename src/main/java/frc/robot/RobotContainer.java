@@ -59,6 +59,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.GrabberSubsystem;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SensorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.vision;
 
@@ -74,6 +75,7 @@ import frc.robot.subsystems.vision;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public final static SensorSubsystem sensor = new SensorSubsystem();
   public final static vision vision = new vision();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);

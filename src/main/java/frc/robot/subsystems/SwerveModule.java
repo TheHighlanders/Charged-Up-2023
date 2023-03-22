@@ -154,7 +154,7 @@ public class SwerveModule {
     driveMotor.set(drivePIDController.calculate(getDriveVelocity(), setpoint));
   
 
-    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
+    angleMotor.set(anglePIDController.calculate(getAnglePosition(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
     //SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
   }
 

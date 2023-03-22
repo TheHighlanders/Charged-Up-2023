@@ -160,10 +160,10 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     private void updateLimits() {
-        // frontLeft.updateLimit();
-        // frontRight.updateLimit();
-        // backLeft.updateLimit();
-        // backRight.updateLimit();
+        frontLeft.updateLimit();
+        frontRight.updateLimit();
+        backLeft.updateLimit();
+        backRight.updateLimit();
     }
 
     public void resetOdometryCache() {

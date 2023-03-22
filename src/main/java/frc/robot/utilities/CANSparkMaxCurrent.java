@@ -7,6 +7,7 @@ public class CANSparkMaxCurrent extends CANSparkMax {
     public double currentCurrent;
     public double[] currentBuffer;
     public double index;
+    public double setLimit;
 
     public double limitTo;
     public double spikeMaxAmps;
@@ -23,6 +24,7 @@ public class CANSparkMaxCurrent extends CANSparkMax {
         currentCurrent = this.getOutputCurrent();
         currentBuffer = new double[100];
         limiting = false;
+        setLimit = 0;
     }
 
     public void setCurrent(int amps) {
@@ -50,32 +52,38 @@ public class CANSparkMaxCurrent extends CANSparkMax {
 
 
     public void periodicLimit(){
-        currentCurrent = 0;//this.getOutputCurrent();
+        if(limiting){
+            currentCurrent = 0;//this.getOutputCurrent();
         
-        currentBuffer[(int) index] = currentCurrent;
-        index++;
-        index %= currentBuffer.length;
-        
-        if(currentCurrent >= spikeMaxAmps){
-            limitNow();
-        }
-
-        if(timeAbove >= spikeMaxTime){
-            limitNow();
-        }
-
-        if(currentCurrent >= limitTo){
-            timeAbove++;
-        } else {
-            timeAbove--;
-            timeAbove = Math.max(0,timeAbove);
-            if(timeAbove == 0){
-                this.setSmartCurrentLimit(150);
+            currentBuffer[(int) index] = currentCurrent;
+            index++;
+            index %= currentBuffer.length;
+            
+            if(currentCurrent >= spikeMaxAmps){
+                limitNow(smartLimit);
+            }
+    
+            if(timeAbove >= spikeMaxTime){
+                limitNow(smartLimit);
+            }
+    
+            if(currentCurrent >= limitTo){
+                timeAbove++;
+            } else {
+                timeAbove--;
+                timeAbove = Math.max(0,timeAbove);
+                if(timeAbove == 0){
+                    limitNow(150) ;
+                }
             }
         }
     }
 
-    public void limitNow(){
-        this.setSmartCurrentLimit(smartLimit);
+    public void limitNow(double amps){
+        if(amps != setLimit){
+            this.setSmartCurrentLimit((int) amps);
+            setLimit = amps;
+        }
+        // this.setSmartCurrentLimit(smartLimit);
     }
 }
