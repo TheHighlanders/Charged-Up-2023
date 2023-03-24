@@ -54,6 +54,9 @@ public class GrabberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(handMotor.getOutputCurrent() >= GrabberConstants.kClosingAmps){
+      handPID.setReference(handEncoder.getPosition(), ControlType.kPosition);
+    }
     // This method will be called once per scheduler run
   }
 }

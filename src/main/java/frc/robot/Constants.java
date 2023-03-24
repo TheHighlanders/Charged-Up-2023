@@ -144,7 +144,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 60; 
+        public static final double kPTheta = 1; 
         public static final double kITheta = 0;
         public static final double kDTheta = 0.2;
 
