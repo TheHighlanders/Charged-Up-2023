@@ -138,7 +138,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        SmartDashboard.putNumber("NavX yaw", getHeading());
         Rotation2d temp = getRotation2D();
 
         SwerveModulePosition[] temp2 = new SwerveModulePosition[] {

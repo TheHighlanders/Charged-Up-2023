@@ -62,7 +62,7 @@ public class SwerveModule {
     
     //driveMotor.setSmartCurrentLimit(40);
     driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
-    angleMotor.setSmartCurrentLimit(20);
+    angleMotor.setSmartCurrentLimit(80);
     
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
@@ -113,9 +113,7 @@ public class SwerveModule {
   public double getAbsoluteEncoderRadNoOffset() {
     double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
     angle *= 2.0 * Math.PI;
-    
-    angle = edu.wpi.first.math.MathUtil.angleModulus(angle);
-    return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
+    return angle;
   }
 
   public void resetEncoders() {
@@ -154,7 +152,7 @@ public class SwerveModule {
     driveMotor.set(drivePIDController.calculate(getDriveVelocity(), setpoint));
   
 
-    angleMotor.set(anglePIDController.calculate(getAnglePosition(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
+    angleMotor.set(anglePIDController.calculate(getAbsoluteEncoderRad(), edu.wpi.first.math.MathUtil.angleModulus(state.angle.getRadians())));
     //SmartDashboard.putNumber("Wheel actual" + absoluteEncoder.getChannel(), getAnglePosition());
   }
 

@@ -19,7 +19,7 @@ public class SensorSubsystem extends SubsystemBase {
   String read;
 
   public SensorSubsystem() {
-    port = new SerialPort(9600, SerialPort.Port.kOnboard);
+    port = new SerialPort(9600, SerialPort.Port.kMXP);
   }
 
   @Override
@@ -28,15 +28,21 @@ public class SensorSubsystem extends SubsystemBase {
       read = port.readString();
       // DriverStation.reportWarning(read, false);
     
-      if(read != null){  
+      if(read != null && !read.equals("")){  
+        SmartDashboard.putString("Read", read);
         read = read.replaceAll("R", "");
       
         String[] lines = read.split("\r");
         if (lines.length != 0){
-          distance = Integer.parseInt(lines[0]);
+          if(lines[0] != null && !lines[0].equals("")) {
+            SmartDashboard.putStringArray("lines", lines);
+            distance = Integer.parseInt(lines[0]);
+          }
         }
 
         SmartDashboard.putNumber("Sonic Distance", distance);
+
+        port.flush();
       }
     } catch(Exception e){
       DriverStation.reportWarning("It went badly " + e, false);

@@ -82,7 +82,7 @@ public final class Constants {
         public static final double kIntakeDeathZone = 1000;
         public static final double kIntakeDeathZoneLow = 250;
 
-        static final double gearboxRatio = 1.0 / 49.0;
+        static final double gearboxRatio = 1.0 / 50.0;
         static final double beltRatio = 1.0 / 2.0; //GUESTIMATED find actual belt ratio from mechanical
         public static final double kArmRatio = gearboxRatio * beltRatio;
 
@@ -111,7 +111,7 @@ public final class Constants {
 
     public static final class ModuleConstants {
         public static final double kLimitToAmps = 30.0f;
-        public static final double kMaxSpikeTime = 50.0f;
+        public static final double kMaxSpikeTime = 25.0f;
         public static final double kMaxSpikeAmps = 80.0f;
         public static final int kSmartLimit = 40;
 
@@ -144,7 +144,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 6; 
+        public static final double kPTheta = 60; 
         public static final double kITheta = 0;
         public static final double kDTheta = 0.2;
 
@@ -185,37 +185,37 @@ public final class Constants {
         //Front Left
         public static final int kFrontLeftDrivePort = 3;
         public static final int kFrontLeftAnglePort = 1;
-        public static final boolean kFrontLeftDriveReversed = false;
+        public static final boolean kFrontLeftDriveReversed = true;
         public static final boolean kFrontLeftAngleReversed = false;
         public static final int kFrontLeftAbsoluteEncoderPort = 0;
-        public static final double kFrontLeftAbsoluteEncoderOffsetRad = 5.510676;// + kWheelOffsetFrontToSideways;
+        public static final double kFrontLeftAbsoluteEncoderOffsetRad = 5.48556 + Math.PI;// + kWheelOffsetFrontToSideways;
         public static final boolean kFrontLeftAbsoluteEncoderReversed = true;
 
         //Front Right
         public static final int kFrontRightDrivePort = 6;
         public static final int kFrontRightAnglePort = 5;
-        public static final boolean kFrontRightDriveReversed = false;
+        public static final boolean kFrontRightDriveReversed = true;
         public static final boolean kFrontRightAngleReversed = false;
         public static final int kFrontRightAbsoluteEncoderPort = 3;
-        public static final double kFrontRightAbsoluteEncoderOffsetRad = 4.971493;// + kWheelOffsetFrontToSideways;
+        public static final double kFrontRightAbsoluteEncoderOffsetRad = 1.78183;// + kWheelOffsetFrontToSideways;
         public static final boolean kFrontRightAbsoluteEncoderReversed = true;
 
         //Back Left
         public static final int kBackLeftDrivePort = 4;
         public static final int kBackLeftAnglePort = 2;
-        public static final boolean kBackLeftDriveReversed = false;
+        public static final boolean kBackLeftDriveReversed = true;
         public static final boolean kBackLeftAngleReversed = false;
         public static final int kBackLeftAbsoluteEncoderPort = 1;
-        public static final double kBackLeftAbsoluteEncoderOffsetRad = 2.252683;// + kWheelOffsetFrontToSideways;
+        public static final double kBackLeftAbsoluteEncoderOffsetRad = 2.26669 + Math.PI;// + kWheelOffsetFrontToSideways;
         public static final boolean kBackLeftAbsoluteEncoderReversed = true;
 
         //Back Right
         public static final int kBackRightDrivePort = 8;
         public static final int kBackRightAnglePort = 7;
-        public static final boolean kBackRightDriveReversed = false;
+        public static final boolean kBackRightDriveReversed = true;
         public static final boolean kBackRightAngleReversed = false;
         public static final int kBackRightAbsoluteEncoderPort = 2;
-        public static final double kBackRightAbsoluteEncoderOffsetRad = 3.041512;// + kWheelOffsetFrontToSideways;
+        public static final double kBackRightAbsoluteEncoderOffsetRad = 6.22786;// + kWheelOffsetFrontToSideways;
         public static final boolean kBackRightAbsoluteEncoderReversed = true;
     }
 

@@ -35,6 +35,7 @@ import frc.robot.commands.ArmCMDs.ArmUpCMD;
 import frc.robot.commands.AutonCMDs.AUTOWaitCMD;
 import frc.robot.commands.AutonCMDs.AUTOcsvPathFollowCMD;
 import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
+import frc.robot.commands.AutonCMDs.DoubleSusstationAlignCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
@@ -75,7 +76,7 @@ import frc.robot.subsystems.vision;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final static SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public final static SensorSubsystem sensor = new SensorSubsystem();
+
   public final static vision vision = new vision();
   private final XboxController driverJoystick = new XboxController(OIConstants.kdriverJoystick);
   private final XboxController operatorJoystick = new XboxController(OIConstants.koperatorJoystick);
@@ -197,7 +198,7 @@ public class RobotContainer {
     //new POVButton(driverJoystick, 90).whileTrue(new VISIONalignAprilTag(1, AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
     //new POVButton(driverJoystick, 270).whileTrue(new VISIONalignAprilTag(1, -AutoConstants.kConeNodeOffsetMeters, vision, swerveSubsystem));
 
-    //new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new VISIONalignAprilTag(AutoConstants.kConeNodeOffsetMeters, 0, vision, swerveSubsystem));
+    new Trigger(() -> driverJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new DoubleSusstationAlignCMD(swerveSubsystem, armSubsystem, intakeSub, grabberSub));
     new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5).whileTrue(new SlowSwerveCMD(swerveSubsystem));
 
     new JoystickButton(operatorJoystick, 7).whileTrue(spinTurntableCMD);
