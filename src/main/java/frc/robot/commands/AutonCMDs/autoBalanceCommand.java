@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.GyroConstants;
 import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -32,7 +33,7 @@ public class autoBalanceCommand extends CommandBase {
     addRequirements(gyroSubsystem);
     addRequirements(swerveSubsystem);
 
-    balancePID = new PIDController(0.13/14.0f, 0, 8/100.0f);
+    balancePID = new PIDController(GyroConstants.kPbal, GyroConstants.kIbal, GyroConstants.kDbal);
   }
 
   // Called when the command is initially scheduled.
@@ -65,7 +66,7 @@ public class autoBalanceCommand extends CommandBase {
     // count++;
     // count %= 75;
     double gyroDead = (Math.abs(gyroSubsystem.getAngleDeg())  <= 2.5 ? 0.0 : gyroSubsystem.getAngleDeg());
-    drive(balancePID.calculate(gyroDead, 0) * -1 * 0.3);
+    drive(balancePID.calculate(gyroDead, 0) * -1 * GyroConstants.kBalMaxQuestionMark);
 
     gyroSubsystem.CalculateAngle();
   }

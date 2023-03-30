@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.ScoringTableAUTON;
 
 public class AutoChooserSubsystem extends SubsystemBase {
   /** Creates a new AutoChooserSubsystem. */
