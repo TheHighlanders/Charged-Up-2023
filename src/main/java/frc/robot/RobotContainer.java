@@ -41,6 +41,7 @@ import frc.robot.commands.AutonCMDs.autoBalanceCommand;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighConeMobility;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeEngageAUTO;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeMobilityAUTO;
+import frc.robot.commands.AutonCMDs.AUTONgroups.HighMobilityEngageAUTO;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HybridEngage;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HybridMobilityAUTO;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HybridMobilityEngageAUTO;
@@ -175,8 +176,10 @@ public class RobotContainer {
     m_chooser.addOption("Hybrid Mobility", new HybridMobilityAUTO(intakeSub, swerveSubsystem));
     m_chooser.addOption("Score Cube High and Engage", new HighCubeEngageAUTO(swerveSubsystem, intakeSub, armSubsystem, grabberSub, gyroSubsystem));
     //m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
-    m_chooser.addOption("Nothing", new SequentialCommandGroup(new AUTOWaitCMD(14)));
+    m_chooser.addOption("Nothing ", new SequentialCommandGroup(new AUTOWaitCMD(14)));
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
+    m_chooser.addOption("High Cube, Mobility, Engage", new HighMobilityEngageAUTO(swerveSubsystem, intakeSub, gyroSubsystem, grabberSub, armSubsystem));
+    
     SmartDashboard.putData(m_chooser);
 
     DriverStation.silenceJoystickConnectionWarning(true);

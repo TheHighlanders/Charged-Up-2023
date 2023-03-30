@@ -70,7 +70,7 @@ public class Intake extends SubsystemBase {
 
   public void deployIntake(IntakePos stateTarget, boolean toggle) {
     if(toggle){deployed = !deployed;}
-    //DriverStation.reportWarning("Deployed: " + deployed, false);
+    DriverStation.reportWarning("Deployed: " + deployed + stateTarget.toString(), false);
 
     state = stateTarget;
     //intakeDeploy.set(ControlMode.Current, (deployed ? IntakeConstants.kIntakeInCurr : IntakeConstants.kIntakeOutCurr));

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.IntakeCMDs;
 
+import java.sql.Driver;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
@@ -27,6 +29,9 @@ public class DeployIntakeCMD extends CommandBase {
   public void initialize() {
     IntakePos state = IntakePos.RETRACT;
     double armPos = armSubsystem.ArmEncoder.getPosition();
+
+    DriverStation.reportWarning("DeployBeginning" + intakeSubsystem.deployed, false);
+
     if(!intakeSubsystem.deployed){
       state = IntakePos.DEPLOYED;
     }
@@ -38,7 +43,7 @@ public class DeployIntakeCMD extends CommandBase {
         (armPos <= ArmConstants.kIntakeDeathZoneHighTop && armPos >= ArmConstants.kIntakeDeathZoneHighBottom)){
       state = IntakePos.RETRACT_ALT;
     }
-
+    DriverStation.reportWarning("Commanded to State" + state.toString(), false);
     //DriverStation.reportWarning("DeployCMD", false);
     intakeSubsystem.deployIntake(state, true);
   }

@@ -38,7 +38,7 @@ public class NoMoveAUTON extends SequentialCommandGroup {
       new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       new AUTOWaitCMD(1),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*8100/360),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, ArmConstants.kArmToleranceRotations),
       new AUTOWaitCMD(2),
       new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),

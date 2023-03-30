@@ -33,7 +33,7 @@ public class DoubleSusstationAlignCMD extends SequentialCommandGroup {
       new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       new AUTOWaitCMD(2),
       new ArmMoveCMD(ArmConstants.kShelfPos, armSubsystem, intakeSubsystem),
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, 5*8100/360),
+      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, ArmConstants.kArmToleranceRotations),
       new AUTOWaitCMD(0.5),
       new GrabberPosCMD(grabberSubsystem),
       new AUTOswerveMoveCommand(swerveSubsystem, 0, 0.5, swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true)

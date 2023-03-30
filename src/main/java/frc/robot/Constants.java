@@ -78,9 +78,10 @@ public final class Constants {
     }
 
     public static final class ArmConstants {
+        public static final double kArmToleranceRotations = 0.3f / 360.0f; // 1/360 of total movement, not 0.3 degrees
 
-        public static final double kIntakeDeathZone = 1000;
-        public static final double kIntakeDeathZoneLow = 250;
+        public static final double kIntakeDeathZone = - 1000/8100.0f;
+        public static final double kIntakeDeathZoneLow =  - 250 / 8100.0f;
 
         static final double gearboxRatio = 1.0 / 50.0;
         static final double beltRatio = 1.0 / 2.0; //GUESTIMATED find actual belt ratio from mechanical

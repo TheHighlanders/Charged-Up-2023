@@ -39,6 +39,7 @@ public class ArmMoveCMD extends CommandBase {
       armMovingThroughZone = true;
     }
 
+    DriverStation.reportWarning("AvoidanceCheck" + intakeSubsystem.deployed + armMovingThroughZone, false);
     if (armMovingThroughZone && !intakeSubsystem.deployed) {
       intakeSubsystem.deployIntake(IntakePos.DEPLOYED, true);
     }

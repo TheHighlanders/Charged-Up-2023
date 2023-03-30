@@ -39,7 +39,7 @@ public class HybridMobilityEngageAUTO extends SequentialCommandGroup {
       new AUTOstopIntakeCMD(intakeSubsystem),
 
       new AUTOswerveMoveCommand(swerveSubsystem, 0, 4.5, swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 2, swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
+      new AUTOswerveMoveCommand(swerveSubsystem, 0, 2 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
 
       new autoBalanceCommand(gyroSubsystem, swerveSubsystem)
 
