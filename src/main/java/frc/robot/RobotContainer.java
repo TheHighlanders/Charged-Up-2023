@@ -38,6 +38,7 @@ import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.DoubleSusstationAlignCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
+<<<<<<< HEAD
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighConeMobility;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeEngageAUTO;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeMobilityAUTO;
@@ -50,6 +51,15 @@ import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.NoMoveAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.ScoringTableAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.TestAUTON;
+=======
+import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.BalanceAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.NoMoveAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
+import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
+>>>>>>> parent of 599bbaa (Post Comp Code)
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.GrabberCMDs.GrabberZeroCMDG;
@@ -123,7 +133,7 @@ public class RobotContainer {
 
   private final autoBalanceCommand balanceCMD = new autoBalanceCommand(gyroSubsystem, swerveSubsystem);
 
-  private final SequentialCommandGroup oneScoreAUTO = new HighConeMobility(swerveSubsystem, grabberSub, armSubsystem, intakeSub);
+  private final SequentialCommandGroup oneScoreAUTO = new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub);
 
   private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
       grabberSub, intakeSub, vision);
@@ -162,19 +172,14 @@ public class RobotContainer {
    */
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
-    m_chooser.setDefaultOption("Score Cube Hybrid and Engage", new HybridEngage(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
+    m_chooser.setDefaultOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     // m_chooser.addOption("Scoring", scoringTableAUTO);
     // m_chooser.addOption("Loading", loadingZoneAUTO);
     // m_chooser.addOption("Charge Station", chargeStationAUTO);
     // m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     // m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     // m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
-    m_chooser.addOption("Score Cone High and Mobility",  new HighConeMobility(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
-    m_chooser.addOption("Score Cube High and Mobility LZ", new HighCubeMobilityAUTO(-0.5, swerveSubsystem, intakeSub, armSubsystem, grabberSub));
-    m_chooser.addOption("Score Cube High and Mobility ST", new HighCubeMobilityAUTO(0.5, swerveSubsystem, intakeSub, armSubsystem, grabberSub));
-    m_chooser.addOption("Hybrid Mobility Engage", new HybridMobilityEngageAUTO(swerveSubsystem, intakeSub, gyroSubsystem));
-    m_chooser.addOption("Hybrid Mobility", new HybridMobilityAUTO(intakeSub, swerveSubsystem));
-    m_chooser.addOption("Score Cube High and Engage", new HighCubeEngageAUTO(swerveSubsystem, intakeSub, armSubsystem, grabberSub, gyroSubsystem));
+    m_chooser.addOption("Score Cone and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
     //m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     m_chooser.addOption("Nothing ", new SequentialCommandGroup(new AUTOWaitCMD(14)));
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));

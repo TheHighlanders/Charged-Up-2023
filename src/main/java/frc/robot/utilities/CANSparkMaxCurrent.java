@@ -60,14 +60,14 @@ public class CANSparkMaxCurrent extends CANSparkMax {
             index %= currentBuffer.length;
             
             if(currentCurrent >= spikeMaxAmps){
-                limitNow(limitTo);
+                limitNow(smartLimit);
             }
     
             if(timeAbove >= spikeMaxTime){
-                limitNow(limitTo);
+                limitNow(smartLimit);
             }
     
-            if(currentCurrent >= smartLimit){
+            if(currentCurrent >= limitTo){
                 timeAbove++;
             } else {
                 timeAbove--;

@@ -77,13 +77,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveUp() {
-    // ArmMotor.set(ArmConstants.maxOut * 0.5); //units unknown
-    target += 10.0f/8100.0f;
+    ArmMotor.set(ArmConstants.maxOut * 0.5); //units unknown
   }
 
   public void moveDown() {
-    // ArmMotor.set(ArmConstants.minOut * 0.5); //units unknown
-    target -= 10.0f/8100.0f;
+    ArmMotor.set(ArmConstants.minOut * 0.5); //units unknown
   }
 
   public void manualArm(double speed){
@@ -104,7 +102,6 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Arm Setpoint", setpoint);
-    SmartDashboard.putNumber("Arm target", target);
     if(setpoint < target){
       setpoint += 50 / 8100.0f;
     }

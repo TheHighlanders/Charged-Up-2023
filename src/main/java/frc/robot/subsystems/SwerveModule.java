@@ -61,9 +61,8 @@ public class SwerveModule {
     angleEncoder = angleMotor.getEncoder();
     
     //driveMotor.setSmartCurrentLimit(40);
-    // driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
-    driveMotor.setSmartCurrentLimit(35);
-    angleMotor.setSmartCurrentLimit(40);
+    driveMotor.setSpikeCurrentLimit(ModuleConstants.kLimitToAmps, ModuleConstants.kMaxSpikeTime, ModuleConstants.kMaxSpikeAmps, ModuleConstants.kSmartLimit);
+    angleMotor.setSmartCurrentLimit(80);
     
     driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveMotorEncoderRot2Meter);
     driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveMotorEncoderRPM2MeterPerSec);
@@ -146,7 +145,6 @@ public class SwerveModule {
 
     if(!RobotContainer.swerveSubsystem.slowed){
       setpoint += Math.min(Math.abs(state.speedMetersPerSecond - setpoint), DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecondFast) * Math.signum(state.speedMetersPerSecond - setpoint);
-    
     }else{
       setpoint += Math.min(Math.abs(state.speedMetersPerSecond - setpoint), DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecondSlow) * Math.signum(state.speedMetersPerSecond - setpoint);
     }

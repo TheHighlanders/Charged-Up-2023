@@ -33,9 +33,9 @@ public class SwerveJoystickCMD extends CommandBase {
     @Override
     public void execute() {
         //Get Joystick Readings
-        double xSpeed = xbox.getRawAxis(OIConstants.kDriverXAxis);
-        double ySpeed = xbox.getRawAxis(OIConstants.kDriverYAxis);
-        double turnSpeed = -xbox.getRawAxis(OIConstants.kDriverTurnAxis);
+        double xSpeed = xbox.getRawAxis(OIConstants.kDriverXAxis) * 0.5;
+        double ySpeed = xbox.getRawAxis(OIConstants.kDriverYAxis) * 0.5;
+        double turnSpeed = -xbox.getRawAxis(OIConstants.kDriverTurnAxis) * 0.75;
 
         xSpeed *= -1; //invert the direction of the robot movement on the x-axis.
 

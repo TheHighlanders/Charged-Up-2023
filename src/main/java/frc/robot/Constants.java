@@ -74,7 +74,7 @@ public final class Constants {
         public static double kHandMidPos = -6.201 * 2.5;
 
         public static final int kOpeningAmps = -8;
-        public static final int kClosingAmps = 30;
+        public static final int kClosingAmps = 20;
     }
 
     public static final class ArmConstants {
@@ -92,7 +92,7 @@ public final class Constants {
         public static final double kStowedPos = 0/8100.0f;
         public static final double kDownPos = -800/8100.0f;
         public static final double kMiddlePos = -1950/8100.0f;//0.8
-        public static final double kShelfPos = -1850/8100.0f;
+        public static final double kShelfPos = -1900/8100.0f;
         public static final double kTopPos = -2750/8100.0f;
 
         public static final double kIntakeDeathZoneHighBottom = kTopPos - (500 / 8100.0f);
@@ -145,7 +145,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPTheta = 6; 
+        public static final double kPTheta = 1; 
         public static final double kITheta = 0;
         public static final double kDTheta = 0.2;
 
@@ -166,7 +166,7 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond
                 / 4;
 
-        public static final double kTeleDriveMaxAccelerationUnitsPerSecondFast = 6.0f / 50.0f;
+        public static final double kTeleDriveMaxAccelerationUnitsPerSecondFast = 4.0f / 50.0f;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecondSlow = 4.0f / 50.0f;
         
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
@@ -266,12 +266,6 @@ public final class Constants {
     }
     
     public static final class GyroConstants{
-        public static final double kPbal = 0.14/14.0f; //0.13/14.0f;
-        public static final double kIbal = 0;
-        public static final double kDbal = 5/100.0f;//4/100.0f;
-
-        public static final double kBalMaxQuestionMark = 0.3;
-
         // public static final double Vkp = 0.01;
         // public static final double Vki = 0;
         // public static final double Vkd = 0;
