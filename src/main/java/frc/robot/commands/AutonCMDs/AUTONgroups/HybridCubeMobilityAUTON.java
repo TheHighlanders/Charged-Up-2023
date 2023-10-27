@@ -31,9 +31,9 @@ import frc.robot.subsystems.SwerveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class BalanceAUTON extends SequentialCommandGroup {
+public class HybridCubeMobilityAUTON extends SequentialCommandGroup {
   /** Creates a new BalanceAUTON. */
-  public BalanceAUTON(SwerveSubsystem swerveSubsystem, Arm armSubsystem, Intake intakeSubsystem, GrabberSubsystem grabberSubsystem, GyroSubsystem gyroSubsystem) {
+  public HybridCubeMobilityAUTON(SwerveSubsystem swerveSubsystem, Arm armSubsystem, Intake intakeSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -46,20 +46,16 @@ public class BalanceAUTON extends SequentialCommandGroup {
       // new AUTOWaitCMD(2),
       // new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       // new AUTOWaitCMD(1),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, -Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
-      new AUTOWaitCMD(1),
       // new GrabberOpenCMD(grabberSubsystem),
       // new AUTOWaitCMD(1),
-      // new GrabberCloseCMD(grabberSubsystem),
-      new AUTOstartIntakeCMD(intakeSubsystem),
+      // new GrabberCloseCMD(grabberSubsyste;;ppz pp1 ),dffffffffffffffffffffffffff5e
       new AUTOWaitCMD(2),
       new AUTOstopIntakeCMD(intakeSubsystem),
       //new ArmMoveCMD(ArmConstants.kDownPos, armSubsystem, intakeSubsystem),
-      new AUTOWaitCMD(1),
+      new AUTOWaitCMD(0.375),
       // // new InstantCommand(() -> swerveSubsystem.setLastValidHeading(swerveSubsystem.getRotation2D().minus(new Rotation2d(Math.toRadians(90))))),
       new InstantCommand(()-> SmartDashboard.putString("Start Rot", swerveSubsystem.getRotation2D().toString())),
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, 2 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), false),
-      new autoBalanceCommand(gyroSubsystem, swerveSubsystem)
+      new AUTOswerveMoveCommand(swerveSubsystem, 0, 3.5, swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), false)
     );
   }
 }

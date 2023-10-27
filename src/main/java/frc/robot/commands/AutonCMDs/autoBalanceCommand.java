@@ -59,13 +59,13 @@ public class autoBalanceCommand extends CommandBase {
 
     // if(count < 50){
     //   drive(speed);
-    // } else{
+    // } else{ 
     //   drive(0);
     // } 
     // count++;
     // count %= 75;
     double gyroDead = (Math.abs(gyroSubsystem.getAngleDeg())  <= 2.5 ? 0.0 : gyroSubsystem.getAngleDeg());
-    drive(balancePID.calculate(gyroDead, 0) * -1 * 0.3);
+    drive(balancePID.calculate(gyroDead, 0) * -1 * 0.3);   //Tested 0.25, no engage @NERD -aH, (back to 0.3)
 
     gyroSubsystem.CalculateAngle();
   }

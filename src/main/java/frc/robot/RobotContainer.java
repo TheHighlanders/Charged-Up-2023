@@ -38,20 +38,10 @@ import frc.robot.commands.AutonCMDs.AUTOswerveMoveCommand;
 import frc.robot.commands.AutonCMDs.DoubleSusstationAlignCMD;
 import frc.robot.commands.AutonCMDs.VISIONalignAprilTag;
 import frc.robot.commands.AutonCMDs.autoBalanceCommand;
-<<<<<<< HEAD
-import frc.robot.commands.AutonCMDs.AUTONgroups.HighConeMobility;
-import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeEngageAUTO;
-import frc.robot.commands.AutonCMDs.AUTONgroups.HighCubeMobilityAUTO;
+
 import frc.robot.commands.AutonCMDs.AUTONgroups.HighMobilityEngageAUTO;
-import frc.robot.commands.AutonCMDs.AUTONgroups.HybridEngage;
-import frc.robot.commands.AutonCMDs.AUTONgroups.HybridMobilityAUTO;
+import frc.robot.commands.AutonCMDs.AUTONgroups.HybridCubeMobilityAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.HybridMobilityEngageAUTO;
-import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.ChargeStationAUTON;
-import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.LoadingZoneAUTON;
-import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.NoMoveAUTON;
-import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.ScoringTableAUTON;
-import frc.robot.commands.AutonCMDs.AUTONgroups.OLE.TestAUTON;
-=======
 import frc.robot.commands.AutonCMDs.AUTONgroups.BackupAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.BalanceAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ChargeStationAUTON;
@@ -59,13 +49,12 @@ import frc.robot.commands.AutonCMDs.AUTONgroups.LoadingZoneAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.NoMoveAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.ScoringTableAUTON;
 import frc.robot.commands.AutonCMDs.AUTONgroups.TestAUTON;
->>>>>>> parent of 599bbaa (Post Comp Code)
+import frc.robot.commands.IntakeCMDs.TurntableSpinCMD;
 import frc.robot.commands.GrabberCMDs.GrabberCloseCMD;
 import frc.robot.commands.GrabberCMDs.GrabberOpenCMD;
 import frc.robot.commands.GrabberCMDs.GrabberZeroCMDG;
 import frc.robot.commands.GrabberCMDs.GrabberPosCMD;
 import frc.robot.commands.IntakeCMDs.DeployIntakeCMD;
-import frc.robot.commands.IntakeCMDs.TurntableSpinCMD;
 import frc.robot.commands.IntakeCMDs.spinIntakeCMD;
 import frc.robot.commands.SwerveCMDs.SlowSwerveCMD;
 import frc.robot.commands.SwerveCMDs.SwerveJoystickCMD;
@@ -133,7 +122,7 @@ public class RobotContainer {
 
   private final autoBalanceCommand balanceCMD = new autoBalanceCommand(gyroSubsystem, swerveSubsystem);
 
-  private final SequentialCommandGroup oneScoreAUTO = new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub);
+  //private final SequentialCommandGroup oneScoreAUTO = new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub);
 
   private final SequentialCommandGroup scoringTableAUTO = new ScoringTableAUTON(swerveSubsystem, armSubsystem,
       grabberSub, intakeSub, vision);
@@ -172,18 +161,19 @@ public class RobotContainer {
    */
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCMD(swerveSubsystem));
-    m_chooser.setDefaultOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
+    m_chooser.setDefaultOption("Score CUBE HYBRID and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     // m_chooser.addOption("Scoring", scoringTableAUTO);
     // m_chooser.addOption("Loading", loadingZoneAUTO);
     // m_chooser.addOption("Charge Station", chargeStationAUTO);
     // m_chooser.addOption("Test Trajectory DNS", new SequentialCommandGroup(testingCSVtrajectory));
     // m_chooser.addOption("Point Move CMDG DNS", new SequentialCommandGroup(swerveMove));
     // m_chooser.addOption("Subsystem Test DNS", testSubsystemsAUTO);
-    m_chooser.addOption("Score Cone and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
+    m_chooser.addOption("Score CONE HIGH and Mobility",  new BackupAUTON(swerveSubsystem, grabberSub, armSubsystem, intakeSub));
     //m_chooser.addOption("Score Cube and Engage", new BalanceAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
     m_chooser.addOption("Nothing ", new SequentialCommandGroup(new AUTOWaitCMD(14)));
     m_chooser.addOption("No Move AUTO", new NoMoveAUTON(swerveSubsystem, armSubsystem, intakeSub, grabberSub, gyroSubsystem));
-    m_chooser.addOption("High Cube, Mobility, Engage", new HighMobilityEngageAUTO(swerveSubsystem, intakeSub, gyroSubsystem, grabberSub, armSubsystem));
+    //m_chooser.addOption("High Cube, Mobility, Engage", new HighMobilityEngageAUTO(swerveSubsystem, intakeSub, gyroSubsystem, grabberSub, armSubsystem));
+    m_chooser.addOption("Score CUBE HYBRID and Mobility", new HybridCubeMobilityAUTON(swerveSubsystem, armSubsystem, intakeSub));
     
     SmartDashboard.putData(m_chooser);
 
@@ -224,7 +214,7 @@ public class RobotContainer {
     new JoystickButton(operatorJoystick, 5).onTrue(new GrabberCloseCMD(grabberSub));
     new JoystickButton(operatorJoystick, 6).onTrue(new GrabberOpenCMD(grabberSub)); //x=3
 
-    new JoystickButton(operatorJoystick, 10).onTrue(new InstantCommand(()-> intakeSub.spinTurntableDeg(180)));
+    new JoystickButton(operatorJoystick, 10).onTrue(new InstantCommand(()-> grabberSub.zero()));
 
     new Trigger(() -> operatorJoystick.getLeftTriggerAxis() > 0.5).whileTrue(new GrabberPosCMD(grabberSub));
     new Trigger(() -> operatorJoystick.getRightTriggerAxis() > 0.5).whileTrue(new GrabberZeroCMDG(grabberSub));

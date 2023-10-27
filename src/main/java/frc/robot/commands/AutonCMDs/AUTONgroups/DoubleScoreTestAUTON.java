@@ -45,32 +45,12 @@ public class DoubleScoreTestAUTON extends SequentialCommandGroup {
       new DeployIntakeCMD(intakeSubsystem, armSubsystem),
       new AUTOWaitCMD(1.5),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
-<<<<<<< HEAD:src/main/java/frc/robot/commands/AutonCMDs/AUTONgroups/HighCubeEngageAUTO.java
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, ArmConstants.kArmToleranceRotations),
-      new AUTOWaitCMD(2),
-
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
-      new AUTOWaitCMD(1),
-
-      new AUTOswerveMoveCommand(swerveSubsystem, 0, -Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
-      
-=======
       new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, standardTol),
       new AUTOWaitCMD(2),
->>>>>>> parent of 599bbaa (Post Comp Code):src/main/java/frc/robot/commands/AutonCMDs/AUTONgroups/DoubleScoreTestAUTON.java
       new GrabberOpenCMD(grabberSubsystem),
       new AUTOWaitCMD(1),
       new GrabberPosCMD(grabberSubsystem),
       new ArmMoveCMD(ArmConstants.kStowedPos, armSubsystem, intakeSubsystem),
-<<<<<<< HEAD:src/main/java/frc/robot/commands/AutonCMDs/AUTONgroups/HighCubeEngageAUTO.java
-      new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, ArmConstants.kArmToleranceRotations),
-      new AUTOWaitCMD(2),
-
-      new DeployIntakeCMD(intakeSubsystem, armSubsystem),
-      
-      new AUTOswerveMoveCommand(swerveSubsystem, 0,  2 - Units.inchesToMeters(8), swerveSubsystem.getRotation2D().plus(new Rotation2d(Math.PI/2)), true),
-      new autoBalanceCommand(gyroSubsystem, swerveSubsystem)
-=======
       new AUTOwaitUntilPIDtargetCMD(armSubsystem.armPID, armSubsystem.ArmEncoder, standardTol),
       new AUTOstartIntakeCMD(intakeSubsystem),
       // new DeployIntakeCMD(intakeSubsystem, armSubsystem), //Not Retracting Intake to Pickup Cube
@@ -83,7 +63,6 @@ public class DoubleScoreTestAUTON extends SequentialCommandGroup {
       new GrabberCloseCMD(grabberSubsystem),
       new ArmMoveCMD(ArmConstants.kTopPos, armSubsystem, intakeSubsystem),
       new GrabberOpenCMD(grabberSubsystem)
->>>>>>> parent of 599bbaa (Post Comp Code):src/main/java/frc/robot/commands/AutonCMDs/AUTONgroups/DoubleScoreTestAUTON.java
     );
   }
 }

@@ -77,11 +77,13 @@ public class Arm extends SubsystemBase {
   }
 
   public void moveUp() {
-    ArmMotor.set(ArmConstants.maxOut * 0.5); //units unknown
+    //ArmMotor.set(ArmConstants.maxOut * 0.5); //units unknown
+    target -= 10/8100.0f;
   }
 
   public void moveDown() {
-    ArmMotor.set(ArmConstants.minOut * 0.5); //units unknown
+    //ArmMotor.set(ArmConstants.minOut * 0.5); //units unknown
+    target += 10/8100.0f;
   }
 
   public void manualArm(double speed){
